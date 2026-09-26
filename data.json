@@ -110,10 +110,10 @@
     }
   },
   "site": {
-    "bio_placeholder": "[Qui ci va la mia descrizione, esempio: Ciao! Sono un appassionato di informatica usata come estensione del pensiero, amo l'umorismo, la stand-up comedy e il software libero. Questo sito è un esperimento minimalista.]",
+    "bio_placeholder": "Ciao! Qualunque cosa ti abbia fatto approdare qui, il piacere della visita è tutto mio. Questo sito nasce semplicemente come una piccola scatola di attrezzi e di spunti da condividere con chi ha voglia di dare un'occhiata.\n\nLa mia formazione di partenza è nell'informatica, usata qui non come fine a se stessa, ma come un pratico mezzo per esplorare idee, automatizzare compiti e dare forma a progetti creativi. Il software libero e il mondo Linux sono il punto di riferimento costante per mantenere ogni cosa semplice, accessibile e aperta alla collaborazione.\n\nQuesto spazio raccoglie link e spunti su temi molto differenti, senza la pretesa di dare risposte definitive, ma con tanta curiosità e il gusto di porsi domande, nate navigando a vista per cercare il punto di incontro tra il rigore del metodo scientifico e la creatività dell'arte, del cinema e della musica, della cultura pop e le mille forme con cui le persone (e talvolta anche gli animali) comunicano, la passione per i viaggi in luoghi caldi, l'interesse per la cultura e la lingua cinese e l'attenzione alle scelte ecologiche quotidiane.\n\nNessuna specializzazione rigida, quindi, ma solo il piacere di unire i puntini e trovare collegamenti inattesi tra cose apparentemente lontane. Il contenuto è pensato per essere letto con leggerezza: se tra queste note trovi qualcosa di utile, di divertente o anche solo un motivo per sorridere o avviare una conversazione, lo scopo è raggiunto.",
     "birth_date": "1972-09-25",
     "footer": "Fatto con ❤️, Linux e software libero.",
-    "tagline": "Informatico, umanista, esploratore",
+    "tagline": "Il software libero per condividere, sperimentare e creare musica, video e idee. ",
     "title": "Stefano Droghetti"
   },
   "social": [

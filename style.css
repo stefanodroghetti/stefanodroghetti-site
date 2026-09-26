@@ -44,7 +44,15 @@ h3 {
     letter-spacing: 0.02em;
 }
 
-p { margin-bottom: 1rem; font-size: 1.05rem; }
+.bio p {
+    white-space: pre-line; /* Rispetta i ritorni a capo del testo */
+    margin-bottom: 1.5rem;
+}
+
+p {
+    white-space: pre-line;
+    margin-bottom: 1rem;
+}
 
 .tagline {
     font-family: 'Dosis', sans-serif;
