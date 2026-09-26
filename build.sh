@@ -13,7 +13,6 @@ from datetime import datetime
 with open('data.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
 
-# Calcola età precisa
 birth_date_str = data['site'].get('birth_date', '1970-01-01')
 birth_date = datetime.strptime(birth_date_str, '%Y-%m-%d').date()
 today = datetime.now().date()
@@ -23,7 +22,12 @@ if (today.month, today.day) < (birth_date.month, birth_date.day):
 
 settings = data.get('section_settings', {})
 
-# Funzione helper per generare liste con controllo visibilità
+import os
+embeds = {}
+if os.path.exists('embeds.json'):
+    with open('embeds.json', 'r', encoding='utf-8') as f:
+        embeds = json.load(f)
+
 def render_list(items):
     html = ""
     for item in items:
@@ -36,12 +40,10 @@ productions_html = render_list(data.get('productions', []))
 social_html = render_list(data.get('social', []))
 support_html = render_list(data.get('support', []))
 
-# Genera i prompt con stile Eventi
 prompts_html = ""
 for p in data.get('ai_prompts', []):
     title = p.get('title', 'Prompt') if isinstance(p, dict) else 'Prompt'
     text = p.get('prompt', p) if isinstance(p, dict) else p
-    
     prompts_html += f'''
     <div class="prompt-item">
         <h3>{title}</h3>
@@ -49,7 +51,6 @@ for p in data.get('ai_prompts', []):
     </div>
     '''
 
-# Eventi
 future_events_html = ""
 past_events_html = ""
 for event in data.get('events', []):
@@ -65,7 +66,6 @@ recommended_html = ""
 for link in data.get('recommended_links', []):
     recommended_html += f'                <li><a href="{link["url"]}" target="_blank" rel="noopener">{link["name"]}</a> - {link["description"]}</li>\n'
 
-# Helper per generare sezioni con descrizione opzionale
 def render_section(section_key, content_html):
     s = settings.get(section_key, {})
     if not s.get('visible', True):
@@ -74,7 +74,7 @@ def render_section(section_key, content_html):
     desc = s.get('description', '')
     desc_html = f'\n            <p class="section-desc">{desc}</p>' if desc else ''
     return f'''
-        <section class="{section_key}">
+        <section class="{section_key}" id="{section_key}">
             <h2>{title}</h2>{desc_html}
             {content_html}
         </section>'''
@@ -88,42 +88,37 @@ manifesto_section = render_section('manifesto', f'''
 productions_section = render_section('productions', f'<ul>{productions_html}            </ul>')
 social_section = render_section('social', f'<ul>{social_html}            </ul>')
 
-# Sezione Support con layout a griglia
 support_section = ""
 if settings.get('support', {}).get('visible', True):
     s = settings['support']
     title = s.get('title', 'Supporta il mio lavoro')
     desc = s.get('description', '')
     desc_html = f'\n            <p class="section-desc">{desc}</p>' if desc else ''
-    
     support_boxes = ""
     for item in data.get('support', []):
         if not item.get('visible', True):
             continue
-        
         box_content = ""
-        if item.get('type') == 'iframe' and item.get('iframe_code'):
-            box_content = f'<div class="support-iframe">{item["iframe_code"]}</div>'
+        if item.get('type') == 'iframe':
+            code = embeds.get(item.get('id'), item.get('iframe_code', ''))
+            if code:
+                box_content = f'<div class="support-iframe">{code}</div>'
         else:
-            logo_html = ""
-            if item.get('logo_svg'):
-                logo_html = f'<div class="support-logo">{item["logo_svg"]}</div>'
+            logo_html = f'<div class="support-logo">{item["logo_svg"]}</div>' if item.get('logo_svg') else ""
             link_url = item.get('url', '#')
             box_content = f'''
                 {logo_html}
                 <p class="support-desc">{item.get("description", "")}</p>
                 <a href="{link_url}" target="_blank" rel="noopener" class="support-link">Vai a {item.get("label", "")} →</a>
             '''
-        
         support_boxes += f'''
             <div class="support-box">
                 <h3>{item.get("label", "")}</h3>
                 {box_content}
             </div>
         '''
-    
     support_section = f'''
-        <section class="support">
+        <section class="support" id="support">
             <h2>{title}</h2>{desc_html}
             <div class="support-grid">
                 {support_boxes}
@@ -136,7 +131,7 @@ if settings.get('events', {}).get('visible', True):
     events_desc = settings['events'].get('description', '')
     events_desc_html = f'\n            <p class="section-desc">{events_desc}</p>' if events_desc else ''
     events_section = f'''
-        <section class="events">
+        <section class="events" id="events">
             <h2>{events_title}</h2>{events_desc_html}
             <h3>Prossimamente</h3>
             {future_events_html if future_events_html else '<p>Nessun evento programmato al momento.</p>'}
@@ -145,6 +140,52 @@ if settings.get('events', {}).get('visible', True):
         </section>'''
 
 recommended_section = render_section('recommended', f'<ul>{recommended_html}            </ul>')
+
+nav_html = ""
+nav_order = ['manifesto', 'productions', 'social', 'events', 'recommended', 'support']
+for section_key in nav_order:
+    s = settings.get(section_key, {})
+    if s.get('visible', True):
+        title = s.get('title', section_key.capitalize())
+        nav_html += f'                <li><a href="#{section_key}">{title}</a></li>\n'
+
+nav_html = f'''            <nav class="site-nav">
+                <ul>
+{nav_html}                </ul>
+            </nav>
+'''
+
+# JavaScript con doppi apici per evitare conflitti con Python
+js_code = """
+<script>
+const navLinks = document.querySelectorAll(".site-nav a");
+const sections = document.querySelectorAll("section[id]");
+window.addEventListener("scroll", () => {
+    let current = "";
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (scrollY >= (sectionTop - 200)) {
+            current = section.getAttribute("id");
+        }
+    });
+    navLinks.forEach(link => {
+        link.style.color = "";
+        if (link.getAttribute("href") === "#" + current) {
+            link.style.color = "#d90429";
+        }
+    });
+});
+function adjustBodyPadding() {
+    const nav = document.querySelector(".site-nav");
+    if (nav) {
+        document.body.style.paddingBottom = (nav.offsetHeight + 20) + "px";
+    }
+}
+window.addEventListener("resize", adjustBodyPadding);
+window.addEventListener("load", adjustBodyPadding);
+adjustBodyPadding();
+</script>
+"""
 
 html = f'''<!DOCTYPE html>
 <html lang="it">
@@ -169,18 +210,24 @@ html = f'''<!DOCTYPE html>
             <p>{data["site"]["bio_placeholder"]}</p>
             <p class="age">Oggi ho {age} anni.</p>
         </section>
-
-        {manifesto_section}
-        {productions_section}
-        {social_section}
-        {events_section}
-        {recommended_section}
-        {support_section}
+        
+        <div class="layout">
+            {nav_html}
+            <div class="content">
+                {manifesto_section}
+                {productions_section}
+                {social_section}
+                {events_section}
+                {recommended_section}
+                {support_section}
+            </div>
+        </div>
 
         <footer>
             <p>{data["site"]["footer"]}</p>
         </footer>
     </main>
+{js_code}
 </body>
 </html>'''
 

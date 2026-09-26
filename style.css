@@ -1,14 +1,22 @@
 /* Reset e Base */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* Sfondo della pagina (più scuro per creare il "frame") */
 body {
-    font-family: 'Questrial', sans-serif; /* Torniamo a Questrial: più razionale */
-    background-color: #f4f1ea;
+    font-family: 'Questrial', sans-serif;
+    background-color: #e8e4dc; /* Leggermente più scuro dell'attuale */
     color: #1a1a1a;
-    line-height: 1.45; /* Compatto */
+    line-height: 1.45;
     max-width: 1200px;
     margin: 0 auto;
     padding: 3rem 2rem;
+}
+
+/* Contenitore principale (la "colonna" del testo) */
+main {
+    background-color: #f4f1ea; /* Colore carta attuale */
+    padding: 4rem 3rem;
+    box-shadow: 0 0 40px rgba(0,0,0,0.08); /* Ombra leggera per stacco */
 }
 
 /* Tipografia */
@@ -208,4 +216,123 @@ footer {
     text-align: center;
     font-family: 'Dosis', sans-serif;
     letter-spacing: 0.05em;
+}
+
+/* Scroll fluido */
+html {
+    scroll-behavior: smooth;
+}
+
+.site-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.site-nav li {
+    margin-bottom: 0.8rem;
+    padding-left: 0;
+    position: relative;
+}
+
+.site-nav li::before {
+    content: none; /* Rimuove il quadratino rosso delle liste normali */
+}
+
+.site-nav a {
+    font-family: 'Dosis', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #555;
+    text-decoration: none;
+    border-bottom: none;
+    transition: all 0.2s ease;
+    display: inline-block;
+    padding-left: 0;
+}
+
+.site-nav a:hover {
+    color: #d90429;
+    padding-left: 8px;
+    background-color: transparent;
+}
+
+/* Trattino rosso al hover */
+.site-nav a::before {
+    content: "—";
+    color: #d90429;
+    opacity: 0;
+    margin-right: 4px;
+    transition: opacity 0.2s ease;
+}
+
+.site-nav a:hover::before {
+    opacity: 1;
+}
+
+/* =========================================
+   MENU UNIVERSALE - Barra fissa in basso
+   (desktop e mobile, stile banda da manifesto)
+   ========================================= */
+.site-nav {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #111;
+    border-top: 3px solid #d90429;  /* Il filetto rosso da poster */
+    padding: 0.7rem 0;
+    z-index: 1000;
+    box-shadow: 0 -4px 14px rgba(0,0,0,0.25);
+}
+
+.site-nav ul {
+    display: flex;
+    flex-wrap: wrap;          /* I link vanno a capo invece di scorrere */
+    justify-content: center;
+    gap: 0.5rem 2.2rem;
+    list-style: none;
+    margin: 0 auto;
+    padding: 0.4rem 1.5rem;
+    max-width: 100%;
+}
+
+.site-nav ul::-webkit-scrollbar { display: none; }
+
+.site-nav li {
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.site-nav li::before { content: none; }
+
+.site-nav a {
+    font-family: 'Dosis', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #f4f1ea;
+    text-decoration: none;
+    border-bottom: none;
+    padding: 0;
+    background: transparent;
+}
+
+.site-nav a::before { content: none; }
+
+.site-nav a:hover {
+    color: #d90429;
+    background: transparent;
+    padding: 0;
+}
+
+/* Spazio in fondo: la barra non deve coprire il footer */
+body { padding-bottom: 4.5rem; }
+
 }

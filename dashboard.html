@@ -536,18 +536,7 @@ git push</pre>
         function copyDeployCommands() {
             navigator.clipboard.writeText(document.getElementById('deploy-commands').textContent).then(() => showStatus('📋 Copiato!', 'success'));
         }
-		function openLiveSite() {
-			window.open('https://stefanodroghetti-site.pages.dev?v=' + Date.now(), '_blank');
-		}
 
-        loadData();
-        
-        function updateSectionSetting(section, field, value) {
-            if (!jsonData.section_settings) jsonData.section_settings = {};
-            if (!jsonData.section_settings[section]) jsonData.section_settings[section] = {};
-            jsonData.section_settings[section][field] = value;
-        }
-        
         function renderSupportList() {
             const container = document.getElementById('support-list');
             container.innerHTML = '';
@@ -589,7 +578,7 @@ git push</pre>
                     `;
                 } else {
                     fieldsHtml += `
-                        <div class="field"><label>Codice Iframe/Embed</label><textarea onchange="updateItem('support', ${index}, 'iframe_code', this.value)" style="font-family: monospace; font-size: 0.85rem;">${item.iframe_code || ''}</textarea></div>
+                        <div class="field"><label>Codice embed (vive in embeds.json)</label><textarea disabled style="opacity:0.6">Questo codice si modifica solo in embeds.json con nano. La dashboard non lo tocca mai.</textarea></div>
                     `;
                 }
                 
@@ -598,6 +587,20 @@ git push</pre>
             });
         }
 
+		function openLiveSite() {
+			window.open('https://stefanodroghetti-site.pages.dev?v=' + Date.now(), '_blank');
+		}
+
+        
+        function updateSectionSetting(section, field, value) {
+            if (!jsonData.section_settings) jsonData.section_settings = {};
+            if (!jsonData.section_settings[section]) jsonData.section_settings[section] = {};
+            jsonData.section_settings[section][field] = value;
+        }
+        
+        
+        // Avvio dell'applicazione: carica i dati all'apertura della pagina
+        loadData();
     </script>
 </body>
 </html>

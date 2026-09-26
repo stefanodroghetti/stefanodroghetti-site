@@ -7,14 +7,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600;700&family=Questrial&display=swap" rel="stylesheet">
     <title>Stefano Droghetti - Sito Ufficiale</title>
-    <meta name="description" content="Il software libero per condividere, sperimentare e creare musica, video e idee. ">
+    <meta name="description" content="Il software libero per condividere, sperimentare e creare musica, video e idee.">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <main>
         <header>
             <h1>Stefano Droghetti</h1>
-            <p class="tagline">Il software libero per condividere, sperimentare e creare musica, video e idee. </p>
+            <p class="tagline">Il software libero per condividere, sperimentare e creare musica, video e idee.</p>
         </header>
 
         <section class="bio">
@@ -31,9 +31,22 @@ Poi c'è tutto il resto, ed è parecchio disordinato. Questo sito nasce dall'esp
 Ecco perché qui non ci sono certo pretese di risposte definitive, ma al contrario tantissima curiosità e la voglia di ridere dei propri dubbi. Dai un'occhiata in giro, e se trovi uno spunto carino o anche solo una scusa per fare due chiacchiere, ne sono felice.</p>
             <p class="age">Oggi ho 54 anni.</p>
         </section>
-
         
-        <section class="manifesto">
+        <div class="layout">
+                        <nav class="site-nav">
+                <ul>
+                <li><a href="#manifesto">Dove sono le guide?</a></li>
+                <li><a href="#productions">Le mie produzioni</a></li>
+                <li><a href="#social">Social</a></li>
+                <li><a href="#events">Eventi</a></li>
+                <li><a href="#recommended">Link consigliati</a></li>
+                <li><a href="#support">Supporta il mio lavoro</a></li>
+                </ul>
+            </nav>
+
+            <div class="content">
+                
+        <section class="manifesto" id="manifesto">
             <h2>Dove sono le guide?</h2>
             <p class="section-desc">In questa sezione trovi tutte le istruzioni per capire come muoverti nel nuovo sito</p>
             
@@ -57,8 +70,8 @@ Ecco perché qui non ci sono certo pretese di risposte definitive, ma al contrar
     </div>
     
         </section>
-        
-        <section class="productions">
+                
+        <section class="productions" id="productions">
             <h2>Le mie produzioni</h2>
             <p class="section-desc">Tutto ciò che vedi qui l'ho creato io, prevalentemente con software libero su Linux.</p>
             <ul>                <li><a href="https://www.youtube.com/@StefanoDroghetti" target="_blank" rel="noopener">Canale YouTube</a></li>
@@ -69,8 +82,8 @@ Ecco perché qui non ci sono certo pretese di risposte definitive, ma al contrar
                 <li><a href="https://soundcloud.com/fidel-custom" target="_blank" rel="noopener">Fidel Custom (canzoni in italiano con AI)</a></li>
             </ul>
         </section>
-        
-        <section class="social">
+                
+        <section class="social" id="social">
             <h2>Social</h2>
             <p class="section-desc">Mi trovi anche su queste piattaforme:</p>
             <ul>                <li><a href="https://www.facebook.com/StefanoDroghettiHomePage/" target="_blank" rel="noopener">Facebook</a></li>
@@ -80,8 +93,8 @@ Ecco perché qui non ci sono certo pretese di risposte definitive, ma al contrar
                 <li><a href="https://www.threads.com/@stefano.droghetti" target="_blank" rel="noopener">Threads</a></li>
             </ul>
         </section>
-        
-        <section class="events">
+                
+        <section class="events" id="events">
             <h2>Eventi</h2>
             <h3>Prossimamente</h3>
                             <div class="event future"><strong>2026-10-15</strong> - Esempio evento futuro<br>Mi troverete allo stand X con il mio setup di quiz interattivi.</div>
@@ -89,54 +102,85 @@ Ecco perché qui non ci sono certo pretese di risposte definitive, ma al contrar
             <h3>Archivio</h3>
             <p>Nessun evento passato.</p>
         </section>
-        
-        <section class="recommended">
+                
+        <section class="recommended" id="recommended">
             <h2>Link consigliati</h2>
             <p class="section-desc">Cose che amo e che consiglio:</p>
             <ul>                <li><a href="https://youtube.com/@esempio" target="_blank" rel="noopener">Esempio canale YouTube</a> - Breve motivo per cui lo adoro.</li>
             </ul>
         </section>
-        
-        <section class="support">
+                
+        <section class="support" id="support">
             <h2>Supporta il mio lavoro</h2>
             <p class="section-desc">Se vuoi supportare il mio lavoro, ringraziarmi o semplicemente offrirmi un caffè:</p>
             <div class="support-grid">
                 
             <div class="support-box">
                 <h3>Liberapay</h3>
-                <div class="support-iframe"><script src="https://liberapay.com/stefanodroghetti/widgets/button.js"></script>
-<noscript>&lt;a href="https://liberapay.com/stefanodroghetti/donate"&gt;&lt;img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"&gt;&lt;/a&gt;</noscript></div>
+                
+                
+                <p class="support-desc">Sostienimi con una donazione ricorrente</p>
+                <a href="https://liberapay.com/stefanodroghetti/donate" target="_blank" rel="noopener" class="support-link">Vai a Liberapay →</a>
+            
             </div>
         
             <div class="support-box">
                 <h3>PayPal</h3>
-                <div class="support-iframe"><form action="https://www.paypal.com/donate" method="post" target="_top">
-<input type="hidden" name="hosted_button_id" value="K6WLHS5N9JJQS">
-<input type="image" src="https://www.paypalobjects.com/it_IT/IT/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Fai una donazione con il pulsante PayPal">
-<img alt="" border="0" src="https://www.paypal.com/it_IT/i/scr/pixel.gif" width="1" height="1">
-</form></div>
+                <div class="support-iframe"><form action='https://www.paypal.com/donate' method='post' target='_top'><input type='hidden' name='hosted_button_id' value='K6WLHS5N9JJQS'><input type='image' src='https://www.paypalobjects.com/it_IT/IT/i/btn/btn_donateCC_LG.gif' border='0' name='submit' title='PayPal - The safer, easier way to pay online!' alt='Fai una donazione con il pulsante PayPal'><img alt='' border='0' src='https://www.paypal.com/it_IT/i/scr/pixel.gif' width='1' height='1'></form></div>
             </div>
         
             <div class="support-box">
                 <h3>Stripe</h3>
-                <div class="support-iframe"><script async="" src="https://js.stripe.com/v3/buy-button.js">
-</script>
-
-<stripe-buy-button buy-button-id="buy_btn_1OqvfeHGNVxjVn5lhca6GQLN" publishable-key="pk_live_51OquHBHGNVxjVn5lZY1yefyPrPs2W2RodcecJfTYn58487FmFmjKgNOB7jf1wCpnvzJ8Q8I2kN8ANSv0l9PSU76000jMTcgjnM">
-</stripe-buy-button></div>
+                <div class="support-iframe"><script async='' src='https://js.stripe.com/v3/buy-button.js'> </script>>stripe-buy-button buy-button-id='buy_btn_1OqvfeHGNVxjVn5lhca6GQLN' publishable-key='pk_live_51OquHBHGNVxjVn5lZY1yefyPrPs2W2RodcecJfTYn58487FmFmjKgNOB7jf1wCpnvzJ8Q8I2kN8ANSv0l9PSU76000jMTcgjnM'></stripe-buy-button></div>
             </div>
         
             <div class="support-box">
                 <h3>Amazon Wishlist</h3>
-                <div class="support-iframe"><a href="https://www.amazon.it/hz/wishlist/ls/3HHKM0MTD4GFQ?ref_=wl_share"><img src="http://stefanodroghetti.altervista.org/wp-content/uploads/2020/12/amazonwish.jpg"></a></div>
+                
+                
+                <p class="support-desc">Fai un regalo dalla mia lista desideri</p>
+                <a href="https://www.amazon.it/hz/wishlist/ls/TUO_LINK" target="_blank" rel="noopener" class="support-link">Vai a Amazon Wishlist →</a>
+            
             </div>
         
             </div>
         </section>
+            </div>
+        </div>
 
         <footer>
             <p>Fatto con ❤️, Linux e software libero.</p>
         </footer>
     </main>
+
+<script>
+const navLinks = document.querySelectorAll(".site-nav a");
+const sections = document.querySelectorAll("section[id]");
+window.addEventListener("scroll", () => {
+    let current = "";
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (scrollY >= (sectionTop - 200)) {
+            current = section.getAttribute("id");
+        }
+    });
+    navLinks.forEach(link => {
+        link.style.color = "";
+        if (link.getAttribute("href") === "#" + current) {
+            link.style.color = "#d90429";
+        }
+    });
+});
+function adjustBodyPadding() {
+    const nav = document.querySelector(".site-nav");
+    if (nav) {
+        document.body.style.paddingBottom = (nav.offsetHeight + 20) + "px";
+    }
+}
+window.addEventListener("resize", adjustBodyPadding);
+window.addEventListener("load", adjustBodyPadding);
+adjustBodyPadding();
+</script>
+
 </body>
 </html>

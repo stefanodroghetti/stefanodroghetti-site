@@ -62,12 +62,6 @@
       "label": "Fidel Custom (canzoni in italiano con AI)",
       "url": "https://soundcloud.com/fidel-custom",
       "visible": true
-    },
-    {
-      "id": "bilibili",
-      "label": "Bilibili (prossimamente)",
-      "url": "",
-      "visible": false
     }
   ],
   "recommended_links": [
@@ -113,7 +107,7 @@
     "bio_placeholder": "Ciao! Davvero, qualunque cosa ti ci abbia portato, mi fa un sacco piacere che tu sia qui.\n\nConsidera questo posto come un piccolo quaderno aperto: sulla carta dovrebbe occuparsi solo di informatica, ma il codice non è certo una fede, è solo un ottimo mezzo per fare cose utili. Quindi qui troverai materiali e spunti alla rinfusa per suonare, montare video e creare roba cercando di usare meno tecnologie proprietarie possibili. Insomma, strumenti liberi come Linux, l'open source, le licenze Creative Commons e così via.\n\nPoi c'è tutto il resto, ed è parecchio disordinato. Questo sito nasce dall'esperienza di una vita passata (o sprecata?) a:\n• cercare il punto di contatto tra la precisione della scienza e la stramberia dell'arte, della poesia, del cinema o di una battuta di stand-up comedy fatta bene\n• curiosare su come comunichiamo (da un film di Tarkovskij a un action di Hong Kong, da un meme esilarante a un romanzo di Pavese, da un linguaggio di programmazione al linguaggio degli animali)\n• adorare la cultura cinese e finire sempre per viaggiare in posti tropicali in cui crogiolarsi nei \"bassifondi dell'immensità\" (cit.)\n• perdersi in qualche storia strana del passato e cercare di fare scelte un po' più ecologiche ogni giorno\n\nEcco perché qui non ci sono certo pretese di risposte definitive, ma al contrario tantissima curiosità e la voglia di ridere dei propri dubbi. Dai un'occhiata in giro, e se trovi uno spunto carino o anche solo una scusa per fare due chiacchiere, ne sono felice.",
     "birth_date": "1972-09-25",
     "footer": "Fatto con ❤️, Linux e software libero.",
-    "tagline": "Il software libero per condividere, sperimentare e creare musica, video e idee. ",
+    "tagline": "Il software libero per condividere, sperimentare e creare musica, video e idee.",
     "title": "Stefano Droghetti"
   },
   "social": [
@@ -150,19 +144,18 @@
   ],
   "support": [
     {
-      "description": "Sostienimi con una donazione ricorrente su Liberapay",
+      "description": "Sostienimi con una donazione ricorrente",
       "id": "liberapay",
-      "iframe_code": "<script src=\"https://liberapay.com/stefanodroghetti/widgets/button.js\"></script>\n<noscript>&lt;a href=\"https://liberapay.com/stefanodroghetti/donate\"&gt;&lt;img alt=\"Donate using Liberapay\" src=\"https://liberapay.com/assets/widgets/donate.svg\"&gt;&lt;/a&gt;</noscript>",
       "label": "Liberapay",
       "logo_svg": "",
-      "type": "iframe",
+      "type": "link",
       "url": "https://liberapay.com/stefanodroghetti/donate",
       "visible": true
     },
     {
-      "description": "Fai una donazione una tantum con PayPal",
+      "description": "Fai una donazione una tantum",
       "id": "paypal",
-      "iframe_code": "<form action=\"https://www.paypal.com/donate\" method=\"post\" target=\"_top\">\n<input type=\"hidden\" name=\"hosted_button_id\" value=\"K6WLHS5N9JJQS\">\n<input type=\"image\" src=\"https://www.paypalobjects.com/it_IT/IT/i/btn/btn_donateCC_LG.gif\" border=\"0\" name=\"submit\" title=\"PayPal - The safer, easier way to pay online!\" alt=\"Fai una donazione con il pulsante PayPal\">\n<img alt=\"\" border=\"0\" src=\"https://www.paypal.com/it_IT/i/scr/pixel.gif\" width=\"1\" height=\"1\">\n</form>",
+      "iframe_code": "<form action='https://www.paypal.com/donate' method='post' target='_blank'><input type='hidden' name='business' value='TUA_EMAIL'><input type='hidden' name='currency_code' value='EUR'><input type='image' src='https://www.paypalobjects.com/it_IT/IT/i/btn/btn_donate_LG.gif' border='0' name='submit' title='PayPal' alt='Fai una donazione con PayPal'></form>",
       "label": "PayPal",
       "logo_svg": "",
       "type": "iframe",
@@ -171,7 +164,7 @@
     {
       "description": "Dona in modo sicuro con Stripe",
       "id": "stripe",
-      "iframe_code": "<script async=\"\" src=\"https://js.stripe.com/v3/buy-button.js\">\n</script>\n\n<stripe-buy-button buy-button-id=\"buy_btn_1OqvfeHGNVxjVn5lhca6GQLN\" publishable-key=\"pk_live_51OquHBHGNVxjVn5lZY1yefyPrPs2W2RodcecJfTYn58487FmFmjKgNOB7jf1wCpnvzJ8Q8I2kN8ANSv0l9PSU76000jMTcgjnM\">\n</stripe-buy-button>",
+      "iframe_code": "<iframe src='https://donate.stripe.com/TUO_LINK' width='100%' height='120' frameborder='0'></iframe>",
       "label": "Stripe",
       "logo_svg": "",
       "type": "iframe",
@@ -180,10 +173,9 @@
     {
       "description": "Fai un regalo dalla mia lista desideri",
       "id": "amazon",
-      "iframe_code": "<a href=\"https://www.amazon.it/hz/wishlist/ls/3HHKM0MTD4GFQ?ref_=wl_share\"><img src=\"http://stefanodroghetti.altervista.org/wp-content/uploads/2020/12/amazonwish.jpg\"></a>",
       "label": "Amazon Wishlist",
       "logo_svg": "",
-      "type": "iframe",
+      "type": "link",
       "url": "https://www.amazon.it/hz/wishlist/ls/TUO_LINK",
       "visible": true
     }
