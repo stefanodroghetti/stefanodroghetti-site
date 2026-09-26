@@ -536,7 +536,9 @@ git push</pre>
         function copyDeployCommands() {
             navigator.clipboard.writeText(document.getElementById('deploy-commands').textContent).then(() => showStatus('📋 Copiato!', 'success'));
         }
-        function openLiveSite() { window.open('https://stefanodroghetti-site.pages.dev', '_blank'); }
+		function openLiveSite() {
+			window.open('https://stefanodroghetti-site.pages.dev?v=' + Date.now(), '_blank');
+		}
 
         loadData();
         
