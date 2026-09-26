@@ -1,0 +1,83 @@
+{
+  "ai_prompts": [
+    "Come installo Ubuntu (ultima LTS) in affiancamento su un PC con [RAM, CPU, GPU] e [OS attuale] senza perdere dati?",
+    "Vorrei produrre audio su Ubuntu LTS con una DAW libera e open source, con effetti liberi per [descrivi cosa vuoi fare].",
+    "Sono un videomaker, vorrei montare video su Linux usando software open source per [tuo obiettivo]."
+  ],
+  "events": [
+    {
+      "date": "2026-10-15",
+      "description": "Mi troverete allo stand X con il mio setup di quiz interattivi.",
+      "title": "Esempio evento futuro",
+      "type": "future"
+    },
+    {
+      "date": "2026-08-20",
+      "description": "Presentazione del mio progetto su AI e musica generativa.",
+      "title": "Esempio evento passato",
+      "type": "past"
+    }
+  ],
+  "manifesto": {
+    "ai_note": "Le guide che c'erano nel sito non sono più attuali: oggi basta chiedere all'AI. Ecco alcuni prompt utili:",
+    "intro": "Tutto quello che c'è in questo sito l'ho fatto io.",
+    "linux": "Usando Linux come unico sistema operativo e cercando di usare il più possibile software libero."
+  },
+  "productions": {
+    "bilibili": {
+      "label": "Bilibili (prossimamente)",
+      "url": ""
+    },
+    "soundcloud_fidel": {
+      "label": "Fidel Custom (canzoni in italiano con AI)",
+      "url": "https://soundcloud.com/fidel-custom"
+    },
+    "soundcloud_main": {
+      "label": "SoundCloud (principale)",
+      "url": "https://soundcloud.com/stefano-droghetti/sets/stefano-droghetti"
+    },
+    "youtube_ai_multilingual": {
+      "label": "Canzoni in tante lingue (AI)",
+      "url": "https://www.youtube.com/playlist?list=PL7z8RFuP5Euamiif9M9tEkF4ukSPasVvn"
+    },
+    "youtube_channel": {
+      "label": "Canale YouTube",
+      "url": "https://www.youtube.com/@StefanoDroghetti"
+    },
+    "youtube_songs": {
+      "label": "Le mie canzoni",
+      "url": "https://www.youtube.com/playlist?list=PL31A48F2BF3DDA3BD"
+    },
+    "youtube_videos": {
+      "label": "I miei video",
+      "url": "https://www.youtube.com/playlist?list=PL4222A127D90E5175"
+    }
+  },
+  "recommended_links": [
+    {
+      "description": "Breve motivo per cui lo adoro.",
+      "name": "Esempio canale YouTube",
+      "url": "https://youtube.com/@esempio"
+    }
+  ],
+  "site": {
+    "bio_placeholder": "[Qui ci va la mia descrizione, esempio: Ciaooooo! Sono un appassionato di informatica usata come estensione del pensiero, amo l'umorismo, la stand-up comedy e il software libero. Questo sito è un esperimento minimalista.]",
+    "birth_date": "1972-09-25",
+    "footer": "Fatto con ❤️, Linux e software libero.",
+    "tagline": "Informatico, umanista",
+    "title": "Stefano Droghetti"
+  },
+  "social": {
+    "facebook": "https://www.facebook.com/StefanoDroghettiHomePage/",
+    "instagram": "https://www.instagram.com/stefano.droghetti/",
+    "mastodon": "https://mastodon.uno/@stefanodroghetti",
+    "threads": "https://www.threads.com/@stefano.droghetti",
+    "tiktok": "https://www.tiktok.com/@stefanodroghetti"
+  },
+  "support": {
+    "amazon_wishlist": "",
+    "liberapay": "",
+    "paypal": "",
+    "stripe": ""
+  }
+}

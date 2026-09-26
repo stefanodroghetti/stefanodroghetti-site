@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - stefanodroghetti.it</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #111;
+            line-height: 1.6;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #111;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        h1 {
+            font-size: 2rem;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            background-color: #111;
+            color: #fff;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+        
+        button:hover {
+            background-color: #e63946;
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        button.secondary {
+            background-color: #fff;
+            color: #111;
+            border: 2px solid #111;
+        }
+        
+        button.secondary:hover {
+            background-color: #111;
+            color: #fff;
+        }
+        
+        button.success {
+            background-color: #28a745;
+        }
+        
+        button.success:hover {
+            background-color: #218838;
+        }
+        
+        .section {
+            background-color: #fff;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #111;
+        }
+        
+        .section h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #e63946;
+        }
+        
+        .field {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+            color: #555;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        textarea {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid #ddd;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #e63946;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .array-item {
+            background-color: #f9f9f9;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            position: relative;
+        }
+        
+        .array-item .remove-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #e63946;
+            color: #fff;
+            border: none;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+        
+        .add-btn {
+            background-color: #fff;
+            color: #111;
+            border: 2px dashed #111;
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .add-btn:hover {
+            background-color: #111;
+            color: #fff;
+        }
+        
+        .status {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #111;
+            display: none;
+        }
+        
+        .status.success {
+            background-color: #d4edda;
+            border-left-color: #28a745;
+            display: block;
+        }
+        
+        .status.error {
+            background-color: #f8d7da;
+            border-left-color: #dc3545;
+            display: block;
+        }
+        
+        .status.info {
+            background-color: #d1ecf1;
+            border-left-color: #17a2b8;
+            display: block;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Layout a due colonne: editor + preview */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .preview-container {
+            position: sticky;
+            top: 2rem;
+            height: calc(100vh - 4rem);
+            background-color: #fff;
+            border: 2px solid #111;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .preview-header {
+            background-color: #111;
+            color: #fff;
+            padding: 0.8rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .preview-header h3 {
+            font-size: 1rem;
+            margin: 0;
+        }
+        
+        .preview-header button {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+        }
+        
+        .preview-container iframe {
+            width: 100%;
+            height: calc(100% - 3rem);
+            border: none;
+        }
+        
+        /* Popup comandi deploy */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 600px;
+            width: 90%;
+            border-left: 4px solid #e63946;
+        }
+        
+        .modal h3 {
+            margin-bottom: 1rem;
+            color: #e63946;
+        }
+        
+        .modal pre {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+        }
+        
+        .modal .copy-btn {
+            background-color: #28a745;
+            margin-top: 1rem;
+        }
+        
+        .modal .close-btn {
+            background-color: #666;
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <h1>🛠️ Dashboard</h1>
+            <p class="subtitle">stefanodroghetti.it</p>
+        </div>
+    </header>
+
+    <div id="status" class="status"></div>
+
+    <div class="controls">
+        <button onclick="saveData()" class="success">💾 Salva modifiche</button>
+        <button onclick="runBuild()" class="secondary"> Lancia build</button>
+        <button onclick="showDeployModal()" class="secondary"> Pubblica</button>
+    </div>
+
+    <div class="main-layout">
+        <div id="editor">
+            <!-- Site Info -->
+            <div class="section">
+                <h2>Informazioni sito</h2>
+                <div class="field">
+                    <label>Titolo</label>
+                    <input type="text" id="site-title" onchange="updateSimpleField('site', 'title', this.value)">
+                </div>
+                <div class="field">
+                    <label>Tagline</label>
+                    <input type="text" id="site-tagline" onchange="updateSimpleField('site', 'tagline', this.value)">
+                </div>
+                <div class="field">
+                    <label>Bio</label>
+                    <textarea id="site-bio" onchange="updateSimpleField('site', 'bio_placeholder', this.value)"></textarea>
+                </div>
+                <div class="field">
+                    <label>Data di nascita</label>
+                    <input type="date" id="site-birth-date" onchange="updateSimpleField('site', 'birth_date', this.value)">
+                </div>
+                <div class="field">
+                    <label>Footer</label>
+                    <input type="text" id="site-footer" onchange="updateSimpleField('site', 'footer', this.value)">
+                </div>
+            </div>
+
+            <!-- Manifesto -->
+            <div class="section">
+                <h2>Manifesto</h2>
+                <div class="field">
+                    <label>Intro</label>
+                    <textarea id="manifesto-intro" onchange="updateSimpleField('manifesto', 'intro', this.value)"></textarea>
+                </div>
+                <div class="field">
+                    <label>Linux</label>
+                    <textarea id="manifesto-linux" onchange="updateSimpleField('manifesto', 'linux', this.value)"></textarea>
+                </div>
+                <div class="field">
+                    <label>Nota AI</label>
+                    <textarea id="manifesto-ai-note" onchange="updateSimpleField('manifesto', 'ai_note', this.value)"></textarea>
+                </div>
+            </div>
+
+            <!-- AI Prompts -->
+            <div class="section">
+                <h2>Prompt AI</h2>
+                <div id="prompts-list"></div>
+                <button class="add-btn" onclick="addPrompt()">+ Aggiungi prompt</button>
+            </div>
+
+            <!-- Productions -->
+            <div class="section">
+                <h2>Produzioni</h2>
+                <div id="productions-list"></div>
+            </div>
+
+            <!-- Social -->
+            <div class="section">
+                <h2>Social</h2>
+                <div id="social-list"></div>
+            </div>
+
+            <!-- Support -->
+            <div class="section">
+                <h2>Supporto</h2>
+                <div id="support-list"></div>
+            </div>
+
+            <!-- Events -->
+            <div class="section">
+                <h2>Eventi</h2>
+                <div id="events-list"></div>
+                <button class="add-btn" onclick="addEvent()">+ Aggiungi evento</button>
+            </div>
+
+            <!-- Recommended Links -->
+            <div class="section">
+                <h2>Link consigliati</h2>
+                <div id="recommended-list"></div>
+                <button class="add-btn" onclick="addRecommended()">+ Aggiungi link</button>
+            </div>
+        </div>
+
+        <!-- Preview -->
+        <div class="preview-container">
+            <div class="preview-header">
+                <h3>👁️ Anteprima sito</h3>
+                <button onclick="refreshPreview()">🔄 Aggiorna</button>
+            </div>
+            <iframe id="preview-frame" src="/preview"></iframe>
+        </div>
+    </div>
+
+    <!-- Modal Deploy -->
+    <div id="deploy-modal" class="modal-overlay">
+        <div class="modal">
+            <h3>🚀 Pubblica il sito</h3>
+            <p>Copia e incolla questi comandi nel terminale per pubblicare le modifiche:</p>
+            <pre id="deploy-commands">cd ~/Script/stefanodroghetti-site
+git add .
+git commit -m "Update from dashboard - $(date +%Y-%m-%d)"
+git push</pre>
+            <button class="copy-btn" onclick="copyDeployCommands()">📋 Copia comandi</button>
+            <button class="close-btn" onclick="closeDeployModal()">Chiudi</button>
+        </div>
+    </div>
+
+    <script>
+        let jsonData = null;
+
+        function showStatus(message, type = 'info') {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = `status ${type}`;
+            setTimeout(() => {
+                status.className = 'status';
+            }, 3000);
+        }
+
+        // Carica i dati all'avvio
+        async function loadData() {
+            try {
+                const response = await fetch('/api/data');
+                jsonData = await response.json();
+                populateForm();
+                showStatus('✅ Dati caricati automaticamente!', 'success');
+            } catch (err) {
+                showStatus('❌ Errore nel caricamento dei dati', 'error');
+                console.error(err);
+            }
+        }
+
+        function populateForm() {
+            document.getElementById('site-title').value = jsonData.site.title || '';
+            document.getElementById('site-tagline').value = jsonData.site.tagline || '';
+            document.getElementById('site-bio').value = jsonData.site.bio_placeholder || '';
+            document.getElementById('site-birth-date').value = jsonData.site.birth_date || '';
+            document.getElementById('site-footer').value = jsonData.site.footer || '';
+            
+            document.getElementById('manifesto-intro').value = jsonData.manifesto.intro || '';
+            document.getElementById('manifesto-linux').value = jsonData.manifesto.linux || '';
+            document.getElementById('manifesto-ai-note').value = jsonData.manifesto.ai_note || '';
+
+            renderPrompts();
+            renderProductions();
+            renderSocial();
+            renderSupport();
+            renderEvents();
+            renderRecommended();
+        }
+
+        function renderPrompts() {
+            const container = document.getElementById('prompts-list');
+            container.innerHTML = '';
+            jsonData.ai_prompts.forEach((prompt, index) => {
+                const div = document.createElement('div');
+                div.className = 'array-item';
+                div.innerHTML = `
+                    <button class="remove-btn" onclick="removePrompt(${index})">✕</button>
+                    <textarea onchange="updatePrompt(${index}, this.value)">${prompt}</textarea>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function updatePrompt(index, value) {
+            jsonData.ai_prompts[index] = value;
+        }
+
+        function addPrompt() {
+            jsonData.ai_prompts.push('Nuovo prompt...');
+            renderPrompts();
+        }
+
+        function removePrompt(index) {
+            jsonData.ai_prompts.splice(index, 1);
+            renderPrompts();
+        }
+
+        function renderProductions() {
+            const container = document.getElementById('productions-list');
+            container.innerHTML = '';
+            Object.entries(jsonData.productions).forEach(([key, value]) => {
+                const div = document.createElement('div');
+                div.className = 'array-item';
+                div.innerHTML = `
+                    <label><strong>${key}</strong></label>
+                    <input type="text" placeholder="Label" value="${value.label}" onchange="updateProduction('${key}', 'label', this.value)">
+                    <input type="text" placeholder="URL" value="${value.url}" onchange="updateProduction('${key}', 'url', this.value)" style="margin-top: 0.5rem;">
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function updateProduction(key, field, value) {
+            jsonData.productions[key][field] = value;
+        }
+
+        function renderSocial() {
+            const container = document.getElementById('social-list');
+            container.innerHTML = '';
+            Object.entries(jsonData.social).forEach(([key, value]) => {
+                const div = document.createElement('div');
+                div.className = 'field';
+                div.innerHTML = `
+                    <label>${key}</label>
+                    <input type="text" value="${value}" onchange="updateSocial('${key}', this.value)">
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function updateSocial(key, value) {
+            jsonData.social[key] = value;
+        }
+
+        function renderSupport() {
+            const container = document.getElementById('support-list');
+            container.innerHTML = '';
+            Object.entries(jsonData.support).forEach(([key, value]) => {
+                const div = document.createElement('div');
+                div.className = 'field';
+                div.innerHTML = `
+                    <label>${key}</label>
+                    <input type="text" value="${value}" onchange="updateSupport('${key}', this.value)">
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function updateSupport(key, value) {
+            jsonData.support[key] = value;
+        }
+
+        function renderEvents() {
+            const container = document.getElementById('events-list');
+            container.innerHTML = '';
+            jsonData.events.forEach((event, index) => {
+                const div = document.createElement('div');
+                div.className = 'array-item';
+                div.innerHTML = `
+                    <button class="remove-btn" onclick="removeEvent(${index})">✕</button>
+                    <div class="grid-2">
+                        <div class="field">
+                            <label>Data</label>
+                            <input type="date" value="${event.date}" onchange="updateEvent(${index}, 'date', this.value)">
+                        </div>
+                        <div class="field">
+                            <label>Tipo</label>
+                            <input type="text" value="${event.type}" onchange="updateEvent(${index}, 'type', this.value)">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Titolo</label>
+                        <input type="text" value="${event.title}" onchange="updateEvent(${index}, 'title', this.value)">
+                    </div>
+                    <div class="field">
+                        <label>Descrizione</label>
+                        <textarea onchange="updateEvent(${index}, 'description', this.value)">${event.description}</textarea>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function updateEvent(index, field, value) {
+            jsonData.events[index][field] = value;
+        }
+
+        function addEvent() {
+            jsonData.events.push({
+                date: new Date().toISOString().split('T')[0],
+                title: 'Nuovo evento',
+                description: 'Descrizione...',
+                type: 'future'
+            });
+            renderEvents();
+        }
+
+        function removeEvent(index) {
+            jsonData.events.splice(index, 1);
+            renderEvents();
+        }
+
+        function renderRecommended() {
+            const container = document.getElementById('recommended-list');
+            container.innerHTML = '';
+            jsonData.recommended_links.forEach((link, index) => {
+                const div = document.createElement('div');
+                div.className = 'array-item';
+                div.innerHTML = `
+                    <button class="remove-btn" onclick="removeRecommended(${index})">✕</button>
+                    <div class="field">
+                        <label>Nome</label>
+                        <input type="text" value="${link.name}" onchange="updateRecommended(${index}, 'name', this.value)">
+                    </div>
+                    <div class="field">
+                        <label>URL</label>
+                        <input type="text" value="${link.url}" onchange="updateRecommended(${index}, 'url', this.value)">
+                    </div>
+                    <div class="field">
+                        <label>Descrizione</label>
+                        <textarea onchange="updateRecommended(${index}, 'description', this.value)">${link.description}</textarea>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function updateRecommended(index, field, value) {
+            jsonData.recommended_links[index][field] = value;
+        }
+
+        function addRecommended() {
+            jsonData.recommended_links.push({
+                name: 'Nuovo link',
+                url: 'https://',
+                description: 'Descrizione...'
+            });
+            renderRecommended();
+        }
+
+        function removeRecommended(index) {
+            jsonData.recommended_links.splice(index, 1);
+            renderRecommended();
+        }
+
+        async function saveData() {
+            try {
+                const response = await fetch('/api/data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(jsonData)
+                });
+                const result = await response.json();
+                if (result.success) {
+                    showStatus('✅ ' + result.message, 'success');
+                } else {
+                    showStatus(' Errore nel salvataggio', 'error');
+                }
+            } catch (err) {
+                showStatus('❌ Errore di connessione', 'error');
+                console.error(err);
+            }
+        }
+
+        async function runBuild() {
+            try {
+                showStatus('💾 Salvataggio e build in corso...', 'info');
+                
+                // 1. Prima salva i dati su data.json
+                const saveResponse = await fetch('/api/data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(jsonData)
+                });
+                const saveResult = await saveResponse.json();
+                
+                if (!saveResult.success) {
+                    showStatus('❌ Errore nel salvataggio dei dati', 'error');
+                    return;
+                }
+                
+                // 2. Poi lancia la build
+                const buildResponse = await fetch('/api/build', {
+                    method: 'POST'
+                });
+                const buildResult = await buildResponse.json();
+                
+                if (buildResult.success) {
+                    showStatus('✅ Dati salvati e build completata!', 'success');
+                    // Aspetta un attimo per essere sicuri che il file sia scritto
+                    setTimeout(() => {
+                        refreshPreview();
+                    }, 300);
+                } else {
+                    showStatus('❌ ' + buildResult.message, 'error');
+                }
+            } catch (err) {
+                showStatus('❌ Errore nella build', 'error');
+                console.error(err);
+            }
+        }
+
+        function refreshPreview() {
+            const iframe = document.getElementById('preview-frame');
+            iframe.src = '/preview?' + Date.now();
+        }
+
+        function showDeployModal() {
+            document.getElementById('deploy-modal').classList.add('active');
+        }
+
+        function closeDeployModal() {
+            document.getElementById('deploy-modal').classList.remove('active');
+        }
+
+        function copyDeployCommands() {
+            const commands = document.getElementById('deploy-commands').textContent;
+            navigator.clipboard.writeText(commands).then(() => {
+                showStatus('📋 Comandi copiati!', 'success');
+            }).catch(err => {
+                showStatus('❌ Errore nella copia', 'error');
+            });
+        }
+
+        // Carica i dati all'avvio
+        loadData();
+        
+                function updateSimpleField(section, field, value) {
+            jsonData[section][field] = value;
+            console.log(`Aggiornato: ${section}.${field} = "${value}"`);
+        }
+    </script>
+</body>
+</html>

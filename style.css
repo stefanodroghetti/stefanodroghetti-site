@@ -1,45 +1,118 @@
+/* Stile Bauhaus minimalista */
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     background-color: #f4f4f4;
     color: #111;
     line-height: 1.6;
-    max-width: 600px;
+    max-width: 700px;
     margin: 4rem auto;
     padding: 0 1.5rem;
 }
+
+header {
+    margin-bottom: 3rem;
+}
+
 h1 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     letter-spacing: -0.05em;
     margin-bottom: 0.5rem;
+    font-weight: 700;
 }
-.placeholder-bio {
-    font-size: 1.1rem;
+
+.tagline {
+    font-size: 1.2rem;
     color: #555;
-    border-left: 4px solid #e63946; /* Un tocco di colore Bauhaus */
-    padding-left: 1rem;
+    font-style: italic;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #111;
+    padding-bottom: 0.3rem;
+}
+
+h3 {
+    font-size: 1.3rem;
+    margin-top: 2rem;
+    margin-bottom: 0.8rem;
+    color: #333;
+}
+
+.bio {
+    font-size: 1.1rem;
     margin-bottom: 2rem;
 }
+
+.age {
+    font-size: 0.9rem;
+    color: #888;
+    font-style: italic;
+}
+
+.manifesto {
+    border-left: 4px solid #e63946;
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+}
+
+.prompt-box {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    margin: 1rem 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+
+.prompt-box code {
+    display: block;
+    white-space: pre-wrap;
+}
+
+ul {
+    list-style-type: square;
+    padding-left: 1.5rem;
+}
+
+li {
+    margin-bottom: 0.8rem;
+}
+
 a {
     color: #111;
     text-decoration: none;
     border-bottom: 1px solid #111;
     transition: all 0.2s ease;
 }
+
 a:hover {
     background-color: #111;
     color: #fff;
 }
-ul {
-    list-style-type: square;
-    padding-left: 1.2rem;
+
+.event {
+    margin: 1rem 0;
+    padding: 1rem;
+    background-color: #fff;
+    border-left: 3px solid #111;
 }
-li {
-    margin-bottom: 0.5rem;
+
+.event.future {
+    border-left-color: #e63946;
 }
+
+.event.past {
+    opacity: 0.6;
+}
+
 footer {
     margin-top: 4rem;
     font-size: 0.8rem;
     color: #888;
     border-top: 1px solid #ddd;
     padding-top: 1rem;
+    text-align: center;
 }
