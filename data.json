@@ -145,9 +145,10 @@
       "id": "liberapay",
       "label": "Liberapay",
       "logo_svg": "",
-      "type": "link",
+      "type": "iframe",
       "url": "https://liberapay.com/...",
-      "visible": true
+      "visible": true,
+      "iframe_code": "<script src=\"https://liberapay.com/stefanodroghetti/widgets/button.js\"></script>\n<noscript>&lt;a href=\"https://liberapay.com/stefanodroghetti/donate\"&gt;&lt;img alt=\"Donate using Liberapay\" src=\"https://liberapay.com/assets/widgets/donate.svg\"&gt;&lt;/a&gt;</noscript>"
     },
     {
       "description": "Fai una donazione una tantum con PayPal",
