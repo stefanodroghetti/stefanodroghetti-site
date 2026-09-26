@@ -1,0 +1,45 @@
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #111;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 4rem auto;
+    padding: 0 1.5rem;
+}
+h1 {
+    font-size: 2.5rem;
+    letter-spacing: -0.05em;
+    margin-bottom: 0.5rem;
+}
+.placeholder-bio {
+    font-size: 1.1rem;
+    color: #555;
+    border-left: 4px solid #e63946; /* Un tocco di colore Bauhaus */
+    padding-left: 1rem;
+    margin-bottom: 2rem;
+}
+a {
+    color: #111;
+    text-decoration: none;
+    border-bottom: 1px solid #111;
+    transition: all 0.2s ease;
+}
+a:hover {
+    background-color: #111;
+    color: #fff;
+}
+ul {
+    list-style-type: square;
+    padding-left: 1.2rem;
+}
+li {
+    margin-bottom: 0.5rem;
+}
+footer {
+    margin-top: 4rem;
+    font-size: 0.8rem;
+    color: #888;
+    border-top: 1px solid #ddd;
+    padding-top: 1rem;
+}
