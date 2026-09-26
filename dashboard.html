@@ -4,83 +4,131 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - stefanodroghetti.it</title>
-    <style>
-        /* Stili base (identici a prima, aggiungo solo classi per i controlli) */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f4f4f4; color: #111; line-height: 1.6; padding: 2rem; max-width: 1400px; margin: 0 auto; }
-        header { margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 2px solid #111; display: flex; justify-content: space-between; align-items: center; }
-        h1 { font-size: 2rem; }
-        .subtitle { color: #666; font-size: 0.9rem; }
-        .controls { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
-        button { background-color: #111; color: #fff; border: none; padding: 0.8rem 1.5rem; font-size: 1rem; cursor: pointer; transition: all 0.2s ease; font-weight: 600; }
-        button:hover { background-color: #e63946; transform: translateY(-2px); }
-        button.secondary { background-color: #fff; color: #111; border: 2px solid #111; }
-        button.secondary:hover { background-color: #111; color: #fff; }
-        button.success { background-color: #28a745; }
-        button.success:hover { background-color: #218838; }
-        .section { background-color: #fff; padding: 1.5rem; margin-bottom: 1.5rem; border-left: 4px solid #111; }
-        .section h2 { font-size: 1.3rem; margin-bottom: 1rem; color: #e63946; }
-        .field { margin-bottom: 1rem; }
-        label { display: block; font-weight: 600; margin-bottom: 0.3rem; font-size: 0.9rem; color: #555; }
-        input[type="text"], input[type="number"], input[type="date"], textarea { width: 100%; padding: 0.6rem; border: 1px solid #ddd; font-family: inherit; font-size: 1rem; }
-        input:focus, textarea:focus { outline: none; border-color: #e63946; }
-        textarea { resize: vertical; min-height: 80px; }
-        .array-item { background-color: #f9f9f9; padding: 1rem; margin-bottom: 1rem; border: 1px solid #ddd; position: relative; display: flex; flex-direction: column; gap: 0.5rem; }
-        .array-item .controls-row { display: flex; gap: 0.5rem; align-items: center; }
-        .array-item .remove-btn { background-color: #e63946; color: #fff; border: none; padding: 0.3rem 0.6rem; font-size: 0.8rem; cursor: pointer; }
-        .array-item .move-btn { background-color: #666; color: #fff; border: none; padding: 0.3rem 0.6rem; font-size: 0.8rem; cursor: pointer; }
-        .array-item .move-btn:hover { background-color: #333; }
-        .add-btn { background-color: #fff; color: #111; border: 2px dashed #111; padding: 0.6rem 1rem; font-size: 0.9rem; margin-top: 0.5rem; }
-        .add-btn:hover { background-color: #111; color: #fff; }
-        .status { padding: 1rem; margin-bottom: 1rem; border-left: 4px solid #111; display: none; }
-        .status.success { background-color: #d4edda; border-left-color: #28a745; display: block; }
-        .status.error { background-color: #f8d7da; border-left-color: #dc3545; display: block; }
-        .status.info { background-color: #d1ecf1; border-left-color: #17a2b8; display: block; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .main-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-        @media (max-width: 1024px) { .main-layout { grid-template-columns: 1fr; } }
-        .preview-container { position: sticky; top: 2rem; height: calc(100vh - 4rem); background-color: #fff; border: 2px solid #111; border-radius: 4px; overflow: hidden; }
-        .preview-header { background-color: #111; color: #fff; padding: 0.8rem 1rem; display: flex; justify-content: space-between; align-items: center; }
-        .preview-header h3 { font-size: 1rem; margin: 0; }
-        .preview-container iframe { width: 100%; height: calc(100% - 3rem); border: none; }
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
-        .modal-overlay.active { display: flex; }
-        .modal { background-color: #fff; padding: 2rem; border-radius: 8px; max-width: 600px; width: 90%; border-left: 4px solid #e63946; }
-        .modal pre { background-color: #f4f4f4; padding: 1rem; border-radius: 4px; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 0.9rem; margin: 1rem 0; }
-        .modal .copy-btn { background-color: #28a745; margin-top: 1rem; }
-        .modal .close-btn { background-color: #666; margin-left: 0.5rem; }
-        .checkbox-label { display: flex; align-items: center; gap: 0.5rem; font-weight: normal; cursor: pointer; }
-        .checkbox-label input { width: auto; }
-        /* Header fisso con controlli */
-        .sticky-controls {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background-color: #111;
-            padding: 0.8rem 2rem;
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            flex-wrap: wrap;
-        }
-        
-        .sticky-controls button {
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-        }
-        
-        /* Spazio per compensare l'header fisso */
-        body {
-            padding-top: 4rem;
-        }
-        
-        header.page-header {
-            margin-top: 1rem;
-        }
-    </style>
+<style>
+    /* Reset e base stile IDE Chiaro */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        font-size: 14px; /* Leggermente più grande */
+        background-color: #f0f4f8; /* Grigio-bluastro freddo (tecnico) */
+        color: #1e293b; /* Testo scuro ma non nero puro */
+        line-height: 1.5;
+        padding: 1rem;
+    }
+
+    /* Header fisso in alto */
+    .sticky-controls {
+        position: fixed; top: 0; left: 0; right: 0;
+        background-color: #e2e8f0; /* Grigio tecnico */
+        padding: 0.6rem 1rem;
+        display: flex; gap: 0.5rem;
+        z-index: 1000;
+        border-bottom: 1px solid #cbd5e1;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .sticky-controls button {
+        padding: 0.5rem 1rem; font-size: 13px; font-family: inherit; font-weight: 600;
+        background-color: #334155; color: #fff; border: none; cursor: pointer;
+        border-radius: 2px;
+    }
+    .sticky-controls button.success { background-color: #0f766e; } /* Verde petrolio */
+    .sticky-controls button.secondary { background-color: #fff; color: #334155; border: 1px solid #94a3b8; }
+    .sticky-controls button:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    header.page-header { margin-top: 3.5rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid #cbd5e1; }
+    header.page-header h1 { font-size: 1.4rem; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; }
+    header.page-header .subtitle { font-size: 12px; color: #64748b; margin-top: 0.2rem; }
+
+    /* Layout a due colonne */
+    .main-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1rem; }
+    @media (max-width: 1024px) { .main-layout { grid-template-columns: 1fr; } }
+
+    /* Pannelli (Sezioni) */
+    .section {
+        background-color: #ffffff; /* Pannelli bianchi */
+        border: 1px solid #cbd5e1;
+        border-radius: 4px;
+        padding: 1.2rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .section h2 {
+        font-size: 12px; text-transform: uppercase; color: #0f172a;
+        margin-bottom: 1rem; letter-spacing: 1px; font-weight: 700;
+        border-bottom: 2px solid #3b82f6; /* Accento blu tecnico */
+        padding-bottom: 0.4rem;
+    }
+
+    /* Campi di input */
+    .field { margin-bottom: 1rem; }
+    label { display: block; font-size: 12px; color: #475569; margin-bottom: 0.3rem; font-weight: 600; }
+    input[type="text"], input[type="number"], input[type="date"], textarea, select {
+        width: 100%; padding: 0.5rem;
+        background-color: #f8fafc; color: #1e293b;
+        border: 1px solid #cbd5e1; font-family: inherit; font-size: 13px;
+        border-radius: 3px;
+    }
+    input:focus, textarea:focus, select:focus { outline: none; border-color: #3b82f6; background-color: #fff; }
+    textarea { resize: vertical; min-height: 70px; }
+
+    /* Elementi lista */
+    .array-item {
+        background-color: #f8fafc; border: 1px solid #e2e8f0;
+        padding: 1rem; margin-bottom: 1rem; position: relative; border-radius: 3px;
+    }
+    .array-item .controls-row { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.8rem; }
+    .array-item .move-btn, .array-item .remove-btn {
+        background: #e2e8f0; color: #475569; border: 1px solid #cbd5e1;
+        padding: 0.3rem 0.6rem; font-size: 12px; cursor: pointer; border-radius: 2px;
+    }
+    .array-item .remove-btn { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
+    .add-btn {
+        background: transparent; color: #3b82f6; border: 1px dashed #3b82f6;
+        padding: 0.5rem; font-size: 12px; cursor: pointer; width: 100%; margin-top: 0.5rem; border-radius: 3px;
+    }
+    .add-btn:hover { background: #eff6ff; }
+
+    /* Checkbox */
+    .checkbox-label { display: flex; align-items: center; gap: 0.5rem; font-size: 13px; color: #334155; cursor: pointer; }
+    .checkbox-label input { width: auto; }
+
+    /* Status messages */
+    .status { padding: 0.6rem; margin-bottom: 1rem; font-size: 13px; display: none; border-radius: 3px; }
+    .status.success { background-color: #ecfdf5; color: #065f46; border-left: 3px solid #10b981; display: block; }
+    .status.error { background-color: #fef2f2; color: #991b1b; border-left: 3px solid #ef4444; display: block; }
+    .status.info { background-color: #eff6ff; color: #1e40af; border-left: 3px solid #3b82f6; display: block; }
+
+    /* Preview Container */
+    .preview-container {
+        position: sticky; top: 3.5rem; height: calc(100vh - 4.5rem);
+        background-color: #fff; border: 1px solid #cbd5e1; border-radius: 4px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    .preview-header {
+        background-color: #1e293b; color: #f8fafc;
+        padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center;
+        position: sticky; top: 0; z-index: 1001;
+    }
+    .preview-header h3 { font-size: 13px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+    .preview-header button {
+        background: #334155; color: #f8fafc; border: 1px solid #475569;
+        padding: 0.3rem 0.6rem; font-size: 12px; cursor: pointer; border-radius: 2px;
+    }
+    .preview-header button:hover { background: #475569; }
+    .preview-container iframe { width: 100%; height: calc(100% - 2.2rem); border: none; background: #fff; }
+
+    /* Modal */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(2px); }
+    .modal-overlay.active { display: flex; }
+    .modal { background: #fff; padding: 2rem; border: 1px solid #cbd5e1; border-radius: 6px; max-width: 600px; width: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+    .modal h3 { color: #0f172a; font-size: 16px; margin-bottom: 1rem; font-weight: 700; }
+    .modal pre { background: #f1f5f9; padding: 1rem; color: #334155; font-family: inherit; font-size: 13px; border: 1px solid #e2e8f0; border-radius: 3px; }
+    .modal button { margin-top: 1rem; margin-right: 0.5rem; padding: 0.5rem 1rem; font-size: 13px; cursor: pointer; border: none; border-radius: 3px; }
+    .modal .copy-btn { background: #0f766e; color: #fff; }
+    .modal .close-btn { background: #e2e8f0; color: #475569; }
+    
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+</style>
 </head>
 <body>
 
@@ -220,7 +268,13 @@
         </div>
 
         <div class="preview-container">
-            <div class="preview-header"><h3>👁️ Anteprima sito</h3><button onclick="refreshPreview()">🔄 Aggiorna</button></div>
+			<div class="preview-header">
+				<h3>👁️ Anteprima sito</h3>
+				<div style="display: flex; gap: 0.5rem;">
+					<button onclick="refreshPreview()" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">🔄 Aggiorna</button>
+					<button onclick="openPreviewNewTab()" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">🔗 Nuova scheda</button>
+				</div>
+			</div>
             <iframe id="preview-frame" src="/preview"></iframe>
         </div>
     </div>
@@ -262,41 +316,38 @@ git push</pre>
             }
         }
 
-        function populateForm() {
-            document.getElementById('site-title').value = jsonData.site.title || '';
-            document.getElementById('site-tagline').value = jsonData.site.tagline || '';
-            document.getElementById('site-bio').value = jsonData.site.bio_placeholder || '';
-            document.getElementById('site-birth-date').value = jsonData.site.birth_date || '';
-            document.getElementById('site-footer').value = jsonData.site.footer || '';
-            
-            const sections = ['manifesto', 'productions', 'social', 'support', 'events', 'recommended'];
-            sections.forEach(section => {
-                const s = jsonData.section_settings?.[section] || {};
-                const visibleEl = document.getElementById(`${section}-visible`);
-                const titleEl = document.getElementById(`title-${section}`);
-                const descEl = document.getElementById(`desc-${section}`);
-                if (visibleEl) visibleEl.checked = s.visible !== false;
-                if (titleEl) titleEl.value = s.title || '';
-                if (descEl) descEl.value = s.description || '';
-            });
-            
-            document.getElementById('title-manifesto').value = jsonData.section_titles?.manifesto || '';
-            document.getElementById('title-productions').value = jsonData.section_titles?.productions || '';
-            document.getElementById('title-social').value = jsonData.section_titles?.social || '';
-            document.getElementById('title-support').value = jsonData.section_titles?.support || '';
-            document.getElementById('title-recommended').value = jsonData.section_titles?.recommended || '';
+		function populateForm() {
+			document.getElementById('site-title').value = jsonData.site.title || '';
+			document.getElementById('site-tagline').value = jsonData.site.tagline || '';
+			document.getElementById('site-bio').value = jsonData.site.bio_placeholder || '';
+			document.getElementById('site-birth-date').value = jsonData.site.birth_date || '';
+			document.getElementById('site-footer').value = jsonData.site.footer || '';
+			
+			// Impostazioni sezioni (nuova struttura)
+			const sections = ['manifesto', 'productions', 'social', 'support', 'events', 'recommended'];
+			sections.forEach(section => {
+				const s = jsonData.section_settings?.[section] || {};
+				const visibleEl = document.getElementById(`${section}-visible`);
+				const titleEl = document.getElementById(`title-${section}`);
+				const descEl = document.getElementById(`desc-${section}`);
+				if (visibleEl) visibleEl.checked = s.visible !== false;
+				if (titleEl) titleEl.value = s.title || '';
+				if (descEl) descEl.value = s.description || '';
+			});
 
-            document.getElementById('manifesto-intro').value = jsonData.manifesto.intro || '';
-            document.getElementById('manifesto-linux').value = jsonData.manifesto.linux || '';
-            document.getElementById('manifesto-ai-note').value = jsonData.manifesto.ai_note || '';
+			// Manifesto
+			document.getElementById('manifesto-intro').value = jsonData.manifesto.intro || '';
+			document.getElementById('manifesto-linux').value = jsonData.manifesto.linux || '';
+			document.getElementById('manifesto-ai-note').value = jsonData.manifesto.ai_note || '';
 
-            renderList('prompts-list', jsonData.ai_prompts, 'prompt');
-            renderListWithControls('productions-list', jsonData.productions, 'productions');
-            renderListWithControls('social-list', jsonData.social, 'social');
-            renderSupportList();
-            renderEvents();
-            renderRecommended();
-        }
+			// Liste
+			renderPrompts();
+			renderListWithControls('productions-list', jsonData.productions, 'productions');
+			renderListWithControls('social-list', jsonData.social, 'social');
+			renderSupportList();
+			renderEvents();
+			renderRecommended();
+		}
 
         function updateSimpleField(section, field, value) {
             if (!jsonData[section]) jsonData[section] = {};
@@ -364,19 +415,52 @@ git push</pre>
             else if (sectionKey === 'support') renderListWithControls('support-list', jsonData.support, 'support');
         }
 
-        // --- Funzioni specifiche per Prompt, Eventi, Raccomandati (semplificate) ---
-        function renderList(containerId, array, type) {
-            const container = document.getElementById(containerId);
+        function renderPrompts() {
+            const container = document.getElementById('prompts-list');
             container.innerHTML = '';
-            array.forEach((item, index) => {
+            jsonData.ai_prompts.forEach((item, index) => {
                 const div = document.createElement('div');
                 div.className = 'array-item';
                 div.innerHTML = `
-                    <button class="remove-btn" onclick="removeSimpleItem('${type}', ${index})">✕</button>
-                    <textarea onchange="updateSimpleItem('${type}', ${index}, this.value)">${item}</textarea>
+                    <button class="remove-btn" onclick="removePrompt(${index})">✕</button>
+                    <div class="field">
+                        <label>Titolo (per SEO e chiarezza)</label>
+                        <input type="text" value="${item.title || ''}" onchange="updatePromptTitle(${index}, this.value)">
+                    </div>
+                    <div class="field">
+                        <label>Prompt</label>
+                        <textarea onchange="updatePromptText(${index}, this.value)">${item.prompt || item}</textarea>
+                    </div>
                 `;
                 container.appendChild(div);
             });
+        }
+
+        function updatePromptTitle(index, value) {
+            // Gestisce sia il vecchio formato (stringa) che il nuovo (oggetto)
+            if (typeof jsonData.ai_prompts[index] === 'string') {
+                jsonData.ai_prompts[index] = { title: value, prompt: jsonData.ai_prompts[index] };
+            } else {
+                jsonData.ai_prompts[index].title = value;
+            }
+        }
+
+        function updatePromptText(index, value) {
+            if (typeof jsonData.ai_prompts[index] === 'string') {
+                jsonData.ai_prompts[index] = { title: 'Prompt', prompt: value };
+            } else {
+                jsonData.ai_prompts[index].prompt = value;
+            }
+        }
+
+        function addPrompt() {
+            jsonData.ai_prompts.push({ title: 'Nuovo argomento', prompt: 'Scrivi qui il prompt...' });
+            renderPrompts();
+        }
+
+        function removePrompt(index) {
+            jsonData.ai_prompts.splice(index, 1);
+            renderPrompts();
         }
         function updateSimpleItem(type, index, value) { jsonData.ai_prompts[index] = value; }
         function removeSimpleItem(type, index) { jsonData.ai_prompts.splice(index, 1); renderList('prompts-list', jsonData.ai_prompts, 'prompt'); }
@@ -444,6 +528,9 @@ git push</pre>
         }
 
         function refreshPreview() { document.getElementById('preview-frame').src = '/preview?' + Date.now(); }
+		function openPreviewNewTab() {
+			window.open('/preview?' + Date.now(), '_blank');
+		}
         function showDeployModal() { document.getElementById('deploy-modal').classList.add('active'); }
         function closeDeployModal() { document.getElementById('deploy-modal').classList.remove('active'); }
         function copyDeployCommands() {
@@ -508,6 +595,7 @@ git push</pre>
                 container.appendChild(div);
             });
         }
+
     </script>
 </body>
 </html>

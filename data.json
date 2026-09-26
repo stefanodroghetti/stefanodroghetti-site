@@ -1,8 +1,17 @@
 {
   "ai_prompts": [
-    "Come installo Ubuntu (ultima LTS) in affiancamento su un PC con [RAM, CPU, GPU] e [OS attuale] senza perdere dati?",
-    "Vorrei produrre audio su Ubuntu LTS con una DAW libera e open source, con effetti liberi per [descrivi cosa vuoi fare].",
-    "Sono un videomaker, vorrei montare video su Linux usando software open source per [tuo obiettivo]."
+    {
+      "prompt": "Vorrei produrre audio su Ubuntu LTS con una DAW libera e open source, con effetti liberi per [descrivi cosa vuoi fare].",
+      "title": "Produzione musicale su Linux"
+    },
+    {
+      "prompt": "Come installo Ubuntu (ultima LTS) in affiancamento su un PC con [RAM, CPU, GPU] e [OS attuale] senza perdere dati?",
+      "title": "Installazione Ubuntu in affiancamento"
+    },
+    {
+      "prompt": "Sono un videomaker, vorrei montare video su Linux usando software open source per [tuo obiettivo].",
+      "title": "Video editing open source"
+    }
   ],
   "events": [
     {
@@ -75,8 +84,8 @@
       "visible": true
     },
     "manifesto": {
-      "description": "",
-      "title": "",
+      "description": "In questa sezione trovi tutte le istruzioni per capire come muoverti nel nuovo sito",
+      "title": "Dove sono le guide?",
       "visible": true
     },
     "productions": {
@@ -143,17 +152,17 @@
     {
       "description": "Sostienimi con una donazione ricorrente su Liberapay",
       "id": "liberapay",
+      "iframe_code": "<script src=\"https://liberapay.com/stefanodroghetti/widgets/button.js\"></script>\n<noscript>&lt;a href=\"https://liberapay.com/stefanodroghetti/donate\"&gt;&lt;img alt=\"Donate using Liberapay\" src=\"https://liberapay.com/assets/widgets/donate.svg\"&gt;&lt;/a&gt;</noscript>",
       "label": "Liberapay",
       "logo_svg": "",
       "type": "iframe",
-      "url": "https://liberapay.com/...",
-      "visible": true,
-      "iframe_code": "<script src=\"https://liberapay.com/stefanodroghetti/widgets/button.js\"></script>\n<noscript>&lt;a href=\"https://liberapay.com/stefanodroghetti/donate\"&gt;&lt;img alt=\"Donate using Liberapay\" src=\"https://liberapay.com/assets/widgets/donate.svg\"&gt;&lt;/a&gt;</noscript>"
+      "url": "https://liberapay.com/stefanodroghetti/donate",
+      "visible": true
     },
     {
       "description": "Fai una donazione una tantum con PayPal",
       "id": "paypal",
-      "iframe_code": "<form action='https://www.paypal.com/donate' method='post' target='_blank'><input type='hidden' name='business' value='TUA_EMAIL'><input type='hidden' name='currency_code' value='EUR'><input type='image' src='https://www.paypalobjects.com/it_IT/IT/i/btn/btn_donate_LG.gif' border='0' name='submit' title='PayPal' alt='Fai una donazione con PayPal'><img alt='' border='0' src='https://www.paypalobjects.com/it_IT/i/scr/pixel.gif' width='1' height='1'></form>",
+      "iframe_code": "<form action=\"https://www.paypal.com/donate\" method=\"post\" target=\"_top\">\n<input type=\"hidden\" name=\"hosted_button_id\" value=\"K6WLHS5N9JJQS\">\n<input type=\"image\" src=\"https://www.paypalobjects.com/it_IT/IT/i/btn/btn_donateCC_LG.gif\" border=\"0\" name=\"submit\" title=\"PayPal - The safer, easier way to pay online!\" alt=\"Fai una donazione con il pulsante PayPal\">\n<img alt=\"\" border=\"0\" src=\"https://www.paypal.com/it_IT/i/scr/pixel.gif\" width=\"1\" height=\"1\">\n</form>",
       "label": "PayPal",
       "logo_svg": "",
       "type": "iframe",
@@ -171,10 +180,11 @@
     {
       "description": "Fai un regalo dalla mia lista desideri",
       "id": "amazon",
+      "iframe_code": "<a href=\"https://www.amazon.it/hz/wishlist/ls/3HHKM0MTD4GFQ?ref_=wl_share\"><img src=\"http://stefanodroghetti.altervista.org/wp-content/uploads/2020/12/amazonwish.jpg\"></a>",
       "label": "Amazon Wishlist",
       "logo_svg": "",
-      "type": "link",
-      "url": "https://www.amazon.it/hz/wishlist/ls/...",
+      "type": "iframe",
+      "url": "https://www.amazon.it/hz/wishlist/ls/TUO_LINK",
       "visible": true
     }
   ]

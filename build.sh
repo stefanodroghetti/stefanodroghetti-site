@@ -36,7 +36,18 @@ productions_html = render_list(data.get('productions', []))
 social_html = render_list(data.get('social', []))
 support_html = render_list(data.get('support', []))
 
-prompts_html = "".join([f'                <div class="prompt-box"><code>{p}</code></div>\n' for p in data.get('ai_prompts', [])])
+# Genera i prompt con stile Eventi
+prompts_html = ""
+for p in data.get('ai_prompts', []):
+    title = p.get('title', 'Prompt') if isinstance(p, dict) else 'Prompt'
+    text = p.get('prompt', p) if isinstance(p, dict) else p
+    
+    prompts_html += f'''
+    <div class="prompt-item">
+        <h3>{title}</h3>
+        <div class="prompt-box"><code>{text}</code></div>
+    </div>
+    '''
 
 # Eventi
 future_events_html = ""
@@ -140,6 +151,9 @@ html = f'''<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600;700&family=Questrial&display=swap" rel="stylesheet">
     <title>{data["site"]["title"]} - Sito Ufficiale</title>
     <meta name="description" content="{data["site"]["tagline"]}">
     <link rel="stylesheet" href="style.css">

@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600;700&family=Questrial&display=swap" rel="stylesheet">
     <title>Stefano Droghetti - Sito Ufficiale</title>
     <meta name="description" content="Informatico, umanista, esploratore">
     <link rel="stylesheet" href="style.css">
@@ -21,15 +24,28 @@
 
         
         <section class="manifesto">
-            <h2></h2>
+            <h2>Dove sono le guide?</h2>
+            <p class="section-desc">In questa sezione trovi tutte le istruzioni per capire come muoverti nel nuovo sito</p>
             
             <p>Tutto quello che c'è in questo sito l'ho fatto io.</p>
             <p>Usando Linux come unico sistema operativo e cercando di usare il più possibile software libero.</p>
             <p>Le guide che c'erano nel sito non sono più attuali: oggi basta chiedere all'AI. Ecco alcuni prompt utili:</p>
-                            <div class="prompt-box"><code>Come installo Ubuntu (ultima LTS) in affiancamento su un PC con [RAM, CPU, GPU] e [OS attuale] senza perdere dati?</code></div>
-                <div class="prompt-box"><code>Vorrei produrre audio su Ubuntu LTS con una DAW libera e open source, con effetti liberi per [descrivi cosa vuoi fare].</code></div>
-                <div class="prompt-box"><code>Sono un videomaker, vorrei montare video su Linux usando software open source per [tuo obiettivo].</code></div>
-
+            
+    <div class="prompt-item">
+        <h3>Produzione musicale su Linux</h3>
+        <div class="prompt-box"><code>Vorrei produrre audio su Ubuntu LTS con una DAW libera e open source, con effetti liberi per [descrivi cosa vuoi fare].</code></div>
+    </div>
+    
+    <div class="prompt-item">
+        <h3>Installazione Ubuntu in affiancamento</h3>
+        <div class="prompt-box"><code>Come installo Ubuntu (ultima LTS) in affiancamento su un PC con [RAM, CPU, GPU] e [OS attuale] senza perdere dati?</code></div>
+    </div>
+    
+    <div class="prompt-item">
+        <h3>Video editing open source</h3>
+        <div class="prompt-box"><code>Sono un videomaker, vorrei montare video su Linux usando software open source per [tuo obiettivo].</code></div>
+    </div>
+    
         </section>
         
         <section class="productions">
@@ -84,7 +100,11 @@
         
             <div class="support-box">
                 <h3>PayPal</h3>
-                <div class="support-iframe"><form action='https://www.paypal.com/donate' method='post' target='_blank'><input type='hidden' name='business' value='TUA_EMAIL'><input type='hidden' name='currency_code' value='EUR'><input type='image' src='https://www.paypalobjects.com/it_IT/IT/i/btn/btn_donate_LG.gif' border='0' name='submit' title='PayPal' alt='Fai una donazione con PayPal'><img alt='' border='0' src='https://www.paypalobjects.com/it_IT/i/scr/pixel.gif' width='1' height='1'></form></div>
+                <div class="support-iframe"><form action="https://www.paypal.com/donate" method="post" target="_top">
+<input type="hidden" name="hosted_button_id" value="K6WLHS5N9JJQS">
+<input type="image" src="https://www.paypalobjects.com/it_IT/IT/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Fai una donazione con il pulsante PayPal">
+<img alt="" border="0" src="https://www.paypal.com/it_IT/i/scr/pixel.gif" width="1" height="1">
+</form></div>
             </div>
         
             <div class="support-box">
@@ -98,11 +118,7 @@
         
             <div class="support-box">
                 <h3>Amazon Wishlist</h3>
-                
-                
-                <p class="support-desc">Fai un regalo dalla mia lista desideri</p>
-                <a href="https://www.amazon.it/hz/wishlist/ls/..." target="_blank" rel="noopener" class="support-link">Vai a Amazon Wishlist →</a>
-            
+                <div class="support-iframe"><a href="https://www.amazon.it/hz/wishlist/ls/3HHKM0MTD4GFQ?ref_=wl_share"><img src="http://stefanodroghetti.altervista.org/wp-content/uploads/2020/12/amazonwish.jpg"></a></div>
             </div>
         
             </div>
