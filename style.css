@@ -116,3 +116,86 @@ footer {
     padding-top: 1rem;
     text-align: center;
 }
+
+.section-desc {
+    font-size: 1rem;
+    color: #555;
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+/* Griglia Support - si adatta automaticamente */
+.support-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.support-box {
+    background-color: #fff;
+    border: 2px solid #111;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.support-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 4px 4px 0 #111;
+}
+
+.support-box h3 {
+    font-size: 1.2rem;
+    margin: 0;
+    border-bottom: 2px solid #e63946;
+    padding-bottom: 0.5rem;
+}
+
+.support-logo {
+    max-width: 120px;
+    margin: 0 auto;
+}
+
+.support-logo svg {
+    width: 100%;
+    height: auto;
+}
+
+.support-desc {
+    font-size: 0.95rem;
+    color: #555;
+    flex-grow: 1;
+}
+
+.support-link {
+    display: inline-block;
+    background-color: #111;
+    color: #fff;
+    padding: 0.6rem 1rem;
+    text-align: center;
+    border: none;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.support-link:hover {
+    background-color: #e63946;
+    color: #fff;
+}
+
+.support-iframe {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.support-iframe iframe,
+.support-iframe form {
+    max-width: 100%;
+    border: none;
+}

@@ -10,12 +10,6 @@
       "description": "Mi troverete allo stand X con il mio setup di quiz interattivi.",
       "title": "Esempio evento futuro",
       "type": "future"
-    },
-    {
-      "date": "2026-08-20",
-      "description": "Presentazione del mio progetto su AI e musica generativa.",
-      "title": "Esempio evento passato",
-      "type": "past"
     }
   ],
   "manifesto": {
@@ -23,36 +17,50 @@
     "intro": "Tutto quello che c'è in questo sito l'ho fatto io.",
     "linux": "Usando Linux come unico sistema operativo e cercando di usare il più possibile software libero."
   },
-  "productions": {
-    "bilibili": {
-      "label": "Bilibili (prossimamente)",
-      "url": ""
-    },
-    "soundcloud_fidel": {
-      "label": "Fidel Custom (canzoni in italiano con AI)",
-      "url": "https://soundcloud.com/fidel-custom"
-    },
-    "soundcloud_main": {
-      "label": "SoundCloud (principale)",
-      "url": "https://soundcloud.com/stefano-droghetti/sets/stefano-droghetti"
-    },
-    "youtube_ai_multilingual": {
-      "label": "Canzoni in tante lingue (AI)",
-      "url": "https://www.youtube.com/playlist?list=PL7z8RFuP5Euamiif9M9tEkF4ukSPasVvn"
-    },
-    "youtube_channel": {
+  "productions": [
+    {
+      "id": "yt_channel",
       "label": "Canale YouTube",
-      "url": "https://www.youtube.com/@StefanoDroghetti"
+      "url": "https://www.youtube.com/@StefanoDroghetti",
+      "visible": true
     },
-    "youtube_songs": {
-      "label": "Le mie canzoni",
-      "url": "https://www.youtube.com/playlist?list=PL31A48F2BF3DDA3BD"
-    },
-    "youtube_videos": {
+    {
+      "id": "yt_videos",
       "label": "I miei video",
-      "url": "https://www.youtube.com/playlist?list=PL4222A127D90E5175"
+      "url": "https://www.youtube.com/playlist?list=PL4222A127D90E5175",
+      "visible": true
+    },
+    {
+      "id": "yt_songs",
+      "label": "Le mie canzoni",
+      "url": "https://www.youtube.com/playlist?list=PL31A48F2BF3DDA3BD",
+      "visible": true
+    },
+    {
+      "id": "yt_ai",
+      "label": "Canzoni in tante lingue (AI)",
+      "url": "https://www.youtube.com/playlist?list=PL7z8RFuP5Euamiif9M9tEkF4ukSPasVvn",
+      "visible": true
+    },
+    {
+      "id": "sc_main",
+      "label": "SoundCloud (principale)",
+      "url": "https://soundcloud.com/stefano-droghetti/sets/stefano-droghetti",
+      "visible": true
+    },
+    {
+      "id": "sc_fidel",
+      "label": "Fidel Custom (canzoni in italiano con AI)",
+      "url": "https://soundcloud.com/fidel-custom",
+      "visible": true
+    },
+    {
+      "id": "bilibili",
+      "label": "Bilibili (prossimamente)",
+      "url": "",
+      "visible": false
     }
-  },
+  ],
   "recommended_links": [
     {
       "description": "Breve motivo per cui lo adoro.",
@@ -60,24 +68,113 @@
       "url": "https://youtube.com/@esempio"
     }
   ],
+  "section_settings": {
+    "events": {
+      "description": "",
+      "title": "Eventi",
+      "visible": true
+    },
+    "manifesto": {
+      "description": "",
+      "title": "",
+      "visible": true
+    },
+    "productions": {
+      "description": "Tutto ciò che vedi qui l'ho creato io, prevalentemente con software libero su Linux.",
+      "title": "Le mie produzioni",
+      "visible": true
+    },
+    "recommended": {
+      "description": "Cose che amo e che consiglio:",
+      "title": "Link consigliati",
+      "visible": true
+    },
+    "social": {
+      "description": "Mi trovi anche su queste piattaforme:",
+      "title": "Social",
+      "visible": true
+    },
+    "support": {
+      "description": "Se vuoi supportare il mio lavoro, ringraziarmi o semplicemente offrirmi un caffè:",
+      "title": "Supporta il mio lavoro",
+      "visible": true
+    }
+  },
   "site": {
-    "bio_placeholder": "[Qui ci va la mia descrizione, esempio: Ciaooooo! Sono un appassionato di informatica usata come estensione del pensiero, amo l'umorismo, la stand-up comedy e il software libero. Questo sito è un esperimento minimalista.]",
+    "bio_placeholder": "[Qui ci va la mia descrizione, esempio: Ciao! Sono un appassionato di informatica usata come estensione del pensiero, amo l'umorismo, la stand-up comedy e il software libero. Questo sito è un esperimento minimalista.]",
     "birth_date": "1972-09-25",
     "footer": "Fatto con ❤️, Linux e software libero.",
-    "tagline": "Informatico, umanista",
+    "tagline": "Informatico, umanista, esploratore",
     "title": "Stefano Droghetti"
   },
-  "social": {
-    "facebook": "https://www.facebook.com/StefanoDroghettiHomePage/",
-    "instagram": "https://www.instagram.com/stefano.droghetti/",
-    "mastodon": "https://mastodon.uno/@stefanodroghetti",
-    "threads": "https://www.threads.com/@stefano.droghetti",
-    "tiktok": "https://www.tiktok.com/@stefanodroghetti"
-  },
-  "support": {
-    "amazon_wishlist": "",
-    "liberapay": "",
-    "paypal": "",
-    "stripe": ""
-  }
+  "social": [
+    {
+      "id": "facebook",
+      "label": "Facebook",
+      "url": "https://www.facebook.com/StefanoDroghettiHomePage/",
+      "visible": true
+    },
+    {
+      "id": "instagram",
+      "label": "Instagram",
+      "url": "https://www.instagram.com/stefano.droghetti/",
+      "visible": true
+    },
+    {
+      "id": "mastodon",
+      "label": "Mastodon",
+      "url": "https://mastodon.uno/@stefanodroghetti",
+      "visible": true
+    },
+    {
+      "id": "tiktok",
+      "label": "TikTok",
+      "url": "https://www.tiktok.com/@stefanodroghetti",
+      "visible": true
+    },
+    {
+      "id": "threads",
+      "label": "Threads",
+      "url": "https://www.threads.com/@stefano.droghetti",
+      "visible": true
+    }
+  ],
+  "support": [
+    {
+      "description": "Sostienimi con una donazione ricorrente su Liberapay",
+      "id": "liberapay",
+      "label": "Liberapay",
+      "logo_svg": "",
+      "type": "link",
+      "url": "https://liberapay.com/...",
+      "visible": true
+    },
+    {
+      "description": "Fai una donazione una tantum con PayPal",
+      "id": "paypal",
+      "iframe_code": "<form action='https://www.paypal.com/donate' method='post' target='_blank'><input type='hidden' name='business' value='TUA_EMAIL'><input type='hidden' name='currency_code' value='EUR'><input type='image' src='https://www.paypalobjects.com/it_IT/IT/i/btn/btn_donate_LG.gif' border='0' name='submit' title='PayPal' alt='Fai una donazione con PayPal'><img alt='' border='0' src='https://www.paypalobjects.com/it_IT/i/scr/pixel.gif' width='1' height='1'></form>",
+      "label": "PayPal",
+      "logo_svg": "",
+      "type": "iframe",
+      "visible": true
+    },
+    {
+      "description": "Dona in modo sicuro con Stripe",
+      "id": "stripe",
+      "iframe_code": "<script async=\"\" src=\"https://js.stripe.com/v3/buy-button.js\">\n</script>\n\n<stripe-buy-button buy-button-id=\"buy_btn_1OqvfeHGNVxjVn5lhca6GQLN\" publishable-key=\"pk_live_51OquHBHGNVxjVn5lZY1yefyPrPs2W2RodcecJfTYn58487FmFmjKgNOB7jf1wCpnvzJ8Q8I2kN8ANSv0l9PSU76000jMTcgjnM\">\n</stripe-buy-button>",
+      "label": "Stripe",
+      "logo_svg": "",
+      "type": "iframe",
+      "visible": true
+    },
+    {
+      "description": "Fai un regalo dalla mia lista desideri",
+      "id": "amazon",
+      "label": "Amazon Wishlist",
+      "logo_svg": "",
+      "type": "link",
+      "url": "https://www.amazon.it/hz/wishlist/ls/...",
+      "visible": true
+    }
+  ]
 }
