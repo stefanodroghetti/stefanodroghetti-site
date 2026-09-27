@@ -89,7 +89,6 @@ productions_section = render_section('productions', f'<ul>{productions_html}    
 social_section = render_section('social', f'<ul>{social_html}            </ul>')
 
 support_section = ""
-qrcode_modals = ""
 if settings.get('support', {}).get('visible', True):
     s = settings['support']
     title = s.get('title', 'Supporta questi progetti')
@@ -110,17 +109,6 @@ if settings.get('support', {}).get('visible', True):
                     <span class="support-hint">Clicca per vedere il QR code</span>
                 </div>
             '''
-            qrcode_modals += f'''
-            <div id="modal-{item['id']}" class="qrcode-modal" onclick="closeModal('{item['id']}')">
-                <div class="modal-content" onclick="event.stopPropagation()">
-                    <button class="modal-close" onclick="closeModal('{item['id']}')">✕</button>
-                    <h3>{item.get('label', '')}</h3>
-                    <img src="{qr_image}" alt="QR Code {item.get('label')}" class="modal-qr-image">
-                    <p class="modal-instructions">Scansiona con l'app {item.get('label')} per supportare il progetto.</p>
-                    <p class="modal-mobile-hint">Sei su smartphone? Fai uno screenshot, poi apri l'app → Scansiona → Album → seleziona l'immagine.</p>
-                </div>
-            </div>
-            '''
         else:
             logo_html = f'<div class="support-logo">{item["logo_svg"]}</div>' if item.get('logo_svg') else ""
             link_url = item.get('url', '#')
@@ -136,6 +124,22 @@ if settings.get('support', {}).get('visible', True):
                 {box_content}
             </div>
         '''
+    
+    qrcode_modals = ""
+    for item in data.get('support', []):
+        if item.get('type') == 'qrcode' and item.get('visible', True):
+            qr_image = item.get('qrcode_image', '')
+            qrcode_modals += f'''
+            <div id="modal-{item['id']}" class="qrcode-modal" onclick="closeModal('{item['id']}')">
+                <div class="modal-content" onclick="event.stopPropagation()">
+                    <button class="modal-close" onclick="closeModal('{item['id']}')">✕</button>
+                    <h3>{item.get('label', '')}</h3>
+                    <img src="{qr_image}" alt="QR Code {item.get('label')}" class="modal-qr-image">
+                    <p class="modal-instructions">Scansiona con l'app {item.get('label')} per supportare il progetto.</p>
+                    <p class="modal-mobile-hint">Sei su smartphone? Fai uno screenshot, poi apri l'app → Scansiona → Album → seleziona l'immagine.</p>
+                </div>
+            </div>
+            '''
     
     support_section = f'''
         <section class="support" id="support">
