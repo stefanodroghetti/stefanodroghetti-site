@@ -80,6 +80,11 @@ def preview():
 def css():
     """Serve il CSS per l'anteprima"""
     return send_from_directory(SITE_DIR, 'style.css')
+    
+@app.route('/fonts/<path:filename>')
+def fonts(filename):
+    """Serve i font locali (.ttf)"""
+    return send_from_directory(os.path.join(SITE_DIR, 'fonts'), filename)
 
 @app.route('/favicon.png')
 def favicon():

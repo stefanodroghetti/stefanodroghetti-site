@@ -1,6 +1,47 @@
 /* Reset e Base */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* Font locali - sostituiscono Google Fonts */
+@font-face {
+    font-family: 'Dosis';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/Dosis-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Dosis';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('/fonts/Dosis-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Dosis';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('/fonts/Dosis-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Dosis';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('/fonts/Dosis-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Questrial';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/Questrial-Regular.ttf') format('truetype');
+}
+
 /* Sfondo della pagina (più scuro per creare il "frame") */
 body {
     font-family: 'Questrial', sans-serif;
@@ -363,4 +404,19 @@ li a {
 li a:hover {
     background-color: #d90429;
     color: #fff;
+}
+
+/* =========================================
+   MOBILE - Rimuove il bordo scuro
+   ========================================= */
+@media (max-width: 768px) {
+    body {
+        background-color: #f4f1ea; /* Stesso colore del main, niente più bordo */
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    
+    main {
+        padding: 2rem 1rem; /* Riduci il padding su mobile */
+    }
 }
