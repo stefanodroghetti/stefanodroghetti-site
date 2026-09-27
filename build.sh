@@ -40,13 +40,17 @@ productions_html = render_list(data.get('productions', []))
 social_html = render_list(data.get('social', []))
 support_html = render_list(data.get('support', []))
 
+# Genera i prompt con titolo, descrizione e box
 prompts_html = ""
 for p in data.get('ai_prompts', []):
     title = p.get('title', 'Prompt') if isinstance(p, dict) else 'Prompt'
+    desc = p.get('description', '') if isinstance(p, dict) else ''
     text = p.get('prompt', p) if isinstance(p, dict) else p
+    desc_html = f'<p class="prompt-desc">{desc}</p>' if desc else ''
     prompts_html += f'''
     <div class="prompt-item">
         <h3>{title}</h3>
+        {desc_html}
         <div class="prompt-box"><code>{text}</code></div>
     </div>
     '''
@@ -64,7 +68,8 @@ for event in data.get('events', []):
 
 recommended_html = ""
 for link in data.get('recommended_links', []):
-    recommended_html += f'                <li><a href="{link["url"]}" target="_blank" rel="noopener">{link["name"]}</a> - {link["description"]}</li>\n'
+	if link.get('visible', True):
+		recommended_html += f'                <li><a href="{link["url"]}" target="_blank" rel="noopener">{link["name"]}</a> - {link["description"]}</li>\n'
 
 def render_section(section_key, content_html):
     s = settings.get(section_key, {})
@@ -79,11 +84,8 @@ def render_section(section_key, content_html):
             {content_html}
         </section>'''
 
-manifesto_section = render_section('manifesto', f'''
-            <p>{data["manifesto"]["intro"]}</p>
-            <p>{data["manifesto"]["linux"]}</p>
-            <p>{data["manifesto"]["ai_note"]}</p>
-            {prompts_html}''') if settings.get('manifesto', {}).get('visible', True) else ''
+# La sezione "manifesto" ora contiene solo i prompt
+manifesto_section = render_section('manifesto', prompts_html)
 
 productions_section = render_section('productions', f'<ul>{productions_html}            </ul>')
 social_section = render_section('social', f'<ul>{social_html}            </ul>')
@@ -155,7 +157,6 @@ nav_html = f'''            <nav class="site-nav">
             </nav>
 '''
 
-# JavaScript con doppi apici per evitare conflitti con Python
 js_code = """
 <script>
 const navLinks = document.querySelectorAll(".site-nav a");
@@ -211,17 +212,14 @@ html = f'''<!DOCTYPE html>
             <p class="age">Oggi ho {age} anni.</p>
         </section>
         
-        <div class="layout">
-            {nav_html}
-            <div class="content">
-                {manifesto_section}
-                {productions_section}
-                {social_section}
-                {events_section}
-                {recommended_section}
-                {support_section}
-            </div>
-        </div>
+        {nav_html}
+
+        {manifesto_section}
+        {productions_section}
+        {social_section}
+        {events_section}
+        {support_section}
+        {recommended_section}
 
         <footer>
             <p>{data["site"]["footer"]}</p>

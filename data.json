@@ -1,74 +1,103 @@
 {
   "ai_prompts": [
     {
-      "prompt": "Vorrei produrre audio su Ubuntu LTS con una DAW libera e open source, con effetti liberi per [descrivi cosa vuoi fare].",
+      "description": "Come produrre audio con una DAW ed effetti liberi su Ubuntu.",
+      "prompt": "Vorrei produrre audio e musica su Ubuntu (l'LTS più recente) con una DAW libera e open source, con effetti liberi per gestire strumenti, MIDI, soundfont e così via. Vorrei che mi aiutassi a installare lo stato dell'arte per i migliori vst2, vst3, ladspa, lv2 e qualsiasi altra cosa che funzioni nativamente su Ubuntu, anche aggiungendo repository di terze parti basta che siano ben mantenuti e che non facciano conflitto ad oggi. Vorrei che configurassi il sistema con cose come jack o qualsiasi cosa di simile ad oggi, ma che sia possibile usarla assieme all'audio normale, per esempio con pipewire e wireplumber (ma se è uscito qualcosa di meglio e più pratico, da' la priorità allo stato dell'arte). Per ora installa le cose principali (riverberi, eq, compressori, buoni strumenti dall'orchestra ai synth eccetera), poi ti chiederò man mano che avrò certe esigenze.",
       "title": "Produzione musicale su Linux"
     },
     {
-      "prompt": "Come installo Ubuntu (ultima LTS) in affiancamento su un PC con [RAM, CPU, GPU] e [OS attuale] senza perdere dati?",
-      "title": "Installazione Ubuntu in affiancamento"
+      "description": "Dual boot senza perdere dati",
+      "prompt": "Aiutami a installare Ubuntu (ultima LTS) in affiancamento su un PC con [scrivere qui la vostra RAM, CPU, GPU] e [scrivere qui a quale sistema operativo volete affiancare Ubuntu] senza perdere dati, cioè facendo un backup solido.",
+      "title": "Installazione Ubuntu da zero"
     },
     {
-      "prompt": "Sono un videomaker, vorrei montare video su Linux usando software open source per [tuo obiettivo].",
-      "title": "Video editing open source"
+      "description": "Montare video con software libero e non, purché gratis",
+      "prompt": "Sono un videomaker, vorrei montare video su Linux usando software open source per montaggio, color correction e tutto ciò che fanno i più importanti software commerciali. Insegnami anche a installare la versione gratuita di Davinci Resolve su Ubuntu, che richiede particolari procedure, e scrivimi come trasformare il footage iniziale in file leggibili da DaVinci Resolve per Linux.",
+      "title": "Video editing open source o comunque gratis"
+    },
+    {
+      "description": "Ubuntu da zero senza perdere dati",
+      "prompt": "Aiutami a fare un backup dei dati del sistema operativo che ho adesso ([scrivere qui quale sistema operativo e quale versione si ha]) dopodiché insegnami a canecllare tutto il disco e metterci su Ubuntu (ultima LTS).",
+      "title": "Installazione Ubuntu da zero"
     }
   ],
   "events": [
     {
-      "date": "2026-10-15",
-      "description": "Mi troverete allo stand X con il mio setup di quiz interattivi.",
-      "title": "Esempio evento futuro",
+      "date": "2026-10-10",
+      "description": "Mi troverete allo stand del Ferrara Linux User Group con il mio setup di quiz interattivi, in Piazza Ariostea dalle 8:30 alle 18:30 a Ferrara",
+      "title": "Festa del volontariato a Ferrara",
+      "type": "future"
+    },
+    {
+      "date": "2026-10-24",
+      "description": "Alle 9 presso il Centro Sociale \"Il Melo\" a Ferrara. Io curerò la diretta e la regia, e parteciperò con un mio intervento sull'uso sostenibile e umano - se esiste - dell'AI. Tutti i dettagli qui: <a href=\"https://linuxday.ferrara.linux.it/\" target=\"_blank\">linuxday.ferrara.linux.it</a>",
+      "title": "Linux Day 2026 a Ferrara",
       "type": "future"
     }
   ],
-  "manifesto": {
-    "ai_note": "Le guide che c'erano nel sito non sono più attuali: oggi basta chiedere all'AI. Ecco alcuni prompt utili:",
-    "intro": "Tutto quello che c'è in questo sito l'ho fatto io.",
-    "linux": "Usando Linux come unico sistema operativo e cercando di usare il più possibile software libero."
-  },
   "productions": [
     {
       "id": "yt_channel",
-      "label": "Canale YouTube",
+      "label": "Il mio canale YouTube",
       "url": "https://www.youtube.com/@StefanoDroghetti",
       "visible": true
     },
     {
       "id": "yt_videos",
-      "label": "I miei video",
+      "label": "I miei video, e i video di terze parti che parlano di me",
       "url": "https://www.youtube.com/playlist?list=PL4222A127D90E5175",
       "visible": true
     },
     {
       "id": "yt_songs",
-      "label": "Le mie canzoni",
+      "label": "Le mie canzoni (testo e musica miei al 100%)",
       "url": "https://www.youtube.com/playlist?list=PL31A48F2BF3DDA3BD",
       "visible": true
     },
     {
       "id": "yt_ai",
-      "label": "Canzoni in tante lingue (AI)",
+      "label": "ALAiN ZEDONG Music (è uno pseudonimo sotto il quale rilascio canzoni che partono da idee di testo e di musica mie ma che poi faccio realizzare largamente a varie intelligenze artificiali)",
       "url": "https://www.youtube.com/playlist?list=PL7z8RFuP5Euamiif9M9tEkF4ukSPasVvn",
       "visible": true
     },
     {
-      "id": "sc_main",
-      "label": "SoundCloud (principale)",
-      "url": "https://soundcloud.com/stefano-droghetti/sets/stefano-droghetti",
+      "id": "sc_fidel",
+      "label": "Fidel Custom (pseudonimo sotto il quale rilascio canzoni in italiano il cui testo è mio al 100% ma la cui musica è largamente inventata e arrangiata da varie intelligenze artificiali)",
+      "url": "https://soundcloud.com/fidel-custom",
       "visible": true
     },
     {
-      "id": "sc_fidel",
-      "label": "Fidel Custom (canzoni in italiano con AI)",
-      "url": "https://soundcloud.com/fidel-custom",
+      "id": "sc_main",
+      "label": "le mie canzoni su SoundCloud (principale)",
+      "url": "https://soundcloud.com/stefano-droghetti/sets/stefano-droghetti",
       "visible": true
     }
   ],
   "recommended_links": [
     {
-      "description": "Breve motivo per cui lo adoro.",
-      "name": "Esempio canale YouTube",
-      "url": "https://youtube.com/@esempio"
+      "description": "Un'associazione di utilizzatori di mezzi elettrici a Ferrara. Per diffondere anche nella mia città la cultura dell'auto elettrica e per mettere in contatto chi come me si trova così bene in questo nuovo mondo silenzioso, pulito e tecnologico",
+      "name": "E-Drivers Ferrara",
+      "url": "https://www.e-drivers-ferrara.it/"
+    },
+    {
+      "description": "Adorabile influencer italo-cinese che vi spiega con umorismo e poesia curiosità uniche sulla lingua e la cultura cinese",
+      "name": "L'Urlo di Chen",
+      "url": "https://www.instagram.com/lurlo.di.chen/"
+    },
+    {
+      "description": "Il LUG ferrarese, tenuto in piedi da eroici nerd strenui difensori dei diritti digitali, a cui mi picco di appartenere da svariati decenni",
+      "name": "Ferrara linux User Group",
+      "url": "https://www.ferrara.linux.it/"
+    },
+    {
+      "description": "Associazione di amanti della cultura cinese, con sede a Bologna, con forti legami accademici con la Cina e con l'Università di Bologna, che organizza sempre eventi interessantissimi e pure un circolo di lettura di libri cinesi tradotti in italiano presso la libreria \"La confraternita dell'uva\", a cui cerco di partecipare quando posso.",
+      "name": "Associazione Sinomondi",
+      "url": "https://www.sinomondi.org/"
+    },
+    {
+      "description": "Yan è una travel vlogger cinese che ci porta a visitare i posti più veri, sorprendenti e umani della Cina rurale e sconosciuta. Il suo dottorato in Geografia Turistica le permette un livello di competenza rarissimo per questo genere di video, e la sua personalità leggera, serena e profonda rende il suo canale probabilmente quanto di meglio sia mai stato prodotto su Youtube su questo argomento. È tutto parlato in inglese e il cinese ambientale è tradotto in inglese. I sottotitoli sono anche traducibili in italiano.",
+      "name": "Little Chinese Everywhere",
+      "url": "https://www.youtube.com/@littlechineseeverywhere/videos"
     }
   ],
   "section_settings": {
@@ -78,7 +107,7 @@
       "visible": true
     },
     "manifesto": {
-      "description": "In questa sezione trovi tutte le istruzioni per capire come muoverti nel nuovo sito",
+      "description": "Dopo quasi vent'anni di onorata carriera, posso finalmente lasciare a divulgatrici e divulgatori molto più esperti di me il compito di seguirvi passo passo nella realizzazione di ciò che le mie guide vi aiutavano a installare e configurare. Queste figure così competenti si chiamano \"intelligenze artificiali\" e sono davvero molto migliori degli umani nello spiegarvi punto per punto che cosa fare e perché, per ogni vostra esigenza. Sono pazienti, se non capite ripetono in altre parole, vi correggono gli errori, se il terminale vi restituisce qualcosa di inaspettato voi copincollate l'errore e loro vi dicono che cosa fare... Un paradiso.\nQuello che cambia, il fattore umano, quello personale, è l'esperienza, è il gusto personale, che si riflette nel prompt. In questa sezione quindi vi suggerisco che cosa chiedere a un'AI gratuita con una finestra di contesto abbastanza ampia (al momento vi consiglio Qwen Studio) o una che pagate, per ottenere assistenza.",
       "title": "Dove sono le guide?",
       "visible": true
     },
@@ -98,16 +127,16 @@
       "visible": true
     },
     "support": {
-      "description": "Se vuoi supportare il mio lavoro, ringraziarmi o semplicemente offrirmi un caffè:",
-      "title": "Supporta il mio lavoro",
+      "description": "Se vuoi supportare tutto ciò, o anche soltanto ringraziarmi od offrirmi un caffè, o anche regalare un attimo di sospensione alla mia cronica mancanza di autostima, in questa sezione trovi una serie di metodi sicuri e certificati per farlo. ",
+      "title": "Supporta questi progetti",
       "visible": true
     }
   },
   "site": {
-    "bio_placeholder": "Ciao! Davvero, qualunque cosa ti ci abbia portato, mi fa un sacco piacere che tu sia qui.\n\nConsidera questo posto come un piccolo quaderno aperto: sulla carta dovrebbe occuparsi solo di informatica, ma il codice non è certo una fede, è solo un ottimo mezzo per fare cose utili. Quindi qui troverai materiali e spunti alla rinfusa per suonare, montare video e creare roba cercando di usare meno tecnologie proprietarie possibili. Insomma, strumenti liberi come Linux, l'open source, le licenze Creative Commons e così via.\n\nPoi c'è tutto il resto, ed è parecchio disordinato. Questo sito nasce dall'esperienza di una vita passata (o sprecata?) a:\n• cercare il punto di contatto tra la precisione della scienza e la stramberia dell'arte, della poesia, del cinema o di una battuta di stand-up comedy fatta bene\n• curiosare su come comunichiamo (da un film di Tarkovskij a un action di Hong Kong, da un meme esilarante a un romanzo di Pavese, da un linguaggio di programmazione al linguaggio degli animali)\n• adorare la cultura cinese e finire sempre per viaggiare in posti tropicali in cui crogiolarsi nei \"bassifondi dell'immensità\" (cit.)\n• perdersi in qualche storia strana del passato e cercare di fare scelte un po' più ecologiche ogni giorno\n\nEcco perché qui non ci sono certo pretese di risposte definitive, ma al contrario tantissima curiosità e la voglia di ridere dei propri dubbi. Dai un'occhiata in giro, e se trovi uno spunto carino o anche solo una scusa per fare due chiacchiere, ne sono felice.",
+    "bio_placeholder": "Ciao! Davvero, qualunque cosa ti ci abbia portato, mi fa un sacco piacere che tu sia qui.\n\nConsidera questo posto come un piccolo quaderno aperto: sulla carta dovrebbe occuparsi solo di informatica, ma il codice non è certo una fede, è solo un ottimo mezzo per fare cose utili. Quindi qui troverai materiali e spunti alla rinfusa per suonare, montare video e creare cercando di usare meno tecnologie proprietarie possibili. Insomma, strumenti liberi come Linux, l'open source, le licenze Creative Commons e così via.\n\nPoi c'è tutto il resto, ed è parecchio disordinato. Questo sito nasce dall'esperienza di una vita passata (o sprecata?) a:\n• cercare il punto di contatto tra la precisione della scienza e la stramberia dell'arte, della poesia, del cinema o di una battuta di stand-up comedy fatta bene\n• curiosare su come comunichiamo (da un film di Tarkovskij a un action di Hong Kong, da un meme esilarante a un romanzo di Pavese, da un linguaggio di programmazione al linguaggio degli animali)\n• adorare la cultura cinese e finire sempre per viaggiare in posti tropicali in cui crogiolarsi nei \"bassifondi dell'immensità\" (cit.)\n• perdersi in qualche storia strana del passato e cercare di fare scelte un po' più ecologiche ogni giorno\n\nEcco perché qui non ci sono certo pretese di risposte definitive, ma al contrario tantissima curiosità e la voglia di ridere dei propri dubbi. Dai un'occhiata in giro, e se trovi uno spunto carino o anche solo una scusa per fare due chiacchiere, ne sono felice.",
     "birth_date": "1972-09-25",
     "footer": "Fatto con ❤️, Linux e software libero.",
-    "tagline": "Il software libero per condividere, sperimentare e creare musica, video e idee.",
+    "tagline": "Software libero per condividere, sperimentare e creare musica, video e idee.",
     "title": "Stefano Droghetti"
   },
   "social": [
@@ -176,7 +205,7 @@
       "label": "Amazon Wishlist",
       "logo_svg": "",
       "type": "link",
-      "url": "https://www.amazon.it/hz/wishlist/ls/TUO_LINK",
+      "url": "https://www.amazon.it/hz/wishlist/ls/3HHKM0MTD4GFQ?ref_=wl_share",
       "visible": true
     }
   ]

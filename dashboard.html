@@ -1,158 +1,73 @@
+cat << 'EOF' > dashboard.html
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - stefanodroghetti.it</title>
-<style>
-    /* Reset e base stile IDE Chiaro */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-        font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-        font-size: 14px; /* Leggermente più grande */
-        background-color: #f0f4f8; /* Grigio-bluastro freddo (tecnico) */
-        color: #1e293b; /* Testo scuro ma non nero puro */
-        line-height: 1.5;
-        padding: 1rem;
-    }
-
-    /* Header fisso in alto */
-    .sticky-controls {
-        position: fixed; top: 0; left: 0; right: 0;
-        background-color: #e2e8f0; /* Grigio tecnico */
-        padding: 0.6rem 1rem;
-        display: flex; gap: 0.5rem;
-        z-index: 1000;
-        border-bottom: 1px solid #cbd5e1;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-    .sticky-controls button {
-        padding: 0.5rem 1rem; font-size: 13px; font-family: inherit; font-weight: 600;
-        background-color: #334155; color: #fff; border: none; cursor: pointer;
-        border-radius: 2px;
-    }
-    .sticky-controls button.success { background-color: #0f766e; } /* Verde petrolio */
-    .sticky-controls button.secondary { background-color: #fff; color: #334155; border: 1px solid #94a3b8; }
-    .sticky-controls button:hover { opacity: 0.9; transform: translateY(-1px); }
-
-    header.page-header { margin-top: 3.5rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid #cbd5e1; }
-    header.page-header h1 { font-size: 1.4rem; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; }
-    header.page-header .subtitle { font-size: 12px; color: #64748b; margin-top: 0.2rem; }
-
-    /* Layout a due colonne */
-    .main-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1rem; }
-    @media (max-width: 1024px) { .main-layout { grid-template-columns: 1fr; } }
-
-    /* Pannelli (Sezioni) */
-    .section {
-        background-color: #ffffff; /* Pannelli bianchi */
-        border: 1px solid #cbd5e1;
-        border-radius: 4px;
-        padding: 1.2rem;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    }
-    .section h2 {
-        font-size: 12px; text-transform: uppercase; color: #0f172a;
-        margin-bottom: 1rem; letter-spacing: 1px; font-weight: 700;
-        border-bottom: 2px solid #3b82f6; /* Accento blu tecnico */
-        padding-bottom: 0.4rem;
-    }
-
-    /* Campi di input */
-    .field { margin-bottom: 1rem; }
-    label { display: block; font-size: 12px; color: #475569; margin-bottom: 0.3rem; font-weight: 600; }
-    input[type="text"], input[type="number"], input[type="date"], textarea, select {
-        width: 100%; padding: 0.5rem;
-        background-color: #f8fafc; color: #1e293b;
-        border: 1px solid #cbd5e1; font-family: inherit; font-size: 13px;
-        border-radius: 3px;
-    }
-    input:focus, textarea:focus, select:focus { outline: none; border-color: #3b82f6; background-color: #fff; }
-    textarea { resize: vertical; min-height: 70px; }
-
-    /* Elementi lista */
-    .array-item {
-        background-color: #f8fafc; border: 1px solid #e2e8f0;
-        padding: 1rem; margin-bottom: 1rem; position: relative; border-radius: 3px;
-    }
-    .array-item .controls-row { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.8rem; }
-    .array-item .move-btn, .array-item .remove-btn {
-        background: #e2e8f0; color: #475569; border: 1px solid #cbd5e1;
-        padding: 0.3rem 0.6rem; font-size: 12px; cursor: pointer; border-radius: 2px;
-    }
-    .array-item .remove-btn { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
-    .add-btn {
-        background: transparent; color: #3b82f6; border: 1px dashed #3b82f6;
-        padding: 0.5rem; font-size: 12px; cursor: pointer; width: 100%; margin-top: 0.5rem; border-radius: 3px;
-    }
-    .add-btn:hover { background: #eff6ff; }
-
-    /* Checkbox */
-    .checkbox-label { display: flex; align-items: center; gap: 0.5rem; font-size: 13px; color: #334155; cursor: pointer; }
-    .checkbox-label input { width: auto; }
-
-    /* Status messages */
-    .status { padding: 0.6rem; margin-bottom: 1rem; font-size: 13px; display: none; border-radius: 3px; }
-    .status.success { background-color: #ecfdf5; color: #065f46; border-left: 3px solid #10b981; display: block; }
-    .status.error { background-color: #fef2f2; color: #991b1b; border-left: 3px solid #ef4444; display: block; }
-    .status.info { background-color: #eff6ff; color: #1e40af; border-left: 3px solid #3b82f6; display: block; }
-
-    /* Preview Container */
-    .preview-container {
-        position: sticky; top: 3.5rem; height: calc(100vh - 4.5rem);
-        background-color: #fff; border: 1px solid #cbd5e1; border-radius: 4px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    }
-    .preview-header {
-        background-color: #1e293b; color: #f8fafc;
-        padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center;
-        position: sticky; top: 0; z-index: 1001;
-    }
-    .preview-header h3 { font-size: 13px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
-    .preview-header button {
-        background: #334155; color: #f8fafc; border: 1px solid #475569;
-        padding: 0.3rem 0.6rem; font-size: 12px; cursor: pointer; border-radius: 2px;
-    }
-    .preview-header button:hover { background: #475569; }
-    .preview-container iframe { width: 100%; height: calc(100% - 2.2rem); border: none; background: #fff; }
-
-    /* Modal */
-    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(2px); }
-    .modal-overlay.active { display: flex; }
-    .modal { background: #fff; padding: 2rem; border: 1px solid #cbd5e1; border-radius: 6px; max-width: 600px; width: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-    .modal h3 { color: #0f172a; font-size: 16px; margin-bottom: 1rem; font-weight: 700; }
-    .modal pre { background: #f1f5f9; padding: 1rem; color: #334155; font-family: inherit; font-size: 13px; border: 1px solid #e2e8f0; border-radius: 3px; }
-    .modal button { margin-top: 1rem; margin-right: 0.5rem; padding: 0.5rem 1rem; font-size: 13px; cursor: pointer; border: none; border-radius: 3px; }
-    .modal .copy-btn { background: #0f766e; color: #fff; }
-    .modal .close-btn { background: #e2e8f0; color: #475569; }
-    
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-</style>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 14px; background-color: #f0f4f8; color: #1e293b; line-height: 1.5; padding: 1rem; }
+        .sticky-controls { position: fixed; top: 0; left: 0; right: 0; background-color: #e2e8f0; padding: 0.6rem 1rem; display: flex; gap: 0.5rem; z-index: 1000; border-bottom: 1px solid #cbd5e1; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .sticky-controls button { padding: 0.5rem 1rem; font-size: 13px; font-family: inherit; font-weight: 600; background-color: #334155; color: #fff; border: none; cursor: pointer; border-radius: 2px; }
+        .sticky-controls button.success { background-color: #0f766e; }
+        .sticky-controls button.secondary { background-color: #fff; color: #334155; border: 1px solid #94a3b8; }
+        .sticky-controls button:hover { opacity: 0.9; transform: translateY(-1px); }
+        header.page-header { margin-top: 3.5rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid #cbd5e1; }
+        header.page-header h1 { font-size: 1.4rem; color: #0f172a; font-weight: 700; }
+        header.page-header .subtitle { font-size: 12px; color: #64748b; margin-top: 0.2rem; }
+        .main-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1rem; }
+        @media (max-width: 1024px) { .main-layout { grid-template-columns: 1fr; } }
+        .section { background-color: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; padding: 1.2rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .section h2 { font-size: 12px; text-transform: uppercase; color: #0f172a; margin-bottom: 1rem; letter-spacing: 1px; font-weight: 700; border-bottom: 2px solid #3b82f6; padding-bottom: 0.4rem; }
+        .field { margin-bottom: 1rem; }
+        label { display: block; font-size: 12px; color: #475569; margin-bottom: 0.3rem; font-weight: 600; }
+        input[type="text"], input[type="number"], input[type="date"], textarea, select { width: 100%; padding: 0.5rem; background-color: #f8fafc; color: #1e293b; border: 1px solid #cbd5e1; font-family: inherit; font-size: 13px; border-radius: 3px; }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: #3b82f6; background-color: #fff; }
+        textarea { resize: vertical; min-height: 70px; }
+        .array-item { background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 1rem; margin-bottom: 1rem; position: relative; border-radius: 3px; }
+        .array-item .controls-row { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.8rem; }
+        .array-item .move-btn, .array-item .remove-btn { background: #e2e8f0; color: #475569; border: 1px solid #cbd5e1; padding: 0.3rem 0.6rem; font-size: 12px; cursor: pointer; border-radius: 2px; }
+        .array-item .remove-btn { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
+        .add-btn { background: transparent; color: #3b82f6; border: 1px dashed #3b82f6; padding: 0.5rem; font-size: 12px; cursor: pointer; width: 100%; margin-top: 0.5rem; border-radius: 3px; }
+        .add-btn:hover { background: #eff6ff; }
+        .checkbox-label { display: flex; align-items: center; gap: 0.5rem; font-size: 13px; color: #334155; cursor: pointer; }
+        .checkbox-label input { width: auto; }
+        .status { padding: 0.6rem; margin-bottom: 1rem; font-size: 13px; display: none; border-radius: 3px; }
+        .status.success { background-color: #ecfdf5; color: #065f46; border-left: 3px solid #10b981; display: block; }
+        .status.error { background-color: #fef2f2; color: #991b1b; border-left: 3px solid #ef4444; display: block; }
+        .status.info { background-color: #eff6ff; color: #1e40af; border-left: 3px solid #3b82f6; display: block; }
+        .preview-container { position: sticky; top: 3.5rem; height: calc(100vh - 4.5rem); background-color: #fff; border: 1px solid #cbd5e1; border-radius: 4px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .preview-header { background-color: #1e293b; color: #f8fafc; padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1001; }
+        .preview-header h3 { font-size: 13px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+        .preview-header button { background: #334155; color: #f8fafc; border: 1px solid #475569; padding: 0.3rem 0.6rem; font-size: 12px; cursor: pointer; border-radius: 2px; }
+        .preview-header button:hover { background: #475569; }
+        .preview-container iframe { width: 100%; height: calc(100% - 2.2rem); border: none; background: #fff; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(2px); }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; padding: 2rem; border: 1px solid #cbd5e1; border-radius: 6px; max-width: 600px; width: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .modal h3 { color: #0f172a; font-size: 16px; margin-bottom: 1rem; font-weight: 700; }
+        .modal pre { background: #f1f5f9; padding: 1rem; color: #334155; font-family: inherit; font-size: 13px; border: 1px solid #e2e8f0; border-radius: 3px; }
+        .modal button { margin-top: 1rem; margin-right: 0.5rem; padding: 0.5rem 1rem; font-size: 13px; cursor: pointer; border: none; border-radius: 3px; }
+        .modal .copy-btn { background: #0f766e; color: #fff; }
+        .modal .close-btn { background: #e2e8f0; color: #475569; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    </style>
 </head>
 <body>
-
-    <!-- Header fisso con controlli sempre visibili -->
     <div class="sticky-controls">
-        <button onclick="saveData()" class="success"> Salva</button>
+        <button onclick="saveData()" class="success">💾 Salva</button>
         <button onclick="runBuild()" class="secondary">🔨 Build</button>
         <button onclick="showDeployModal()" class="secondary">🚀 Pubblica</button>
         <button onclick="openLiveSite()" class="secondary">🌐 Live</button>
     </div>
 
-    <header>
-        <div><h1>🛠️ Dashboard</h1><p class="subtitle">stefanodroghetti.it</p></div>
+    <header class="page-header">
+        <h1>🛠️ Dashboard</h1>
+        <p class="subtitle">stefanodroghetti.it</p>
     </header>
-    <div id="status" class="status"></div>
 
-    <!-- non più utili da quando abbiamo messo i pulsanti nell'header
-    <div class="controls">
-        <button onclick="saveData()" class="success">💾 Salva modifiche</button>
-        <button onclick="runBuild()" class="secondary">🔨 Lancia build</button>
-        <button onclick="showDeployModal()" class="secondary">🚀 Pubblica</button>
-        <button onclick="openLiveSite()" class="secondary">🌐 Apri sito live</button>
-    </div>
-    -->
+    <div id="status" class="status"></div>
 
     <div class="main-layout">
         <div id="editor">
@@ -167,67 +82,29 @@
 
             <div class="section">
                 <h2>Impostazioni Sezioni</h2>
-                
-                <div class="field">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="manifesto-visible" onchange="updateSectionSetting('manifesto', 'visible', this.checked)">
-                        Mostra sezione Manifesto
-                    </label>
-                </div>
-                <div class="field"><label>Titolo Manifesto</label><input type="text" id="title-manifesto" onchange="updateSectionSetting('manifesto', 'title', this.value)"></div>
-                <div class="field"><label>Descrizione Manifesto (opzionale)</label><textarea id="desc-manifesto" onchange="updateSectionSetting('manifesto', 'description', this.value)"></textarea></div>
+                <div class="field"><label class="checkbox-label"><input type="checkbox" id="manifesto-visible" onchange="updateSectionSetting('manifesto', 'visible', this.checked)"> Mostra sezione Prompt AI</label></div>
+                <div class="field"><label>Titolo sezione</label><input type="text" id="title-manifesto" onchange="updateSectionSetting('manifesto', 'title', this.value)"></div>
+                <div class="field"><label>Descrizione sezione (opzionale)</label><textarea id="desc-manifesto" onchange="updateSectionSetting('manifesto', 'description', this.value)"></textarea></div>
 
-                <div class="field">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="productions-visible" onchange="updateSectionSetting('productions', 'visible', this.checked)">
-                        Mostra sezione Produzioni
-                    </label>
-                </div>
+                <div class="field"><label class="checkbox-label"><input type="checkbox" id="productions-visible" onchange="updateSectionSetting('productions', 'visible', this.checked)"> Mostra sezione Produzioni</label></div>
                 <div class="field"><label>Titolo Produzioni</label><input type="text" id="title-productions" onchange="updateSectionSetting('productions', 'title', this.value)"></div>
                 <div class="field"><label>Descrizione Produzioni (opzionale)</label><textarea id="desc-productions" onchange="updateSectionSetting('productions', 'description', this.value)"></textarea></div>
 
-                <div class="field">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="social-visible" onchange="updateSectionSetting('social', 'visible', this.checked)">
-                        Mostra sezione Social
-                    </label>
-                </div>
+                <div class="field"><label class="checkbox-label"><input type="checkbox" id="social-visible" onchange="updateSectionSetting('social', 'visible', this.checked)"> Mostra sezione Social</label></div>
                 <div class="field"><label>Titolo Social</label><input type="text" id="title-social" onchange="updateSectionSetting('social', 'title', this.value)"></div>
                 <div class="field"><label>Descrizione Social (opzionale)</label><textarea id="desc-social" onchange="updateSectionSetting('social', 'description', this.value)"></textarea></div>
 
-                <div class="field">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="support-visible" onchange="updateSectionSetting('support', 'visible', this.checked)">
-                        Mostra sezione Supporto
-                    </label>
-                </div>
+                <div class="field"><label class="checkbox-label"><input type="checkbox" id="support-visible" onchange="updateSectionSetting('support', 'visible', this.checked)"> Mostra sezione Supporto</label></div>
                 <div class="field"><label>Titolo Supporto</label><input type="text" id="title-support" onchange="updateSectionSetting('support', 'title', this.value)"></div>
                 <div class="field"><label>Descrizione Supporto (opzionale)</label><textarea id="desc-support" onchange="updateSectionSetting('support', 'description', this.value)"></textarea></div>
 
-                <div class="field">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="events-visible" onchange="updateSectionSetting('events', 'visible', this.checked)">
-                        Mostra sezione Eventi
-                    </label>
-                </div>
+                <div class="field"><label class="checkbox-label"><input type="checkbox" id="events-visible" onchange="updateSectionSetting('events', 'visible', this.checked)"> Mostra sezione Eventi</label></div>
                 <div class="field"><label>Titolo Eventi</label><input type="text" id="title-events" onchange="updateSectionSetting('events', 'title', this.value)"></div>
                 <div class="field"><label>Descrizione Eventi (opzionale)</label><textarea id="desc-events" onchange="updateSectionSetting('events', 'description', this.value)"></textarea></div>
 
-                <div class="field">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="recommended-visible" onchange="updateSectionSetting('recommended', 'visible', this.checked)">
-                        Mostra sezione Link Consigliati
-                    </label>
-                </div>
+                <div class="field"><label class="checkbox-label"><input type="checkbox" id="recommended-visible" onchange="updateSectionSetting('recommended', 'visible', this.checked)"> Mostra sezione Link Consigliati</label></div>
                 <div class="field"><label>Titolo Link Consigliati</label><input type="text" id="title-recommended" onchange="updateSectionSetting('recommended', 'title', this.value)"></div>
                 <div class="field"><label>Descrizione Link Consigliati (opzionale)</label><textarea id="desc-recommended" onchange="updateSectionSetting('recommended', 'description', this.value)"></textarea></div>
-            </div>
-
-            <div class="section">
-                <h2>Manifesto</h2>
-                <div class="field"><label>Intro</label><textarea id="manifesto-intro" onchange="updateSimpleField('manifesto', 'intro', this.value)"></textarea></div>
-                <div class="field"><label>Linux</label><textarea id="manifesto-linux" onchange="updateSimpleField('manifesto', 'linux', this.value)"></textarea></div>
-                <div class="field"><label>Nota AI</label><textarea id="manifesto-ai-note" onchange="updateSimpleField('manifesto', 'ai_note', this.value)"></textarea></div>
             </div>
 
             <div class="section">
@@ -251,7 +128,7 @@
             <div class="section">
                 <h2>Supporto</h2>
                 <div id="support-list"></div>
-                <button class="add-btn" onclick="addItem('support', {id: 'new', label: 'Nuovo metodo', type: 'link', url: 'https://', description: '', logo_svg: '', visible: true})">+ Aggiungi supporto</button>
+                <button class="add-btn" onclick="addSupport()">+ Aggiungi supporto</button>
             </div>
 
             <div class="section">
@@ -268,13 +145,13 @@
         </div>
 
         <div class="preview-container">
-			<div class="preview-header">
-				<h3>👁️ Anteprima sito</h3>
-				<div style="display: flex; gap: 0.5rem;">
-					<button onclick="refreshPreview()" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">🔄 Aggiorna</button>
-					<button onclick="openPreviewNewTab()" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">🔗 Nuova scheda</button>
-				</div>
-			</div>
+            <div class="preview-header">
+                <h3>👁️ Anteprima sito</h3>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button onclick="refreshPreview()" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">🔄 Aggiorna</button>
+                    <button onclick="openPreviewNewTab()" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;"> Nuova scheda</button>
+                </div>
+            </div>
             <iframe id="preview-frame" src="/preview"></iframe>
         </div>
     </div>
@@ -306,55 +183,85 @@ git push</pre>
             try {
                 const response = await fetch('/api/data');
                 jsonData = await response.json();
-                // Piccolo delay per assicurarsi che il DOM sia pronto
-                setTimeout(() => {
-                    populateForm();
-                    showStatus('✅ Dati caricati!', 'success');
-                }, 100);
-            } catch (err) {
-                showStatus('❌ Errore caricamento', 'error');
-            }
+                setTimeout(() => { populateForm(); showStatus('✅ Dati caricati!', 'success'); }, 100);
+            } catch (err) { showStatus(' Errore caricamento', 'error'); }
         }
 
-		function populateForm() {
-			document.getElementById('site-title').value = jsonData.site.title || '';
-			document.getElementById('site-tagline').value = jsonData.site.tagline || '';
-			document.getElementById('site-bio').value = jsonData.site.bio_placeholder || '';
-			document.getElementById('site-birth-date').value = jsonData.site.birth_date || '';
-			document.getElementById('site-footer').value = jsonData.site.footer || '';
-			
-			// Impostazioni sezioni (nuova struttura)
-			const sections = ['manifesto', 'productions', 'social', 'support', 'events', 'recommended'];
-			sections.forEach(section => {
-				const s = jsonData.section_settings?.[section] || {};
-				const visibleEl = document.getElementById(`${section}-visible`);
-				const titleEl = document.getElementById(`title-${section}`);
-				const descEl = document.getElementById(`desc-${section}`);
-				if (visibleEl) visibleEl.checked = s.visible !== false;
-				if (titleEl) titleEl.value = s.title || '';
-				if (descEl) descEl.value = s.description || '';
-			});
+        function populateForm() {
+            document.getElementById('site-title').value = jsonData.site.title || '';
+            document.getElementById('site-tagline').value = jsonData.site.tagline || '';
+            document.getElementById('site-bio').value = jsonData.site.bio_placeholder || '';
+            document.getElementById('site-birth-date').value = jsonData.site.birth_date || '';
+            document.getElementById('site-footer').value = jsonData.site.footer || '';
+            
+            const sections = ['manifesto', 'productions', 'social', 'support', 'events', 'recommended'];
+            sections.forEach(section => {
+                const s = jsonData.section_settings?.[section] || {};
+                const visibleEl = document.getElementById(`${section}-visible`);
+                const titleEl = document.getElementById(`title-${section}`);
+                const descEl = document.getElementById(`desc-${section}`);
+                if (visibleEl) visibleEl.checked = s.visible !== false;
+                if (titleEl) titleEl.value = s.title || '';
+                if (descEl) descEl.value = s.description || '';
+            });
 
-			// Manifesto
-			document.getElementById('manifesto-intro').value = jsonData.manifesto.intro || '';
-			document.getElementById('manifesto-linux').value = jsonData.manifesto.linux || '';
-			document.getElementById('manifesto-ai-note').value = jsonData.manifesto.ai_note || '';
-
-			// Liste
-			renderPrompts();
-			renderListWithControls('productions-list', jsonData.productions, 'productions');
-			renderListWithControls('social-list', jsonData.social, 'social');
-			renderSupportList();
-			renderEvents();
-			renderRecommended();
-		}
+            renderPrompts();
+            renderListWithControls('productions-list', jsonData.productions, 'productions');
+            renderListWithControls('social-list', jsonData.social, 'social');
+            renderSupportList();
+            renderEvents();
+            renderRecommended();
+        }
 
         function updateSimpleField(section, field, value) {
             if (!jsonData[section]) jsonData[section] = {};
             jsonData[section][field] = value;
         }
 
-        // --- Gestione Liste con Controlli (Su/Giù/Visibile) ---
+        function updateSectionSetting(section, field, value) {
+            if (!jsonData.section_settings) jsonData.section_settings = {};
+            if (!jsonData.section_settings[section]) jsonData.section_settings[section] = {};
+            jsonData.section_settings[section][field] = value;
+        }
+
+        // --- Prompt AI ---
+        function renderPrompts() {
+            const container = document.getElementById('prompts-list');
+            container.innerHTML = '';
+            jsonData.ai_prompts.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'array-item';
+                const title = typeof item === 'object' ? (item.title || '') : '';
+                const desc = typeof item === 'object' ? (item.description || '') : '';
+                const prompt = typeof item === 'object' ? (item.prompt || '') : item;
+                div.innerHTML = `
+                    <button class="remove-btn" onclick="removePrompt(${index})">✕</button>
+                    <div class="field"><label>Titolo</label><input type="text" value="${title}" onchange="updatePromptField(${index}, 'title', this.value)"></div>
+                    <div class="field"><label>Descrizione</label><input type="text" value="${desc}" onchange="updatePromptField(${index}, 'description', this.value)"></div>
+                    <div class="field"><label>Prompt</label><textarea onchange="updatePromptField(${index}, 'prompt', this.value)">${prompt}</textarea></div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function updatePromptField(index, field, value) {
+            if (typeof jsonData.ai_prompts[index] === 'string') {
+                jsonData.ai_prompts[index] = { title: '', description: '', prompt: jsonData.ai_prompts[index] };
+            }
+            jsonData.ai_prompts[index][field] = value;
+        }
+
+        function addPrompt() {
+            jsonData.ai_prompts.push({ title: 'Nuovo prompt', description: '', prompt: 'Scrivi qui il prompt...' });
+            renderPrompts();
+        }
+
+        function removePrompt(index) {
+            jsonData.ai_prompts.splice(index, 1);
+            renderPrompts();
+        }
+
+        // --- Liste con controlli (Produzioni, Social) ---
         function renderListWithControls(containerId, array, sectionKey) {
             const container = document.getElementById(containerId);
             container.innerHTML = '';
@@ -363,17 +270,14 @@ git push</pre>
                 div.className = 'array-item';
                 div.innerHTML = `
                     <div class="controls-row">
-                        <label class="checkbox-label">
-                            <input type="checkbox" ${item.visible ? 'checked' : ''} onchange="updateItem('${sectionKey}', ${index}, 'visible', this.checked)">
-                            Visibile
-                        </label>
+                        <label class="checkbox-label"><input type="checkbox" ${item.visible ? 'checked' : ''} onchange="updateItem('${sectionKey}', ${index}, 'visible', this.checked)"> Visibile</label>
                         <div style="flex-grow:1"></div>
                         <button class="move-btn" onclick="moveItem('${sectionKey}', ${index}, -1)" ${index === 0 ? 'disabled' : ''}>⬆️</button>
                         <button class="move-btn" onclick="moveItem('${sectionKey}', ${index}, 1)" ${index === array.length - 1 ? 'disabled' : ''}>⬇️</button>
                         <button class="remove-btn" onclick="removeItem('${sectionKey}', ${index})">✕</button>
                     </div>
                     <div class="grid-2">
-                        <div class="field"><label>ID (interno)</label><input type="text" value="${item.id}" onchange="updateItem('${sectionKey}', ${index}, 'id', this.value)"></div>
+                        <div class="field"><label>ID</label><input type="text" value="${item.id}" onchange="updateItem('${sectionKey}', ${index}, 'id', this.value)"></div>
                         <div class="field"><label>Etichetta</label><input type="text" value="${item.label}" onchange="updateItem('${sectionKey}', ${index}, 'label', this.value)"></div>
                     </div>
                     <div class="field"><label>URL</label><input type="text" value="${item.url}" onchange="updateItem('${sectionKey}', ${index}, 'url', this.value)"></div>
@@ -382,90 +286,74 @@ git push</pre>
             });
         }
 
-        function updateItem(sectionKey, index, field, value) {
-            jsonData[sectionKey][index][field] = value;
-        }
-
+        function updateItem(sectionKey, index, field, value) { jsonData[sectionKey][index][field] = value; }
         function moveItem(sectionKey, index, direction) {
             const newIndex = index + direction;
             if (newIndex < 0 || newIndex >= jsonData[sectionKey].length) return;
-            
             const array = jsonData[sectionKey];
-            const temp = array[index];
-            array[index] = array[newIndex];
-            array[newIndex] = temp;
-            
-            // Rerender per aggiornare lo stato dei pulsanti disabled
+            const temp = array[index]; array[index] = array[newIndex]; array[newIndex] = temp;
             if (sectionKey === 'productions') renderListWithControls('productions-list', jsonData.productions, 'productions');
             else if (sectionKey === 'social') renderListWithControls('social-list', jsonData.social, 'social');
-            else if (sectionKey === 'support') renderListWithControls('support-list', jsonData.support, 'support');
+            else if (sectionKey === 'support') renderSupportList();
+            else if (sectionKey === 'recommended_links') renderRecommended();
         }
-
         function removeItem(sectionKey, index) {
             jsonData[sectionKey].splice(index, 1);
             if (sectionKey === 'productions') renderListWithControls('productions-list', jsonData.productions, 'productions');
             else if (sectionKey === 'social') renderListWithControls('social-list', jsonData.social, 'social');
-            else if (sectionKey === 'support') renderListWithControls('support-list', jsonData.support, 'support');
+			else if (sectionKey === 'support') renderSupportList();
+			else if (sectionKey === 'recommended_links') renderRecommended();
         }
-
         function addItem(sectionKey, template) {
             jsonData[sectionKey].push(template);
             if (sectionKey === 'productions') renderListWithControls('productions-list', jsonData.productions, 'productions');
             else if (sectionKey === 'social') renderListWithControls('social-list', jsonData.social, 'social');
-            else if (sectionKey === 'support') renderListWithControls('support-list', jsonData.support, 'support');
         }
 
-        function renderPrompts() {
-            const container = document.getElementById('prompts-list');
+        // --- Supporto (con tipo link/iframe) ---
+        function renderSupportList() {
+            const container = document.getElementById('support-list');
             container.innerHTML = '';
-            jsonData.ai_prompts.forEach((item, index) => {
+            jsonData.support.forEach((item, index) => {
                 const div = document.createElement('div');
                 div.className = 'array-item';
-                div.innerHTML = `
-                    <button class="remove-btn" onclick="removePrompt(${index})">✕</button>
-                    <div class="field">
-                        <label>Titolo (per SEO e chiarezza)</label>
-                        <input type="text" value="${item.title || ''}" onchange="updatePromptTitle(${index}, this.value)">
+                let fieldsHtml = `
+                    <div class="controls-row">
+                        <label class="checkbox-label"><input type="checkbox" ${item.visible ? 'checked' : ''} onchange="updateItem('support', ${index}, 'visible', this.checked)"> Visibile</label>
+                        <div style="flex-grow:1"></div>
+                        <button class="move-btn" onclick="moveItem('support', ${index}, -1)" ${index === 0 ? 'disabled' : ''}>⬆️</button>
+                        <button class="move-btn" onclick="moveItem('support', ${index}, 1)" ${index === jsonData.support.length - 1 ? 'disabled' : ''}>⬇️</button>
+                        <button class="remove-btn" onclick="removeItem('support', ${index})">✕</button>
                     </div>
-                    <div class="field">
-                        <label>Prompt</label>
-                        <textarea onchange="updatePromptText(${index}, this.value)">${item.prompt || item}</textarea>
+                    <div class="grid-2">
+                        <div class="field"><label>ID</label><input type="text" value="${item.id}" onchange="updateItem('support', ${index}, 'id', this.value)"></div>
+                        <div class="field"><label>Etichetta</label><input type="text" value="${item.label}" onchange="updateItem('support', ${index}, 'label', this.value)"></div>
                     </div>
+                    <div class="field"><label>Tipo</label>
+                        <select onchange="updateItem('support', ${index}, 'type', this.value); renderSupportList()">
+                            <option value="link" ${item.type === 'link' ? 'selected' : ''}>Link esterno</option>
+                            <option value="iframe" ${item.type === 'iframe' ? 'selected' : ''}>Iframe/Embed</option>
+                        </select>
+                    </div>
+                    <div class="field"><label>Descrizione</label><textarea onchange="updateItem('support', ${index}, 'description', this.value)">${item.description || ''}</textarea></div>
                 `;
+                if (item.type === 'link') {
+                    fieldsHtml += `<div class="field"><label>URL</label><input type="text" value="${item.url || ''}" onchange="updateItem('support', ${index}, 'url', this.value)"></div>
+                    <div class="field"><label>Logo SVG (opzionale)</label><textarea onchange="updateItem('support', ${index}, 'logo_svg', this.value)">${item.logo_svg || ''}</textarea></div>`;
+                } else {
+                    fieldsHtml += `<div class="field"><label>Codice embed (gestito in embeds.json)</label><textarea disabled style="opacity:0.6">Questo codice si modifica solo in embeds.json con nano. La dashboard non lo tocca mai.</textarea></div>`;
+                }
+                div.innerHTML = fieldsHtml;
                 container.appendChild(div);
             });
         }
 
-        function updatePromptTitle(index, value) {
-            // Gestisce sia il vecchio formato (stringa) che il nuovo (oggetto)
-            if (typeof jsonData.ai_prompts[index] === 'string') {
-                jsonData.ai_prompts[index] = { title: value, prompt: jsonData.ai_prompts[index] };
-            } else {
-                jsonData.ai_prompts[index].title = value;
-            }
+        function addSupport() {
+            jsonData.support.push({id: 'new', label: 'Nuovo metodo', type: 'link', url: 'https://', description: '', logo_svg: '', visible: true});
+            renderSupportList();
         }
 
-        function updatePromptText(index, value) {
-            if (typeof jsonData.ai_prompts[index] === 'string') {
-                jsonData.ai_prompts[index] = { title: 'Prompt', prompt: value };
-            } else {
-                jsonData.ai_prompts[index].prompt = value;
-            }
-        }
-
-        function addPrompt() {
-            jsonData.ai_prompts.push({ title: 'Nuovo argomento', prompt: 'Scrivi qui il prompt...' });
-            renderPrompts();
-        }
-
-        function removePrompt(index) {
-            jsonData.ai_prompts.splice(index, 1);
-            renderPrompts();
-        }
-        function updateSimpleItem(type, index, value) { jsonData.ai_prompts[index] = value; }
-        function removeSimpleItem(type, index) { jsonData.ai_prompts.splice(index, 1); renderList('prompts-list', jsonData.ai_prompts, 'prompt'); }
-        function addPrompt() { jsonData.ai_prompts.push('Nuovo prompt...'); renderList('prompts-list', jsonData.ai_prompts, 'prompt'); }
-
+        // --- Eventi ---
         function renderEvents() {
             const container = document.getElementById('events-list');
             container.innerHTML = '';
@@ -486,24 +374,35 @@ git push</pre>
         }
         function addEvent() { jsonData.events.push({date: new Date().toISOString().split('T')[0], title: 'Nuovo evento', description: '...', type: 'future'}); renderEvents(); }
 
-        function renderRecommended() {
-            const container = document.getElementById('recommended-list');
-            container.innerHTML = '';
-            jsonData.recommended_links.forEach((link, index) => {
-                const div = document.createElement('div');
-                div.className = 'array-item';
-                div.innerHTML = `
-                    <button class="remove-btn" onclick="jsonData.recommended_links.splice(${index},1); renderRecommended()">✕</button>
-                    <div class="field"><label>Nome</label><input type="text" value="${link.name}" onchange="jsonData.recommended_links[${index}].name=this.value"></div>
-                    <div class="field"><label>URL</label><input type="text" value="${link.url}" onchange="jsonData.recommended_links[${index}].url=this.value"></div>
-                    <div class="field"><label>Descrizione</label><textarea onchange="jsonData.recommended_links[${index}].description=this.value">${link.description}</textarea></div>
-                `;
-                container.appendChild(div);
-            });
-        }
-        function addRecommended() { jsonData.recommended_links.push({name: 'Nuovo link', url: 'https://', description: '...'}); renderRecommended(); }
+        // --- Link consigliati ---
+		function renderRecommended() {
+			const container = document.getElementById('recommended-list');
+			container.innerHTML = '';
+			jsonData.recommended_links.forEach((link, index) => {
+				const div = document.createElement('div');
+				div.className = 'array-item';
+				div.innerHTML = `
+					<div class="controls-row">
+						<label class="checkbox-label"><input type="checkbox" ${link.visible !== false ? 'checked' : ''} onchange="updateItem('recommended_links', ${index}, 'visible', this.checked)"> Visibile</label>
+						<div style="flex-grow:1"></div>
+						<button class="move-btn" onclick="moveItem('recommended_links', ${index}, -1)" ${index === 0 ? 'disabled' : ''}>⬆️</button>
+						<button class="move-btn" onclick="moveItem('recommended_links', ${index}, 1)" ${index === jsonData.recommended_links.length - 1 ? 'disabled' : ''}>⬇️</button>
+						<button class="remove-btn" onclick="removeItem('recommended_links', ${index})">✕</button>
+					</div>
+					<div class="field"><label>Nome</label><input type="text" value="${link.name}" onchange="updateItem('recommended_links', ${index}, 'name', this.value)"></div>
+					<div class="field"><label>URL</label><input type="text" value="${link.url}" onchange="updateItem('recommended_links', ${index}, 'url', this.value)"></div>
+					<div class="field"><label>Descrizione</label><textarea onchange="updateItem('recommended_links', ${index}, 'description', this.value)">${link.description}</textarea></div>
+				`;
+				container.appendChild(div);
+			});
+		}
+		
+		function addRecommended() { 
+			jsonData.recommended_links.push({name: 'Nuovo link', url: 'https://', description: '...', visible: true}); 
+			renderRecommended(); 
+		}
 
-        // --- Azioni Globali ---
+        // --- Azioni globali ---
         async function saveData() {
             try {
                 const response = await fetch('/api/data', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(jsonData) });
@@ -518,89 +417,20 @@ git push</pre>
                 await fetch('/api/data', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(jsonData) });
                 const buildResponse = await fetch('/api/build', { method: 'POST' });
                 const buildResult = await buildResponse.json();
-                if (buildResult.success) {
-                    showStatus('✅ Build completata!', 'success');
-                    setTimeout(() => { refreshPreview(); }, 300);
-                } else {
-                    showStatus('❌ ' + buildResult.message, 'error');
-                }
+                if (buildResult.success) { showStatus('✅ Build completata!', 'success'); setTimeout(() => { refreshPreview(); }, 300); }
+                else { showStatus(' ' + buildResult.message, 'error'); }
             } catch (err) { showStatus('❌ Errore build', 'error'); }
         }
 
         function refreshPreview() { document.getElementById('preview-frame').src = '/preview?' + Date.now(); }
-		function openPreviewNewTab() {
-			window.open('/preview?' + Date.now(), '_blank');
-		}
+        function openPreviewNewTab() { window.open('/preview?' + Date.now(), '_blank'); }
         function showDeployModal() { document.getElementById('deploy-modal').classList.add('active'); }
         function closeDeployModal() { document.getElementById('deploy-modal').classList.remove('active'); }
-        function copyDeployCommands() {
-            navigator.clipboard.writeText(document.getElementById('deploy-commands').textContent).then(() => showStatus('📋 Copiato!', 'success'));
-        }
+        function copyDeployCommands() { navigator.clipboard.writeText(document.getElementById('deploy-commands').textContent).then(() => showStatus('📋 Copiato!', 'success')); }
+        function openLiveSite() { window.open('https://stefanodroghetti-site.pages.dev?v=' + Date.now(), '_blank'); }
 
-        function renderSupportList() {
-            const container = document.getElementById('support-list');
-            container.innerHTML = '';
-            jsonData.support.forEach((item, index) => {
-                const div = document.createElement('div');
-                div.className = 'array-item';
-                
-                // Campi comuni
-                let fieldsHtml = `
-                    <div class="controls-row">
-                        <label class="checkbox-label">
-                            <input type="checkbox" ${item.visible ? 'checked' : ''} onchange="updateItem('support', ${index}, 'visible', this.checked)">
-                            Visibile
-                        </label>
-                        <div style="flex-grow:1"></div>
-                        <button class="move-btn" onclick="moveItem('support', ${index}, -1)" ${index === 0 ? 'disabled' : ''}>️</button>
-                        <button class="move-btn" onclick="moveItem('support', ${index}, 1)" ${index === jsonData.support.length - 1 ? 'disabled' : ''}>⬇️</button>
-                        <button class="remove-btn" onclick="removeItem('support', ${index})"></button>
-                    </div>
-                    <div class="grid-2">
-                        <div class="field"><label>ID</label><input type="text" value="${item.id}" onchange="updateItem('support', ${index}, 'id', this.value)"></div>
-                        <div class="field"><label>Etichetta</label><input type="text" value="${item.label}" onchange="updateItem('support', ${index}, 'label', this.value)"></div>
-                    </div>
-                    <div class="field">
-                        <label>Tipo</label>
-                        <select onchange="updateItem('support', ${index}, 'type', this.value); renderSupportList()">
-                            <option value="link" ${item.type === 'link' ? 'selected' : ''}>Link esterno</option>
-                            <option value="iframe" ${item.type === 'iframe' ? 'selected' : ''}>Iframe/Embed</option>
-                        </select>
-                    </div>
-                    <div class="field"><label>Descrizione</label><textarea onchange="updateItem('support', ${index}, 'description', this.value)">${item.description || ''}</textarea></div>
-                `;
-                
-                // Campi specifici per tipo
-                if (item.type === 'link') {
-                    fieldsHtml += `
-                        <div class="field"><label>URL</label><input type="text" value="${item.url || ''}" onchange="updateItem('support', ${index}, 'url', this.value)"></div>
-                        <div class="field"><label>Logo SVG (opzionale, incolla il codice SVG)</label><textarea onchange="updateItem('support', ${index}, 'logo_svg', this.value)">${item.logo_svg || ''}</textarea></div>
-                    `;
-                } else {
-                    fieldsHtml += `
-                        <div class="field"><label>Codice embed (vive in embeds.json)</label><textarea disabled style="opacity:0.6">Questo codice si modifica solo in embeds.json con nano. La dashboard non lo tocca mai.</textarea></div>
-                    `;
-                }
-                
-                div.innerHTML = fieldsHtml;
-                container.appendChild(div);
-            });
-        }
-
-		function openLiveSite() {
-			window.open('https://stefanodroghetti-site.pages.dev?v=' + Date.now(), '_blank');
-		}
-
-        
-        function updateSectionSetting(section, field, value) {
-            if (!jsonData.section_settings) jsonData.section_settings = {};
-            if (!jsonData.section_settings[section]) jsonData.section_settings[section] = {};
-            jsonData.section_settings[section][field] = value;
-        }
-        
-        
-        // Avvio dell'applicazione: carica i dati all'apertura della pagina
         loadData();
     </script>
 </body>
 </html>
+EOF

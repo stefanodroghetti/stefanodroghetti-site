@@ -118,6 +118,13 @@ p {
     line-height: 1.5;
 }
 
+.prompt-desc {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 0.8rem;
+    font-style: italic;
+}
+
 /* Liste e Link */
 ul { list-style: none; padding-left: 0; }
 li {

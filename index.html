@@ -7,20 +7,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600;700&family=Questrial&display=swap" rel="stylesheet">
     <title>Stefano Droghetti - Sito Ufficiale</title>
-    <meta name="description" content="Il software libero per condividere, sperimentare e creare musica, video e idee.">
+    <meta name="description" content="Software libero per condividere, sperimentare e creare musica, video e idee.">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <main>
         <header>
             <h1>Stefano Droghetti</h1>
-            <p class="tagline">Il software libero per condividere, sperimentare e creare musica, video e idee.</p>
+            <p class="tagline">Software libero per condividere, sperimentare e creare musica, video e idee.</p>
         </header>
 
         <section class="bio">
             <p>Ciao! Davvero, qualunque cosa ti ci abbia portato, mi fa un sacco piacere che tu sia qui.
 
-Considera questo posto come un piccolo quaderno aperto: sulla carta dovrebbe occuparsi solo di informatica, ma il codice non è certo una fede, è solo un ottimo mezzo per fare cose utili. Quindi qui troverai materiali e spunti alla rinfusa per suonare, montare video e creare roba cercando di usare meno tecnologie proprietarie possibili. Insomma, strumenti liberi come Linux, l'open source, le licenze Creative Commons e così via.
+Considera questo posto come un piccolo quaderno aperto: sulla carta dovrebbe occuparsi solo di informatica, ma il codice non è certo una fede, è solo un ottimo mezzo per fare cose utili. Quindi qui troverai materiali e spunti alla rinfusa per suonare, montare video e creare cercando di usare meno tecnologie proprietarie possibili. Insomma, strumenti liberi come Linux, l'open source, le licenze Creative Commons e così via.
 
 Poi c'è tutto il resto, ed è parecchio disordinato. Questo sito nasce dall'esperienza di una vita passata (o sprecata?) a:
 • cercare il punto di contatto tra la precisione della scienza e la stramberia dell'arte, della poesia, del cinema o di una battuta di stand-up comedy fatta bene
@@ -32,57 +32,62 @@ Ecco perché qui non ci sono certo pretese di risposte definitive, ma al contrar
             <p class="age">Oggi ho 54 anni.</p>
         </section>
         
-        <div class="layout">
-                        <nav class="site-nav">
+                    <nav class="site-nav">
                 <ul>
                 <li><a href="#manifesto">Dove sono le guide?</a></li>
                 <li><a href="#productions">Le mie produzioni</a></li>
                 <li><a href="#social">Social</a></li>
                 <li><a href="#events">Eventi</a></li>
                 <li><a href="#recommended">Link consigliati</a></li>
-                <li><a href="#support">Supporta il mio lavoro</a></li>
+                <li><a href="#support">Supporta questi progetti</a></li>
                 </ul>
             </nav>
 
-            <div class="content">
-                
+
+        
         <section class="manifesto" id="manifesto">
             <h2>Dove sono le guide?</h2>
-            <p class="section-desc">In questa sezione trovi tutte le istruzioni per capire come muoverti nel nuovo sito</p>
-            
-            <p>Tutto quello che c'è in questo sito l'ho fatto io.</p>
-            <p>Usando Linux come unico sistema operativo e cercando di usare il più possibile software libero.</p>
-            <p>Le guide che c'erano nel sito non sono più attuali: oggi basta chiedere all'AI. Ecco alcuni prompt utili:</p>
+            <p class="section-desc">Dopo quasi vent'anni di onorata carriera, posso finalmente lasciare a divulgatrici e divulgatori molto più esperti di me il compito di seguirvi passo passo nella realizzazione di ciò che le mie guide vi aiutavano a installare e configurare. Queste figure così competenti si chiamano "intelligenze artificiali" e sono davvero molto migliori degli umani nello spiegarvi punto per punto che cosa fare e perché, per ogni vostra esigenza. Sono pazienti, se non capite ripetono in altre parole, vi correggono gli errori, se il terminale vi restituisce qualcosa di inaspettato voi copincollate l'errore e loro vi dicono che cosa fare... Un paradiso.
+Quello che cambia, il fattore umano, quello personale, è l'esperienza, è il gusto personale, che si riflette nel prompt. In questa sezione quindi vi suggerisco che cosa chiedere a un'AI gratuita con una finestra di contesto abbastanza ampia (al momento vi consiglio Qwen Studio) o una che pagate, per ottenere assistenza.</p>
             
     <div class="prompt-item">
         <h3>Produzione musicale su Linux</h3>
-        <div class="prompt-box"><code>Vorrei produrre audio su Ubuntu LTS con una DAW libera e open source, con effetti liberi per [descrivi cosa vuoi fare].</code></div>
+        <p class="prompt-desc">Come produrre audio con una DAW ed effetti liberi su Ubuntu.</p>
+        <div class="prompt-box"><code>Vorrei produrre audio e musica su Ubuntu (l'LTS più recente) con una DAW libera e open source, con effetti liberi per gestire strumenti, MIDI, soundfont e così via. Vorrei che mi aiutassi a installare lo stato dell'arte per i migliori vst2, vst3, ladspa, lv2 e qualsiasi altra cosa che funzioni nativamente su Ubuntu, anche aggiungendo repository di terze parti basta che siano ben mantenuti e che non facciano conflitto ad oggi. Vorrei che configurassi il sistema con cose come jack o qualsiasi cosa di simile ad oggi, ma che sia possibile usarla assieme all'audio normale, per esempio con pipewire e wireplumber (ma se è uscito qualcosa di meglio e più pratico, da' la priorità allo stato dell'arte). Per ora installa le cose principali (riverberi, eq, compressori, buoni strumenti dall'orchestra ai synth eccetera), poi ti chiederò man mano che avrò certe esigenze.</code></div>
     </div>
     
     <div class="prompt-item">
-        <h3>Installazione Ubuntu in affiancamento</h3>
-        <div class="prompt-box"><code>Come installo Ubuntu (ultima LTS) in affiancamento su un PC con [RAM, CPU, GPU] e [OS attuale] senza perdere dati?</code></div>
+        <h3>Installazione Ubuntu da zero</h3>
+        <p class="prompt-desc">Dual boot senza perdere dati</p>
+        <div class="prompt-box"><code>Aiutami a installare Ubuntu (ultima LTS) in affiancamento su un PC con [scrivere qui la vostra RAM, CPU, GPU] e [scrivere qui a quale sistema operativo volete affiancare Ubuntu] senza perdere dati, cioè facendo un backup solido.</code></div>
     </div>
     
     <div class="prompt-item">
-        <h3>Video editing open source</h3>
-        <div class="prompt-box"><code>Sono un videomaker, vorrei montare video su Linux usando software open source per [tuo obiettivo].</code></div>
+        <h3>Video editing open source o comunque gratis</h3>
+        <p class="prompt-desc">Montare video con software libero e non, purché gratis</p>
+        <div class="prompt-box"><code>Sono un videomaker, vorrei montare video su Linux usando software open source per montaggio, color correction e tutto ciò che fanno i più importanti software commerciali. Insegnami anche a installare la versione gratuita di Davinci Resolve su Ubuntu, che richiede particolari procedure, e scrivimi come trasformare il footage iniziale in file leggibili da DaVinci Resolve per Linux.</code></div>
+    </div>
+    
+    <div class="prompt-item">
+        <h3>Installazione Ubuntu da zero</h3>
+        <p class="prompt-desc">Ubuntu da zero senza perdere dati</p>
+        <div class="prompt-box"><code>Aiutami a fare un backup dei dati del sistema operativo che ho adesso ([scrivere qui quale sistema operativo e quale versione si ha]) dopodiché insegnami a canecllare tutto il disco e metterci su Ubuntu (ultima LTS).</code></div>
     </div>
     
         </section>
-                
+        
         <section class="productions" id="productions">
             <h2>Le mie produzioni</h2>
             <p class="section-desc">Tutto ciò che vedi qui l'ho creato io, prevalentemente con software libero su Linux.</p>
-            <ul>                <li><a href="https://www.youtube.com/@StefanoDroghetti" target="_blank" rel="noopener">Canale YouTube</a></li>
-                <li><a href="https://www.youtube.com/playlist?list=PL4222A127D90E5175" target="_blank" rel="noopener">I miei video</a></li>
-                <li><a href="https://www.youtube.com/playlist?list=PL31A48F2BF3DDA3BD" target="_blank" rel="noopener">Le mie canzoni</a></li>
-                <li><a href="https://www.youtube.com/playlist?list=PL7z8RFuP5Euamiif9M9tEkF4ukSPasVvn" target="_blank" rel="noopener">Canzoni in tante lingue (AI)</a></li>
-                <li><a href="https://soundcloud.com/stefano-droghetti/sets/stefano-droghetti" target="_blank" rel="noopener">SoundCloud (principale)</a></li>
-                <li><a href="https://soundcloud.com/fidel-custom" target="_blank" rel="noopener">Fidel Custom (canzoni in italiano con AI)</a></li>
+            <ul>                <li><a href="https://www.youtube.com/@StefanoDroghetti" target="_blank" rel="noopener">Il mio canale YouTube</a></li>
+                <li><a href="https://www.youtube.com/playlist?list=PL4222A127D90E5175" target="_blank" rel="noopener">I miei video, e i video di terze parti che parlano di me</a></li>
+                <li><a href="https://www.youtube.com/playlist?list=PL31A48F2BF3DDA3BD" target="_blank" rel="noopener">Le mie canzoni (testo e musica miei al 100%)</a></li>
+                <li><a href="https://www.youtube.com/playlist?list=PL7z8RFuP5Euamiif9M9tEkF4ukSPasVvn" target="_blank" rel="noopener">ALAiN ZEDONG Music (è uno pseudonimo sotto il quale rilascio canzoni che partono da idee di testo e di musica mie ma che poi faccio realizzare largamente a varie intelligenze artificiali)</a></li>
+                <li><a href="https://soundcloud.com/fidel-custom" target="_blank" rel="noopener">Fidel Custom (pseudonimo sotto il quale rilascio canzoni in italiano il cui testo è mio al 100% ma la cui musica è largamente inventata e arrangiata da varie intelligenze artificiali)</a></li>
+                <li><a href="https://soundcloud.com/stefano-droghetti/sets/stefano-droghetti" target="_blank" rel="noopener">le mie canzoni su SoundCloud (principale)</a></li>
             </ul>
         </section>
-                
+        
         <section class="social" id="social">
             <h2>Social</h2>
             <p class="section-desc">Mi trovi anche su queste piattaforme:</p>
@@ -93,26 +98,20 @@ Ecco perché qui non ci sono certo pretese di risposte definitive, ma al contrar
                 <li><a href="https://www.threads.com/@stefano.droghetti" target="_blank" rel="noopener">Threads</a></li>
             </ul>
         </section>
-                
+        
         <section class="events" id="events">
             <h2>Eventi</h2>
             <h3>Prossimamente</h3>
-                            <div class="event future"><strong>2026-10-15</strong> - Esempio evento futuro<br>Mi troverete allo stand X con il mio setup di quiz interattivi.</div>
+                            <div class="event future"><strong>2026-10-10</strong> - Festa del volontariato a Ferrara<br>Mi troverete allo stand del Ferrara Linux User Group con il mio setup di quiz interattivi, in Piazza Ariostea dalle 8:30 alle 18:30 a Ferrara</div>
+                <div class="event future"><strong>2026-10-24</strong> - Linux Day 2026 a Ferrara<br>Alle 9 presso il Centro Sociale "Il Melo" a Ferrara. Io curerò la diretta e la regia, e parteciperò con un mio intervento sull'uso sostenibile e umano - se esiste - dell'AI. Tutti i dettagli qui: <a href="https://linuxday.ferrara.linux.it/" target="_blank">linuxday.ferrara.linux.it</a></div>
 
             <h3>Archivio</h3>
             <p>Nessun evento passato.</p>
         </section>
-                
-        <section class="recommended" id="recommended">
-            <h2>Link consigliati</h2>
-            <p class="section-desc">Cose che amo e che consiglio:</p>
-            <ul>                <li><a href="https://youtube.com/@esempio" target="_blank" rel="noopener">Esempio canale YouTube</a> - Breve motivo per cui lo adoro.</li>
-            </ul>
-        </section>
-                
+        
         <section class="support" id="support">
-            <h2>Supporta il mio lavoro</h2>
-            <p class="section-desc">Se vuoi supportare il mio lavoro, ringraziarmi o semplicemente offrirmi un caffè:</p>
+            <h2>Supporta questi progetti</h2>
+            <p class="section-desc">Se vuoi supportare tutto ciò, o anche soltanto ringraziarmi od offrirmi un caffè, o anche regalare un attimo di sospensione alla mia cronica mancanza di autostima, in questa sezione trovi una serie di metodi sicuri e certificati per farlo. </p>
             <div class="support-grid">
                 
             <div class="support-box">
@@ -139,14 +138,23 @@ Ecco perché qui non ci sono certo pretese di risposte definitive, ma al contrar
                 
                 
                 <p class="support-desc">Fai un regalo dalla mia lista desideri</p>
-                <a href="https://www.amazon.it/hz/wishlist/ls/TUO_LINK" target="_blank" rel="noopener" class="support-link">Vai a Amazon Wishlist →</a>
+                <a href="https://www.amazon.it/hz/wishlist/ls/3HHKM0MTD4GFQ?ref_=wl_share" target="_blank" rel="noopener" class="support-link">Vai a Amazon Wishlist →</a>
             
             </div>
         
             </div>
         </section>
-            </div>
-        </div>
+        
+        <section class="recommended" id="recommended">
+            <h2>Link consigliati</h2>
+            <p class="section-desc">Cose che amo e che consiglio:</p>
+            <ul>                <li><a href="https://www.e-drivers-ferrara.it/" target="_blank" rel="noopener">E-Drivers Ferrara</a> - Un'associazione di utilizzatori di mezzi elettrici a Ferrara. Per diffondere anche nella mia città la cultura dell'auto elettrica e per mettere in contatto chi come me si trova così bene in questo nuovo mondo silenzioso, pulito e tecnologico</li>
+                <li><a href="https://www.instagram.com/lurlo.di.chen/" target="_blank" rel="noopener">L'Urlo di Chen</a> - Adorabile influencer italo-cinese che vi spiega con umorismo e poesia curiosità uniche sulla lingua e la cultura cinese</li>
+                <li><a href="https://www.ferrara.linux.it/" target="_blank" rel="noopener">Ferrara linux User Group</a> - Il LUG ferrarese, tenuto in piedi da eroici nerd strenui difensori dei diritti digitali, a cui mi picco di appartenere da svariati decenni</li>
+                <li><a href="https://www.sinomondi.org/" target="_blank" rel="noopener">Associazione Sinomondi</a> - Associazione di amanti della cultura cinese, con sede a Bologna, con forti legami accademici con la Cina e con l'Università di Bologna, che organizza sempre eventi interessantissimi e pure un circolo di lettura di libri cinesi tradotti in italiano presso la libreria "La confraternita dell'uva", a cui cerco di partecipare quando posso.</li>
+                <li><a href="https://www.youtube.com/@littlechineseeverywhere/videos" target="_blank" rel="noopener">Little Chinese Everywhere</a> - Yan è una travel vlogger cinese che ci porta a visitare i posti più veri, sorprendenti e umani della Cina rurale e sconosciuta. Il suo dottorato in Geografia Turistica le permette un livello di competenza rarissimo per questo genere di video, e la sua personalità leggera, serena e profonda rende il suo canale probabilmente quanto di meglio sia mai stato prodotto su Youtube su questo argomento. È tutto parlato in inglese e il cinese ambientale è tradotto in inglese. I sottotitoli sono anche traducibili in italiano.</li>
+            </ul>
+        </section>
 
         <footer>
             <p>Fatto con ❤️, Linux e software libero.</p>
