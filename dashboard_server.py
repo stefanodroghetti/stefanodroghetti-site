@@ -96,6 +96,11 @@ def og_image():
     """Serve l'immagine Open Graph per l'anteprima"""
     return send_from_directory(SITE_DIR, 'og-image.jpg')
 
+@app.route('/<path:filename>')
+def serve_static(filename):
+    """Serve tutti gli altri file del sito (immagini, ecc.)"""
+    return send_from_directory(SITE_DIR, filename)
+  
 if __name__ == '__main__':
     print("=" * 60)
     print("🚀 Dashboard di stefanodroghetti.it")
