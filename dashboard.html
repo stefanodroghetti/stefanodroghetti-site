@@ -262,29 +262,30 @@ git push</pre>
         }
 
         // --- Liste con controlli (Produzioni, Social) ---
-        function renderListWithControls(containerId, array, sectionKey) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '';
-            array.forEach((item, index) => {
-                const div = document.createElement('div');
-                div.className = 'array-item';
-                div.innerHTML = `
-                    <div class="controls-row">
-                        <label class="checkbox-label"><input type="checkbox" ${item.visible ? 'checked' : ''} onchange="updateItem('${sectionKey}', ${index}, 'visible', this.checked)"> Visibile</label>
-                        <div style="flex-grow:1"></div>
-                        <button class="move-btn" onclick="moveItem('${sectionKey}', ${index}, -1)" ${index === 0 ? 'disabled' : ''}>⬆️</button>
-                        <button class="move-btn" onclick="moveItem('${sectionKey}', ${index}, 1)" ${index === array.length - 1 ? 'disabled' : ''}>⬇️</button>
-                        <button class="remove-btn" onclick="removeItem('${sectionKey}', ${index})">✕</button>
-                    </div>
-                    <div class="grid-2">
-                        <div class="field"><label>ID</label><input type="text" value="${item.id}" onchange="updateItem('${sectionKey}', ${index}, 'id', this.value)"></div>
-                        <div class="field"><label>Etichetta</label><input type="text" value="${item.label}" onchange="updateItem('${sectionKey}', ${index}, 'label', this.value)"></div>
-                    </div>
-                    <div class="field"><label>URL</label><input type="text" value="${item.url}" onchange="updateItem('${sectionKey}', ${index}, 'url', this.value)"></div>
-                `;
-                container.appendChild(div);
-            });
-        }
+		function renderListWithControls(containerId, array, sectionKey) {
+			const container = document.getElementById(containerId);
+			container.innerHTML = '';
+			array.forEach((item, index) => {
+				const div = document.createElement('div');
+				div.className = 'array-item';
+				div.innerHTML = `
+					<div class="controls-row">
+						<label class="checkbox-label"><input type="checkbox" ${item.visible ? 'checked' : ''} onchange="updateItem('${sectionKey}', ${index}, 'visible', this.checked)"> Visibile</label>
+						<div style="flex-grow:1"></div>
+						<button class="move-btn" onclick="moveItem('${sectionKey}', ${index}, -1)" ${index === 0 ? 'disabled' : ''}>⬆️</button>
+						<button class="move-btn" onclick="moveItem('${sectionKey}', ${index}, 1)" ${index === array.length - 1 ? 'disabled' : ''}>⬇️</button>
+						<button class="remove-btn" onclick="removeItem('${sectionKey}', ${index})">✕</button>
+					</div>
+					<div class="grid-2">
+						<div class="field"><label>ID</label><input type="text" value="${item.id}" onchange="updateItem('${sectionKey}', ${index}, 'id', this.value)"></div>
+						<div class="field"><label>Etichetta</label><input type="text" value="${item.label}" onchange="updateItem('${sectionKey}', ${index}, 'label', this.value)"></div>
+					</div>
+					<div class="field"><label>URL</label><input type="text" value="${item.url || ''}" onchange="updateItem('${sectionKey}', ${index}, 'url', this.value)"></div>
+					<div class="field"><label>Descrizione</label><textarea onchange="updateItem('${sectionKey}', ${index}, 'description', this.value)">${item.description || ''}</textarea></div>
+				`;
+				container.appendChild(div);
+			});
+		}
 
         function updateItem(sectionKey, index, field, value) { jsonData[sectionKey][index][field] = value; }
         function moveItem(sectionKey, index, direction) {

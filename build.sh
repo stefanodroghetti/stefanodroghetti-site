@@ -33,7 +33,9 @@ def render_list(items):
     for item in items:
         if item.get('visible', True) and item.get('url'):
             label = item.get('label', item.get('id', 'Link'))
-            html += f'                <li><a href="{item["url"]}" target="_blank" rel="noopener">{label}</a></li>\n'
+            desc = item.get('description', '')
+            desc_html = f'<br><span class="link-desc">{desc}</span>' if desc else ''
+            html += f'                <li><a href="{item["url"]}" target="_blank" rel="noopener">{label}</a>{desc_html}</li>\n'
     return html
 
 productions_html = render_list(data.get('productions', []))

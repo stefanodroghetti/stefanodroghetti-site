@@ -17,8 +17,8 @@
     },
     {
       "description": "Ubuntu da zero senza perdere dati",
-      "prompt": "Aiutami a fare un backup dei dati del sistema operativo che ho adesso ([scrivere qui quale sistema operativo e quale versione si ha]) dopodiché insegnami a canecllare tutto il disco e metterci su Ubuntu (ultima LTS).",
-      "title": "Installazione Ubuntu da zero"
+      "prompt": "Aiutami a fare un backup dei dati del sistema operativo che ho adesso ([scrivere qui quale sistema operativo e quale versione si ha]) dopodiché insegnami a cancellare tutto il disco e metterci su Ubuntu (ultima LTS).",
+      "title": "Installazione Ubuntu da zero (formattazione)"
     }
   ],
   "events": [
@@ -37,38 +37,44 @@
   ],
   "productions": [
     {
+      "description": "Video, tutorial e contenuti vari",
       "id": "yt_channel",
       "label": "Il mio canale YouTube",
       "url": "https://www.youtube.com/@StefanoDroghetti",
-      "visible": true
+      "visible": false
     },
     {
+      "description": "Tutti i video che ho girato, nel mio canale YouTube",
       "id": "yt_videos",
-      "label": "I miei video, e i video di terze parti che parlano di me",
+      "label": "I miei video",
       "url": "https://www.youtube.com/playlist?list=PL4222A127D90E5175",
       "visible": true
     },
     {
+      "description": "Testo e musica miei al 100%",
       "id": "yt_songs",
-      "label": "Le mie canzoni (testo e musica miei al 100%)",
+      "label": "Le mie canzoni",
       "url": "https://www.youtube.com/playlist?list=PL31A48F2BF3DDA3BD",
       "visible": true
     },
     {
+      "description": "Pseudonimo sotto il quale rilascio canzoni che partono da idee di testo e di musica mie ma che poi faccio realizzare largamente a varie intelligenze artificiali",
       "id": "yt_ai",
-      "label": "ALAiN ZEDONG Music (è uno pseudonimo sotto il quale rilascio canzoni che partono da idee di testo e di musica mie ma che poi faccio realizzare largamente a varie intelligenze artificiali)",
+      "label": "ALAiN ZEDONG Music",
       "url": "https://www.youtube.com/playlist?list=PL7z8RFuP5Euamiif9M9tEkF4ukSPasVvn",
       "visible": true
     },
     {
+      "description": "Pseudonimo sotto il quale rilascio canzoni in italiano il cui testo è mio al 100% ma la cui musica è largamente inventata e arrangiata da varie intelligenze artificiali",
       "id": "sc_fidel",
-      "label": "Fidel Custom (pseudonimo sotto il quale rilascio canzoni in italiano il cui testo è mio al 100% ma la cui musica è largamente inventata e arrangiata da varie intelligenze artificiali)",
+      "label": "Fidel Custom",
       "url": "https://soundcloud.com/fidel-custom",
       "visible": true
     },
     {
+      "description": "Le stesse canzoni che ci sono su Youtube, ma su Soundcloud",
       "id": "sc_main",
-      "label": "le mie canzoni su SoundCloud (principale)",
+      "label": "Le mie canzoni su SoundCloud",
       "url": "https://soundcloud.com/stefano-droghetti/sets/stefano-droghetti",
       "visible": true
     }
@@ -77,27 +83,32 @@
     {
       "description": "Un'associazione di utilizzatori di mezzi elettrici a Ferrara. Per diffondere anche nella mia città la cultura dell'auto elettrica e per mettere in contatto chi come me si trova così bene in questo nuovo mondo silenzioso, pulito e tecnologico",
       "name": "E-Drivers Ferrara",
-      "url": "https://www.e-drivers-ferrara.it/"
+      "url": "https://www.e-drivers-ferrara.it/",
+      "visible": true
     },
     {
       "description": "Adorabile influencer italo-cinese che vi spiega con umorismo e poesia curiosità uniche sulla lingua e la cultura cinese",
       "name": "L'Urlo di Chen",
-      "url": "https://www.instagram.com/lurlo.di.chen/"
+      "url": "https://www.instagram.com/lurlo.di.chen/",
+      "visible": true
     },
     {
       "description": "Il LUG ferrarese, tenuto in piedi da eroici nerd strenui difensori dei diritti digitali, a cui mi picco di appartenere da svariati decenni",
       "name": "Ferrara linux User Group",
-      "url": "https://www.ferrara.linux.it/"
+      "url": "https://www.ferrara.linux.it/",
+      "visible": true
     },
     {
       "description": "Associazione di amanti della cultura cinese, con sede a Bologna, con forti legami accademici con la Cina e con l'Università di Bologna, che organizza sempre eventi interessantissimi e pure un circolo di lettura di libri cinesi tradotti in italiano presso la libreria \"La confraternita dell'uva\", a cui cerco di partecipare quando posso.",
       "name": "Associazione Sinomondi",
-      "url": "https://www.sinomondi.org/"
+      "url": "https://www.sinomondi.org/",
+      "visible": true
     },
     {
-      "description": "Yan è una travel vlogger cinese che ci porta a visitare i posti più veri, sorprendenti e umani della Cina rurale e sconosciuta. Il suo dottorato in Geografia Turistica le permette un livello di competenza rarissimo per questo genere di video, e la sua personalità leggera, serena e profonda rende il suo canale probabilmente quanto di meglio sia mai stato prodotto su Youtube su questo argomento. È tutto parlato in inglese e il cinese ambientale è tradotto in inglese. I sottotitoli sono anche traducibili in italiano.",
+      "description": "Yan è una travel vlogger cinese che ci porta a visitare i posti più veri, sorprendenti e umani della Cina rurale e sconosciuta. Il suo dottorato in Geografia Turistica le permette un livello di competenza rarissimo per questo genere di video, e la sua personalità leggera, serena e profonda rende il suo canale probabilmente quanto di meglio sia mai stato prodotto su Youtube su questo argomento.",
       "name": "Little Chinese Everywhere",
-      "url": "https://www.youtube.com/@littlechineseeverywhere/videos"
+      "url": "https://www.youtube.com/@littlechineseeverywhere/videos",
+      "visible": true
     }
   ],
   "section_settings": {
@@ -107,7 +118,7 @@
       "visible": true
     },
     "manifesto": {
-      "description": "Dopo quasi vent'anni di onorata carriera, posso finalmente lasciare a divulgatrici e divulgatori molto più esperti di me il compito di seguirvi passo passo nella realizzazione di ciò che le mie guide vi aiutavano a installare e configurare. Queste figure così competenti si chiamano \"intelligenze artificiali\" e sono davvero molto migliori degli umani nello spiegarvi punto per punto che cosa fare e perché, per ogni vostra esigenza. Sono pazienti, se non capite ripetono in altre parole, vi correggono gli errori, se il terminale vi restituisce qualcosa di inaspettato voi copincollate l'errore e loro vi dicono che cosa fare... Un paradiso.\nQuello che cambia, il fattore umano, quello personale, è l'esperienza, è il gusto personale, che si riflette nel prompt. In questa sezione quindi vi suggerisco che cosa chiedere a un'AI gratuita con una finestra di contesto abbastanza ampia (al momento vi consiglio Qwen Studio) o una che pagate, per ottenere assistenza.",
+      "description": "In questa sezione trovi tutte le istruzioni per capire come muoverti nel nuovo sito",
       "title": "Dove sono le guide?",
       "visible": true
     },
@@ -127,47 +138,58 @@
       "visible": true
     },
     "support": {
-      "description": "Se vuoi supportare tutto ciò, o anche soltanto ringraziarmi od offrirmi un caffè, o anche regalare un attimo di sospensione alla mia cronica mancanza di autostima, in questa sezione trovi una serie di metodi sicuri e certificati per farlo. ",
+      "description": "Se vuoi supportare tutto ciò, o anche soltanto ringraziarmi od offrirmi un caffè, o anche regalare un attimo di sospensione alla mia cronica mancanza di autostima, in questa sezione trovi una serie di metodi sicuri e certificati per farlo.",
       "title": "Supporta questi progetti",
       "visible": true
     }
   },
   "site": {
-    "bio_placeholder": "Ciao! Davvero, qualunque cosa ti ci abbia portato, mi fa un sacco piacere che tu sia qui.\n\nConsidera questo posto come un piccolo quaderno aperto: sulla carta dovrebbe occuparsi solo di informatica, ma il codice non è certo una fede, è solo un ottimo mezzo per fare cose utili. Quindi qui troverai materiali e spunti alla rinfusa per suonare, montare video e creare cercando di usare meno tecnologie proprietarie possibili. Insomma, strumenti liberi come Linux, l'open source, le licenze Creative Commons e così via.\n\nPoi c'è tutto il resto, ed è parecchio disordinato. Questo sito nasce dall'esperienza di una vita passata (o sprecata?) a:\n• cercare il punto di contatto tra la precisione della scienza e la stramberia dell'arte, della poesia, del cinema o di una battuta di stand-up comedy fatta bene\n• curiosare su come comunichiamo (da un film di Tarkovskij a un action di Hong Kong, da un meme esilarante a un romanzo di Pavese, da un linguaggio di programmazione al linguaggio degli animali)\n• adorare la cultura cinese e finire sempre per viaggiare in posti tropicali in cui crogiolarsi nei \"bassifondi dell'immensità\" (cit.)\n• perdersi in qualche storia strana del passato e cercare di fare scelte un po' più ecologiche ogni giorno\n\nEcco perché qui non ci sono certo pretese di risposte definitive, ma al contrario tantissima curiosità e la voglia di ridere dei propri dubbi. Dai un'occhiata in giro, e se trovi uno spunto carino o anche solo una scusa per fare due chiacchiere, ne sono felice.",
+    "bio_placeholder": "Ciao! Davvero, qualunque cosa ti ci abbia portato, mi fa un sacco piacere che tu sia qui.\n\nConsidera questo posto come un piccolo quaderno aperto: sulla carta dovrebbe occuparsi solo di informatica, ma il codice non è certo una fede, è solo un ottimo mezzo per fare cose utili. Quindi qui troverai materiali e spunti alla rinfusa per suonare, montare video e creare roba cercando di usare meno tecnologie proprietarie possibili. Insomma, strumenti liberi come Linux, l'open source, le licenze Creative Commons e così via.\n\nPoi c'è tutto il resto, ed è parecchio disordinato. Questo sito nasce dall'esperienza di una vita passata (o sprecata?) a:\n• cercare il punto di contatto tra la precisione della scienza e la stramberia dell'arte, della poesia, del cinema o di una battuta di stand-up comedy fatta bene\n• curiosare su come comunichiamo (da un film di Tarkovskij a un action di Hong Kong, da un meme esilarante a un romanzo di Pavese, da un linguaggio di programmazione al linguaggio degli animali)\n• adorare la cultura cinese e finire sempre per viaggiare in posti tropicali in cui crogiolarsi nei \"bassifondi dell'immensità\" (cit.)\n• perdersi in qualche storia strana del passato e cercare di fare scelte un po' più ecologiche ogni giorno\n\nEcco perché qui non ci sono certo pretese di risposte definitive, ma al contrario tantissima curiosità e la voglia di ridere dei propri dubbi. Dai un'occhiata in giro, e se trovi uno spunto carino o anche solo una scusa per fare due chiacchiere, ne sono felice.",
     "birth_date": "1972-09-25",
     "footer": "Fatto con ❤️, Linux e software libero.",
-    "tagline": "Software libero per condividere, sperimentare e creare musica, video e idee.",
+    "tagline": "Il software libero per condividere, sperimentare e creare musica, video e idee.",
     "title": "Stefano Droghetti"
   },
   "social": [
     {
+      "description": "",
       "id": "facebook",
       "label": "Facebook",
       "url": "https://www.facebook.com/StefanoDroghettiHomePage/",
       "visible": true
     },
     {
+      "description": "",
       "id": "instagram",
       "label": "Instagram",
       "url": "https://www.instagram.com/stefano.droghetti/",
       "visible": true
     },
     {
+      "description": "",
       "id": "mastodon",
       "label": "Mastodon",
       "url": "https://mastodon.uno/@stefanodroghetti",
       "visible": true
     },
     {
+      "description": "",
       "id": "tiktok",
       "label": "TikTok",
       "url": "https://www.tiktok.com/@stefanodroghetti",
       "visible": true
     },
     {
+      "description": "",
       "id": "threads",
       "label": "Threads",
       "url": "https://www.threads.com/@stefano.droghetti",
+      "visible": true
+    },
+    {
+      "id": "youtube",
+      "label": "YouTube",
+      "url": "https://www.youtube.com/@StefanoDroghetti",
       "visible": true
     }
   ],
@@ -176,7 +198,7 @@
       "description": "Sostienimi con una donazione ricorrente",
       "id": "liberapay",
       "label": "Liberapay",
-      "logo_svg": "",
+      "logo_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 80 80\"><g transform=\"matrix(.83012 0 0 .83012-135.4-247.7)\"><path d=\"m259.55 385.57c0 5.145-4.169 9.318-9.318 9.318h-77.74c-5.144 0-9.318-4.174-9.318-9.318v-77.74c0-5.145 4.174-9.318 9.318-9.318h77.74c5.149 0 9.318 4.173 9.318 9.318v77.74\" fill=\"#f6c915\"/><g fill=\"#fff\"><path d=\"m202.45 366.03c-3.104 0-5.541-.405-7.311-1.213-1.77-.809-3.039-1.912-3.803-3.313-.766-1.398-1.137-3-1.115-4.818.021-1.814.272-3.748.754-5.803l8.327-34.817 10.164-1.573-9.114 37.768c-.175.786-.273 1.508-.295 2.163-.023.655.098 1.235.36 1.737.262.504.71.908 1.344 1.213.633.307 1.519.504 2.656.591l-1.967 8.06\"/><path d=\"m239.16 344.33c0 3.19-.525 6.108-1.574 8.753-1.049 2.646-2.503 4.929-4.36 6.852-1.858 1.925-4.087 3.421-6.688 4.491-2.601 1.07-5.432 1.607-8.49 1.607-1.487 0-2.973-.132-4.459-.395l-2.951 11.869h-9.704l10.884-45.37c1.748-.524 3.748-.994 5.999-1.41 2.252-.415 4.689-.622 7.312-.622 2.448 0 4.558.371 6.327 1.114 1.771.743 3.224 1.76 4.361 3.049 1.136 1.29 1.977 2.798 2.523 4.524.546 1.726.82 3.574.82 5.542m-23.802 13.442c.743.175 1.661.262 2.754.262 1.704 0 3.256-.316 4.655-.951 1.398-.633 2.59-1.518 3.574-2.655.982-1.136 1.747-2.501 2.294-4.098.546-1.595.819-3.354.819-5.278 0-1.879-.416-3.475-1.245-4.787-.831-1.311-2.273-1.967-4.327-1.967-1.4 0-2.711.131-3.935.394l-4.589 19.08\"/></g></g></svg>",
       "type": "link",
       "url": "https://liberapay.com/stefanodroghetti/donate",
       "visible": true
