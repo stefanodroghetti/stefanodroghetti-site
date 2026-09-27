@@ -209,7 +209,10 @@ html = f'''<!DOCTYPE html>
     <meta property="og:url" content="https://stefanodroghetti.it/">
     <meta property="og:title" content="{data["site"]["title"]}">
     <meta property="og:description" content="{data["site"]["tagline"]}">
+    <meta property="og:image" content="https://stefanodroghetti-site.pages.dev/og-image.jpg">
+    <!-- quando il dominio sarà attivo sostituire la riga precedente con:
     <meta property="og:image" content="https://stefanodroghetti.it/og-image.jpg">
+    -->
     
     <link rel="stylesheet" href="style.css">
 </head>
