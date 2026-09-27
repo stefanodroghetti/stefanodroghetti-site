@@ -81,6 +81,16 @@ def css():
     """Serve il CSS per l'anteprima"""
     return send_from_directory(SITE_DIR, 'style.css')
 
+@app.route('/favicon.png')
+def favicon():
+    """Serve la favicon per l'anteprima"""
+    return send_from_directory(SITE_DIR, 'favicon.png')
+
+@app.route('/og-image.jpg')
+def og_image():
+    """Serve l'immagine Open Graph per l'anteprima"""
+    return send_from_directory(SITE_DIR, 'og-image.jpg')
+
 if __name__ == '__main__':
     print("=" * 60)
     print("🚀 Dashboard di stefanodroghetti.it")

@@ -200,6 +200,17 @@ html = f'''<!DOCTYPE html>
     <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600;700&family=Questrial&display=swap" rel="stylesheet">
     <title>{data["site"]["title"]} - Sito Ufficiale</title>
     <meta name="description" content="{data["site"]["tagline"]}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+    <!-- Open Graph / Anteprima Social -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://stefanodroghetti.it/">
+    <meta property="og:title" content="{data["site"]["title"]}">
+    <meta property="og:description" content="{data["site"]["tagline"]}">
+    <meta property="og:image" content="https://stefanodroghetti.it/og-image.jpg">
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
