@@ -701,3 +701,59 @@ a.support-box-inner:hover {
     margin: 0;
     max-width: 46em;
 }
+
+/* === FRECCIA v2: angolo 45°, sforo ridotto === */
+.header-arrow {
+    height: auto;
+    aspect-ratio: 3.4;      /* altezza = larghezza / 3.4: angolo costante */
+    width: clamp(160px, 30vw, 420px);
+    clip-path: polygon(0 50%, 15% 0, 15% 32%, 100% 32%, 100% 68%, 15% 68%, 15% 100%);
+}
+
+/* === FILETTO NERO: più lungo === */
+.header-rule {
+    width: clamp(220px, 62%, 780px);
+}
+
+
+/* === FRECCIA v3: testa equilatera (60°), sorella del cuneo "top" === */
+.header-arrow {
+    height: auto;
+    aspect-ratio: 3.464;
+    width: clamp(160px, 30vw, 420px);
+    clip-path: polygon(0 50%, 25% 0, 25% 32%, 100% 32%, 100% 68%, 25% 68%, 25% 100%);
+}
+
+/* === FRECCIA v4: più cicciotta, meno sforo === */
+.header-arrow {
+    height: 135%;              /* sfora solo del 17.5% sopra/sotto (era 35%) */
+    width: clamp(140px, 26vw, 360px);  /* più piccola */
+    clip-path: polygon(0 50%, 22% 0, 22% 22%, 100% 22%, 100% 78%, 22% 78%, 22% 100%);
+    /* asta cicciotta: 22%/78% = 56% dell'altezza (era 36%) */
+}
+
+/* === Allinea le linee nere sopra/sotto la freccia al filetto (7px esatti) === */
+.header-arrow {
+    height: calc(100% + 14px);
+}
+
+/* === FRECCIA v5: ritorno alla versione "cicciotta" con linee nere visibili === */
+.header-arrow {
+    height: 135%;
+    width: clamp(140px, 26vw, 360px);
+    clip-path: polygon(0 50%, 22% 0, 22% 22%, 100% 22%, 100% 78%, 22% 78%, 22% 100%);
+}
+
+/* === FRECCIA v6: testa equilatera che sbuca, asta con 7px sopra/sotto === */
+.header-arrow {
+    height: calc(100% + 14px);
+    width: clamp(140px, 26vw, 360px);
+    clip-path: polygon(0 50%, 22% 0, 22% 22%, 100% 22%, 100% 78%, 22% 78%, 22% 100%);
+}
+
+/* === FILETTO NERO: tutta la larghezza, sotto la freccia === */
+.header-rule {
+    width: 100%;
+    margin: 1rem 0 1.4rem 0;
+    z-index: 0;
+}
