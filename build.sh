@@ -198,6 +198,7 @@ function adjustBodyPadding() {
     const nav = document.querySelector(".site-nav");
     if (nav) {
         document.body.style.paddingBottom = (nav.offsetHeight + 20) + "px";
+        document.documentElement.style.setProperty("--nav-h", nav.offsetHeight + "px");
     }
 }
 window.addEventListener("resize", adjustBodyPadding);
@@ -233,6 +234,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+// Cuneo rosso "torna su"
+const backToTop = document.getElementById("back-to-top");
+if (backToTop) {
+    backToTop.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    window.addEventListener("scroll", () => {
+        backToTop.classList.toggle("visible", window.scrollY > 600);
+    });
+}
 </script>
 """
 
@@ -266,13 +277,14 @@ html = f'''<!DOCTYPE html>
         {productions_section}
         {social_section}
         {events_section}
+        {recommended_section}
         {support_section}
         {qrcode_modals}
-        {recommended_section}
         <footer>
             <p>{data["site"]["footer"]}</p>
         </footer>
     </main>
+    <button id="back-to-top" class="back-to-top" aria-label="Torna in cima" title="Torna in cima"></button>
 {js_code}
 </body>
 </html>'''
