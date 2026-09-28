@@ -647,3 +647,57 @@ a.support-box-inner:hover {
 @media (max-width: 768px) {
     .back-to-top { right: 0.8rem; width: 40px; height: 35px; }
 }
+
+/* === HEADER COSTRUTTIVISTA: banda nera + freccia rossa === */
+.site-header {
+    margin-bottom: 3rem;
+}
+
+.header-band {
+    position: relative;
+    background: #111;
+    padding: 0.55em 1rem;
+}
+
+.header-band h1 {
+    position: relative;
+    z-index: 2;              /* il nome resta sopra la freccia */
+    color: #f4f1ea;
+    margin: 0;
+    display: inline-block;
+    font-size: clamp(2rem, 7vw, 4rem);
+    line-height: 1.05;
+}
+
+/* La freccia: un solo div ritagliato a punta+asta */
+.header-arrow {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 170%;            /* sborda sopra e sotto la banda, come nello schizzo */
+    width: clamp(140px, 34vw, 460px);
+    background: #d90429;
+    clip-path: polygon(0 50%, 32% 0, 32% 32%, 100% 32%, 100% 68%, 32% 68%, 32% 100%);
+    z-index: 1;
+}
+
+/* Il filetto nero sotto la banda */
+.header-rule {
+    height: 7px;
+    background: #111;
+    width: clamp(180px, 46%, 560px);
+    margin: 1rem 0 1.4rem 0.5rem;
+}
+
+/* Tagline col montante rosso, stile manifesto */
+.site-header .tagline {
+    font-family: 'Questrial', sans-serif;
+    font-style: normal;
+    font-size: clamp(1.05rem, 2.4vw, 1.45rem);
+    color: #1a1a1a;
+    border-left: 7px solid #d90429;
+    padding-left: 1.1rem;
+    margin: 0;
+    max-width: 46em;
+}

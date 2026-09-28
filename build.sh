@@ -264,8 +264,12 @@ html = f'''<!DOCTYPE html>
 </head>
 <body>
     <main>
-        <header>
-            <h1>{data["site"]["title"]}</h1>
+        <header class="site-header">
+            <div class="header-band">
+                <h1>{data["site"]["title"]}</h1>
+                <div class="header-arrow" aria-hidden="true"></div>
+            </div>
+            <div class="header-rule" aria-hidden="true"></div>
             <p class="tagline">{data["site"]["tagline"]}</p>
         </header>
         <section class="bio">
