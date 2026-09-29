@@ -250,6 +250,8 @@ if (backToTop) {
 }
 </script>
 """
+import time
+og_version = int(time.time())
 
 html = f'''<!DOCTYPE html>
 <html lang="it">
@@ -263,7 +265,7 @@ html = f'''<!DOCTYPE html>
     <meta property="og:url" content="https://stefanodroghetti.it/">
     <meta property="og:title" content="{data["site"]["title"]}">
     <meta property="og:description" content="{data["site"]["tagline"]}">
-    <meta property="og:image" content="https://stefanodroghetti-site.pages.dev/og-image.jpg">
+    <meta property="og:image" content="https://stefanodroghetti-site.pages.dev/og-image.jpg?v={og_version}">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
