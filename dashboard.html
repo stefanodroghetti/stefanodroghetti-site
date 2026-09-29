@@ -143,7 +143,22 @@ cat << 'EOF' > dashboard.html
                 <button class="add-btn" onclick="addRecommended()">+ Aggiungi link</button>
             </div>
         </div>
-
+        
+		<div class="section">
+			<h2>E I COOKIES? (Privacy)</h2>
+			<div class="field">
+				<label class="checkbox-label">
+					<input type="checkbox" id="cookies-visible" onchange="updateSectionSetting('cookies', 'visible', this.checked)">
+					Mostra sezione Cookies
+				</label>
+			</div>
+			<div class="field"><label>Titolo sezione</label><input type="text" id="title-cookies" onchange="updateSectionSetting('cookies', 'title', this.value)"></div>
+			<div class="field">
+				<label>Testo della sezione</label>
+				<textarea id="cookies-text" rows="12" onchange="updateSimpleField('cookies_text', '', this.value)"></textarea>
+			</div>
+		</div>
+		
         <div class="preview-container">
             <div class="preview-header">
                 <h3>👁️ Anteprima sito</h3>
@@ -193,6 +208,9 @@ git push</pre>
             document.getElementById('site-bio').value = jsonData.site.bio_placeholder || '';
             document.getElementById('site-birth-date').value = jsonData.site.birth_date || '';
             document.getElementById('site-footer').value = jsonData.site.footer || '';
+            document.getElementById('cookies-visible').checked = jsonData.section_settings?.cookies?.visible !== false;
+			document.getElementById('title-cookies').value = jsonData.section_settings?.cookies?.title || '';
+			document.getElementById('cookies-text').value = jsonData.cookies_text || '';
             
             const sections = ['manifesto', 'productions', 'social', 'support', 'events', 'recommended'];
             sections.forEach(section => {
@@ -213,10 +231,12 @@ git push</pre>
             renderRecommended();
         }
 
-        function updateSimpleField(section, field, value) {
-            if (!jsonData[section]) jsonData[section] = {};
-            jsonData[section][field] = value;
-        }
+		function updateSimpleField(section, field, value) {
+			if (section === 'cookies_text') {
+				jsonData['cookies_text'] = value;
+			} else if (!jsonData[section]) jsonData[section] = {};
+			else jsonData[section][field] = value;
+		}
 
         function updateSectionSetting(section, field, value) {
             if (!jsonData.section_settings) jsonData.section_settings = {};

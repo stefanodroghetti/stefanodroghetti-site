@@ -21,6 +21,7 @@
       "title": "Installazione Ubuntu da zero (formattazione)"
     }
   ],
+  "cookies_text": "...e il cookie banner?\n\nSe ti sei chiestǝ come mai non sia apparso quel fastidioso cookie banner che ti blocca la lettura finché non dichiari di rifiutare tutto o di permettere qualsiasi uso (lecito o meno) dei tuoi dati, e magari hai pure sospettato che me ne fossi dimenticato o che fossi fuggito in un paradiso tropicale (o fiscale), ti rassicuro: è tutto perfettamente legale.\n\nPer il semplice motivo che qui non ti traccia nessuno: niente biscottini digitali, niente mercatino dell'usato con i tuoi dati personali, niente di niente. L'infrastruttura si limita a registrare i log di rete minimi e indispensabili per servirti la pagina in sicurezza, e poi se ne torna in silenzio nel suo angolo (dove dovrebbe stare).\n\nMi fa perlomeno riflettere che in questo scorcio di secolo non tracciare chi visita un sito venga percepito da molte persone come una stranezza, un'anomalia o un errore di distrazione. Se ci pensate, è come se al supermercato, invece di vietare gli ingredienti dannosi nei cibi, ogni volta che ne mettete uno nel carrello vi obbligassero a firmare una liberatoria in cui vi assumete la responsabilità di veleno e derivati...\n\nBasterebbe semplicemente smettere di mettere ingredienti tossici nei cibi e strumenti invasivi nei siti web. È solo una questione di rispetto per chi legge e di trovare un modo sano e pulito di stare insieme in rete.",
   "events": [
     {
       "date": "2026-10-10",
@@ -112,6 +113,11 @@
     }
   ],
   "section_settings": {
+    "cookies": {
+      "description": "",
+      "title": "E I COOKIES?",
+      "visible": true
+    },
     "events": {
       "description": "",
       "title": "Eventi",
