@@ -3,5 +3,5 @@
   
   "stripe": "<script async='' src='https://js.stripe.com/v3/buy-button.js'></script><stripe-buy-button buy-button-id='buy_btn_1OqvfeHGNVxjVn5lhca6GQLN' publishable-key='pk_live_51OquHBHGNVxjVn5lZY1yefyPrPs2W2RodcecJfTYn58487FmFmjKgNOB7jf1wCpnvzJ8Q8I2kN8ANSv0l9PSU76000jMTcgjnM'></stripe-buy-button>",
   
-  "liberapay": "<script src='https://liberapay.com/stefanodroghetti/widgets/button.js'></script><noscript>&lt;a href='https://liberapay.com/stefanodroghetti/donate'&gt;&lt;img alt='Donate using Liberapay' src='https://liberapay.com/assets/widgets/donate.svg'&gt;&lt;/a&gt;</noscript>"
+  "liberapay": "<script src='https://it.liberapay.com/stefanodroghetti/widgets/button.js'></script><noscript>&lt;a href='https://liberapay.com/stefanodroghetti/donate'&gt;&lt;img alt='Donate using Liberapay' src='https://liberapay.com/assets/widgets/donate.svg'&gt;&lt;/a&gt;</noscript>"
 }
