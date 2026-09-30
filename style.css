@@ -757,3 +757,31 @@ a.support-box-inner:hover {
     margin: 1rem 0 1.4rem 0;
     z-index: 0;
 }
+
+/* === MENU "BASE" DEL MANIFESTO === */
+.site-nav {
+    /* Centra la barra */
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    /* Larghezza = colonna di testo + piccolo margine laterale */
+    width: calc(100% - 2rem) !important;
+    max-width: 1220px !important;
+}
+
+/* Su schermi grandi: la barra si allinea perfettamente ai bordi della colonna */
+@media (min-width: 1240px) {
+    .site-nav {
+        width: calc(100% - 4rem) !important;
+        max-width: 1200px !important;
+    }
+}
+
+/* === Elenchi nella bio più compatti === */
+.bio ul {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+}
+.bio li {
+    margin: 0.2rem 0;
+    line-height: 1.4;
+}

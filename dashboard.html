@@ -1,4 +1,3 @@
-cat << 'EOF' > dashboard.html
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -142,22 +141,23 @@ cat << 'EOF' > dashboard.html
                 <div id="recommended-list"></div>
                 <button class="add-btn" onclick="addRecommended()">+ Aggiungi link</button>
             </div>
-        </div>
         
-		<div class="section">
-			<h2>E I COOKIES? (Privacy)</h2>
-			<div class="field">
-				<label class="checkbox-label">
-					<input type="checkbox" id="cookies-visible" onchange="updateSectionSetting('cookies', 'visible', this.checked)">
-					Mostra sezione Cookies
-				</label>
-			</div>
-			<div class="field"><label>Titolo sezione</label><input type="text" id="title-cookies" onchange="updateSectionSetting('cookies', 'title', this.value)"></div>
-			<div class="field">
-				<label>Testo della sezione</label>
-				<textarea id="cookies-text" rows="12" onchange="updateSimpleField('cookies_text', '', this.value)"></textarea>
+			<div class="section">
+				<h2>E I COOKIES? (Privacy)</h2>
+				<div class="field">
+					<label class="checkbox-label">
+						<input type="checkbox" id="cookies-visible" onchange="updateSectionSetting('cookies', 'visible', this.checked)">
+						Mostra sezione Cookies
+					</label>
+				</div>
+				<div class="field"><label>Titolo sezione</label><input type="text" id="title-cookies" onchange="updateSectionSetting('cookies', 'title', this.value)"></div>
+				<div class="field">
+					<label>Testo della sezione</label>
+					<textarea id="cookies-text" rows="12" onchange="updateSimpleField('cookies_text', '', this.value)"></textarea>
+				</div>
 			</div>
 		</div>
+
 		
         <div class="preview-container">
             <div class="preview-header">
@@ -454,4 +454,4 @@ git push</pre>
     </script>
 </body>
 </html>
-EOF
+
