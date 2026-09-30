@@ -84,7 +84,32 @@ def render_section(section_key, content_html):
             {content_html}
         </section>'''
 
-manifesto_section = render_section('manifesto', prompts_html)
+# --- Box PDF delle guide storiche ---
+guide_pdfs_html = ""
+for pdf in data.get('guide_pdfs', []):
+    # Codifica il nome file per l'URL (spazi -> %20)
+    filename_encoded = pdf['filename'].replace(' ', '%20')
+    guide_pdfs_html += f'''
+                <a href="/pdf/{filename_encoded}" target="_blank" rel="noopener" class="guide-box">
+                    <div class="guide-icon">📄</div>
+                    <div class="guide-title">{pdf['title']}</div>
+                    <div class="guide-desc">{pdf.get('description', '')}</div>
+                </a>
+'''
+
+guide_pdfs_section = ""
+if guide_pdfs_html:
+    guide_pdfs_section = f'''
+<p class="guide-intro">Ecco le vecchie guide consultabili in PDF:</p>
+<div class="guide-grid">
+{guide_pdfs_html}
+</div>
+<p class="prompt-intro">Ed ecco i prompt:</p>
+'''
+
+# Unisce i box PDF + i prompt AI nella sezione manifesto
+manifesto_content = guide_pdfs_section + prompts_html
+manifesto_section = render_section('manifesto', manifesto_content)
 productions_section = render_section('productions', f'<ul>{productions_html}            </ul>')
 social_section = render_section('social', f'<ul>{social_html}            </ul>')
 

@@ -36,6 +36,38 @@
       "type": "future"
     }
   ],
+  "guide_pdfs": [
+    {
+      "description": "La guida entry-level per chi non ha mai visto Linux.",
+      "filename": "Linux per totali neofiti.pdf",
+      "title": "Linux per totali neofiti"
+    },
+    {
+      "description": "Come usare OpenStreetMap e strumenti liberi per la navigazione.",
+      "filename": "Mappe gratis per navigatori.pdf",
+      "title": "Mappe gratis per navigatori"
+    },
+    {
+      "description": "DAW, VST, MIDI e tutto l'audio su Linux.",
+      "filename": "Produzione musicale su Ubuntu 22 e 24.pdf",
+      "title": "Produzione musicale su Ubuntu 22 e 24"
+    },
+    {
+      "description": "Montaggio, color correction e codec liberi.",
+      "filename": "Produzione Video con Linux.pdf",
+      "title": "Produzione Video con Linux"
+    },
+    {
+      "description": "La guida storica (non più supportata).",
+      "filename": "Ubuntu 22.04 supercompleta.pdf",
+      "title": "Ubuntu 22.04 supercompleta"
+    },
+    {
+      "description": "La guida più recente e completa.",
+      "filename": "Ubuntu 24.04 supercompleta.pdf",
+      "title": "Ubuntu 24.04 supercompleta"
+    }
+  ],
   "productions": [
     {
       "description": "Video, tutorial e contenuti vari",
@@ -124,7 +156,7 @@
       "visible": true
     },
     "manifesto": {
-      "description": "Dopo quasi vent'anni di onorata carriera, posso finalmente lasciare a persone molto più esperte di me il compito di seguirvi passo passo nella realizzazione di ciò che le mie guide vi aiutavano a installare e configurare. Queste figure così competenti si chiamano <i>intelligenze artificiali</i> e sono davvero molto migliori di molte persone - sicuramente di me - nello spiegarvi punto per punto che cosa fare e perché, per ogni vostra esigenza. Sono pazienti, se non capite ripetono in altre parole, vi correggono gli errori, se il terminale vi restituisce qualcosa di inaspettato voi copincollate l'errore e loro vi dicono che cosa fare... Un paradiso.\nQuello che cambia, il fattore umano, quello personale, è l'esperienza, è il gusto personale, che si riflette nel prompt. In questa sezione quindi vi suggerisco che cosa chiedere a un'AI gratuita con una finestra di contesto abbastanza ampia (al momento vi consiglio Qwen Studio) o una che pagate, per ottenere assistenza.",
+      "description": "Dopo quasi vent'anni di onorata carriera, posso finalmente lasciare a persone molto più esperte di me il compito di seguirvi passo passo nella realizzazione di ciò che le mie guide vi aiutavano a installare e configurare. Queste figure così competenti si chiamano <i>intelligenze artificiali</i> e sono davvero molto migliori di molte persone - sicuramente di me - nello spiegarvi punto per punto che cosa fare e perché, per ogni vostra esigenza. Sono pazienti, se non capite ripetono in altre parole, vi correggono gli errori, se il terminale vi restituisce qualcosa di inaspettato voi copincollate l'errore e loro vi dicono che cosa fare... Un paradiso.\n\nQuello che cambia, il fattore umano, quello personale, è l'esperienza, è il gusto personale, che si riflette nel prompt. Ho perciò archiviato le guide <i>storiche</i> in comodi PDF scaricabili e consultabili, giusto se qualcuno ne volesse trarre ispirazione. In questa sezione quindi vi suggerisco che cosa chiedere a un'AI gratuita con una finestra di contesto abbastanza ampia (al momento vi consiglio Qwen Studio) o una che pagate, per ottenere assistenza.",
       "title": "Dove sono le guide?",
       "visible": true
     },
