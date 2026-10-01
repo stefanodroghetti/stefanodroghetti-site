@@ -86,6 +86,12 @@ def fonts(filename):
     """Serve i font locali (.ttf)"""
     return send_from_directory(os.path.join(SITE_DIR, 'fonts'), filename)
 
+@app.route('/pdf/<path:filename>')
+def serve_pdf(filename):
+    """Serve i file PDF delle guide storiche"""
+    pdf_dir = os.path.join(SITE_DIR, 'pdf')
+    return send_from_directory(pdf_dir, filename)
+
 @app.route('/favicon.png')
 def favicon():
     """Serve la favicon per l'anteprima"""

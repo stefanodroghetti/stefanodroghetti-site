@@ -290,8 +290,8 @@ html = f'''<!DOCTYPE html>
     <meta property="og:url" content="https://stefanodroghetti.it/">
     <meta property="og:title" content="{data["site"]["title"]}">
     <meta property="og:description" content="{data["site"]["tagline"]}">
-    <meta property="og:image" content="https://stefanodroghetti-site.pages.dev/og-image.jpg?v={og_version}">
-    <link rel="stylesheet" href="style.css">
+    <meta property="og:image" content="https://stefanodroghetti.it/og-image.jpg?v={og_version}">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <main>
