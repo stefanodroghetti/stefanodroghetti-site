@@ -215,7 +215,7 @@ cookies_paragraphs = ''.join([f'<p>{p}</p>' for p in cookies_text.split('\n\n')]
 cookies_section = render_section('cookies', cookies_paragraphs)
 
 nav_html = ""
-nav_order = ['manifesto', 'productions', 'social', 'events', 'recommended', 'support', 'cookies']
+nav_order = ['manifesto', 'productions', 'divagazioni', 'social', 'events', 'recommended', 'support', 'cookies']
 for section_key in nav_order:
     s = settings.get(section_key, {})
     if s.get('visible', True):

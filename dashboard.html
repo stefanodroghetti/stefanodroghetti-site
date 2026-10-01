@@ -104,6 +104,10 @@
                 <div class="field"><label class="checkbox-label"><input type="checkbox" id="recommended-visible" onchange="updateSectionSetting('recommended', 'visible', this.checked)"> Mostra sezione Link Consigliati</label></div>
                 <div class="field"><label>Titolo Link Consigliati</label><input type="text" id="title-recommended" onchange="updateSectionSetting('recommended', 'title', this.value)"></div>
                 <div class="field"><label>Descrizione Link Consigliati (opzionale)</label><textarea id="desc-recommended" onchange="updateSectionSetting('recommended', 'description', this.value)"></textarea></div>
+                
+                <div class="field"><label class="checkbox-label"><input type="checkbox" id="divagazioni-visible" onchange="updateSectionSetting('divagazioni', 'visible', this.checked)"> Mostra sezione Divagazioni</label></div>
+				<div class="field"><label>Titolo Divagazioni</label><input type="text" id="title-divagazioni" onchange="updateSectionSetting('divagazioni', 'title', this.value)"></div>
+				<div class="field"><label>Descrizione Divagazioni (opzionale)</label><textarea id="desc-divagazioni" onchange="updateSectionSetting('divagazioni', 'description', this.value)"></textarea></div>
             </div>
 
             <div class="section">
@@ -220,7 +224,7 @@ git push</pre>
 
 
             
-            const sections = ['manifesto', 'productions', 'social', 'support', 'events', 'recommended'];
+            const sections = ['manifesto', 'productions', 'divagazioni', 'social', 'support', 'events', 'recommended'];
             sections.forEach(section => {
                 const s = jsonData.section_settings?.[section] || {};
                 const visibleEl = document.getElementById(`${section}-visible`);
