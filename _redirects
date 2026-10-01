@@ -1,0 +1,2 @@
+/pdf/*  /pdf/:splat  200
+/pdf/   /  301
