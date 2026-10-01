@@ -104,7 +104,11 @@ def og_image():
 
 @app.route('/<path:filename>')
 def serve_static(filename):
-    """Serve tutti gli altri file del sito (immagini, ecc.)"""
+    """Serve tutti gli altri file del sito (immagini, cartelle, ecc.)"""
+    target = os.path.join(SITE_DIR, filename)
+    # Se la richiesta punta a una cartella, servi il suo index.html
+    if os.path.isdir(target):
+        return send_from_directory(target, 'index.html')
     return send_from_directory(SITE_DIR, filename)
   
 if __name__ == '__main__':

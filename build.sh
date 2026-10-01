@@ -110,6 +110,30 @@ if guide_pdfs_html:
 # Unisce i box PDF + i prompt AI nella sezione manifesto
 manifesto_content = guide_pdfs_section + prompts_html
 manifesto_section = render_section('manifesto', manifesto_content)
+
+# --- Box DIVAGAZIONI (progetti interattivi) ---
+divagazioni_html = ""
+for proj in data.get('divagazioni', []):
+    if not proj.get('visible', True):
+        continue
+    folder = proj['folder']
+    divagazioni_html += f'''
+        <a href="/progetti/{folder}/" class="guide-box">
+            <div class="guide-icon">▶</div>
+            <div class="guide-title">{proj['title']}</div>
+            <div class="guide-desc">{proj.get('description', '')}</div>
+        </a>
+'''
+
+divagazioni_section = ""
+if divagazioni_html:
+    divagazioni_section = render_section('divagazioni', f'''
+        <p class="guide-intro">Pagine interattive e strumenti pratici che ho creato per divertimento o utilità:</p>
+        <div class="guide-grid">
+            {divagazioni_html}
+        </div>
+    ''')
+
 productions_section = render_section('productions', f'<ul>{productions_html}            </ul>')
 social_section = render_section('social', f'<ul>{social_html}            </ul>')
 
@@ -310,6 +334,7 @@ html = f'''<!DOCTYPE html>
         {nav_html}
         {manifesto_section}
         {productions_section}
+        {divagazioni_section}
         {social_section}
         {events_section}
         {recommended_section}

@@ -286,5 +286,13 @@
       "type": "qrcode",
       "visible": true
     }
+  ],
+    "divagazioni": [
+    {
+      "title": "Termica vs Elettrica",
+      "folder": "auto-elettriche",
+      "description": "Confronto del costo per km e punto di pareggio tra auto termica ed elettrica",
+      "visible": true
+    }
   ]
 }

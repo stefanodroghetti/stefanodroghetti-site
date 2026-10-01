@@ -118,6 +118,12 @@
                 <button class="add-btn" onclick="addItem('productions', {id: 'new', label: 'Nuovo link', url: 'https://', visible: true})">+ Aggiungi produzione</button>
             </div>
 
+			<div class="section">
+				<h2>Divagazioni (progetti interattivi)</h2>
+				<div id="divagazioni-list"></div>
+				<button class="add-btn" onclick="addDivagazione()">+ Aggiungi divagazione</button>
+			</div>
+
             <div class="section">
                 <h2>Social</h2>
                 <div id="social-list"></div>
@@ -211,6 +217,8 @@ git push</pre>
             document.getElementById('cookies-visible').checked = jsonData.section_settings?.cookies?.visible !== false;
 			document.getElementById('title-cookies').value = jsonData.section_settings?.cookies?.title || '';
 			document.getElementById('cookies-text').value = jsonData.cookies_text || '';
+
+
             
             const sections = ['manifesto', 'productions', 'social', 'support', 'events', 'recommended'];
             sections.forEach(section => {
@@ -229,6 +237,7 @@ git push</pre>
             renderSupportList();
             renderEvents();
             renderRecommended();
+            renderDivagazioni();
         }
 
 		function updateSimpleField(section, field, value) {
@@ -416,6 +425,57 @@ git push</pre>
 				`;
 				container.appendChild(div);
 			});
+		}
+
+		// --- Divagazioni ---
+		function renderDivagazioni() {
+			const container = document.getElementById('divagazioni-list');
+			container.innerHTML = '';
+			jsonData.divagazioni.forEach((proj, index) => {
+				const div = document.createElement('div');
+				div.className = 'array-item';
+				div.innerHTML = `
+					<div class="controls-row">
+						<label class="checkbox-label"><input type="checkbox" ${proj.visible !== false ? 'checked' : ''} onchange="updateDivagazioneField(${index}, 'visible', this.checked)"> Visibile</label>
+						<div style="flex-grow:1"></div>
+						<button class="move-btn" onclick="moveDivagazione(${index}, -1)" ${index === 0 ? 'disabled' : ''}>⬆️</button>
+						<button class="move-btn" onclick="moveDivagazione(${index}, 1)" ${index === jsonData.divagazioni.length - 1 ? 'disabled' : ''}>⬇️</button>
+						<button class="remove-btn" onclick="removeDivagazione(${index})">✕</button>
+					</div>
+					<div class="field"><label>Titolo</label><input type="text" value="${proj.title}" onchange="updateDivagazioneField(${index}, 'title', this.value)"></div>
+					<div class="field"><label>Nome cartella (in /progetti/)</label><input type="text" value="${proj.folder}" onchange="updateDivagazioneField(${index}, 'folder', this.value)"></div>
+					<div class="field"><label>Descrizione</label><textarea onchange="updateDivagazioneField(${index}, 'description', this.value)">${proj.description || ''}</textarea></div>
+				`;
+				container.appendChild(div);
+			});
+		}
+
+		function updateDivagazioneField(index, field, value) {
+			jsonData.divagazioni[index][field] = value;
+		}
+
+		function moveDivagazione(index, direction) {
+			const newIndex = index + direction;
+			if (newIndex < 0 || newIndex >= jsonData.divagazioni.length) return;
+			const temp = jsonData.divagazioni[index];
+			jsonData.divagazioni[index] = jsonData.divagazioni[newIndex];
+			jsonData.divagazioni[newIndex] = temp;
+			renderDivagazioni();
+		}
+
+		function removeDivagazione(index) {
+			jsonData.divagazioni.splice(index, 1);
+			renderDivagazioni();
+		}
+
+		function addDivagazione() {
+			jsonData.divagazioni.push({
+				title: 'Nuova divagazione',
+				folder: 'nuovo-progetto',
+				description: 'Descrizione del progetto',
+				visible: true
+			});
+			renderDivagazioni();
 		}
 		
 		function addRecommended() { 
