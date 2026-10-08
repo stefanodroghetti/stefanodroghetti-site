@@ -315,6 +315,7 @@ html = f'''<!DOCTYPE html>
     <meta property="og:title" content="{data["site"]["title"]}">
     <meta property="og:description" content="{data["site"]["tagline"]}">
     <meta property="og:image" content="https://stefanodroghetti.it/og-image.jpg?v={og_version}">
+    <link rel="canonical" href="https://stefanodroghetti.it/">
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
