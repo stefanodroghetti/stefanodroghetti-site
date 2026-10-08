@@ -328,10 +328,17 @@ html = f'''<!DOCTYPE html>
             <div class="header-rule" aria-hidden="true"></div>
             <p class="tagline">{data["site"]["tagline"]}</p>
         </header>
-        <section class="bio">
-            <p>{data["site"]["bio_placeholder"]}</p>
-            <p class="age">Oggi ho {age} anni.</p>
-        </section>
+		<section class="bio">
+		<p>{data["site"]["bio_placeholder"]}</p>
+		<p class="age">Oggi ho {age} anni.</p>
+		<p style="font-size: 0.85rem; color: #888; margin-top: 0.5rem;">
+		  <a href="https://github.com/stefanodroghetti/stefanodroghetti-site/commits/main/" 
+			 target="_blank" rel="noopener"
+			 style="border-bottom: 1px dashed #888;">
+			Vedi come si evolve questo sito →
+		  </a>
+		</p>
+		</section>
         {nav_html}
         {manifesto_section}
         {productions_section}
