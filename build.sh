@@ -100,7 +100,7 @@ for pdf in data.get('guide_pdfs', []):
 guide_pdfs_section = ""
 if guide_pdfs_html:
     guide_pdfs_section = f'''
-<p class="guide-intro">Ecco le vecchie guide consultabili in PDF:</p>
+<p class="guide-intro">Ecco le vecchie guide <b>obsolete e non più supportate</b> consultabili in PDF:</p>
 <div class="guide-grid">
 {guide_pdfs_html}
 </div>

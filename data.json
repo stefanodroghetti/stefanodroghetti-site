@@ -66,12 +66,12 @@
       "title": "Produzione Video con Linux"
     },
     {
-      "description": "La guida storica (non più supportata).",
+      "description": "La guida storica, pre-pipewire (non più supportata).",
       "filename": "Ubuntu 22.04 supercompleta.pdf",
       "title": "Ubuntu 22.04 supercompleta"
     },
     {
-      "description": "La guida più recente e completa.",
+      "description": "L'altra guida storica, aggiornata a pipewire, ma anch'essa oggi obsoleta e non più supportata.",
       "filename": "Ubuntu 24.04 supercompleta.pdf",
       "title": "Ubuntu 24.04 supercompleta"
     }
