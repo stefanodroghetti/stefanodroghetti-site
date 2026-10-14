@@ -104,7 +104,7 @@ if guide_pdfs_html:
 <div class="guide-grid">
 {guide_pdfs_html}
 </div>
-<p class="prompt-intro">Per aottenere una guida molto migliore e personalizzata quindi, andate sulla vostra AI di fiducia e scrivete questi prompt:</p>
+<p class="prompt-intro">Per ottenere una guida molto migliore e personalizzata quindi, andate sulla vostra AI di fiducia e scrivete questi prompt:</p>
 '''
 
 # Unisce i box PDF + i prompt AI nella sezione manifesto
