@@ -772,15 +772,23 @@ document.querySelectorAll('.qField').forEach(cb => cb.addEventListener('change',
 
 /* ================= Ancoraggio visivo ================= */
 function portaAllaCard() {
-  const el = $('quizQ');
-  const y = window.scrollY + el.getBoundingClientRect().top - 90;
+  const layout = document.querySelector('.fc-quizlayout');
+  if (!layout) return;
+  const r = layout.getBoundingClientRect();
+  const margine = 90;
+  const y = window.scrollY + r.top - margine;
   window.scrollTo({ top: Math.max(0, y), behavior: 'auto' });
 }
 function rispostaInVista() {
-  const el = $('quizA');
-  const r = el.getBoundingClientRect();
-  if (r.bottom > window.innerHeight - 10) {
-    el.scrollIntoView({ block: 'nearest', behavior: 'auto' });
+  if (!state.revealed) return;
+  // Scrolla fino a mostrare il blocco card+pulsanti (non solo la card)
+  const layout = document.querySelector('.fc-quizlayout');
+  if (!layout) return;
+  const r = layout.getBoundingClientRect();
+  const margine = 20; // pixel di respiro dal fondo della finestra
+  if (r.bottom > window.innerHeight - margine) {
+    const y = window.scrollY + r.bottom - window.innerHeight + margine;
+    window.scrollTo({ top: Math.max(0, y), behavior: 'auto' });
   }
 }
 
