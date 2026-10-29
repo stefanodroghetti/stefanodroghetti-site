@@ -5,7 +5,7 @@
     "licenza": "CC0-1.0 (pubblico dominio)",
     "nota": "Dati aperti e trasparenti: scarica, copia, modifica, riusa.",
     "aggiornato": "2026-10-29",
-    "copertura": "81 parole: informatica, sviluppo, rete, e le chicche del software libero"
+    "copertura": "81 parole: informatica, sviluppo, rete, e software libero"
   },
   "carte": [
     {"id": 1, "hanzi": "计算机", "pinyin": "jìsuànjī", "italiano": "computer"},
@@ -33,7 +33,7 @@
     {"id": 23, "hanzi": "冲突", "pinyin": "chōngtū", "italiano": "conflitto"},
     {"id": 24, "hanzi": "服务器", "pinyin": "fúwùqì", "italiano": "server"},
     {"id": 25, "hanzi": "客户端", "pinyin": "kèhùduān", "italiano": "client"},
-    {"id": 26, "hanzi": "防火墙", "pinyin": "fánghuǒqiáng", "italiano": "firewall (chicca: lo abbiamo domato!)"},
+    {"id": 26, "hanzi": "防火墙", "pinyin": "fánghuǒqiáng", "italiano": "firewall"},
     {"id": 27, "hanzi": "漏洞", "pinyin": "lòudòng", "italiano": "vulnerabilità"},
     {"id": 28, "hanzi": "补丁", "pinyin": "bǔdīng", "italiano": "patch"},
     {"id": 29, "hanzi": "加密", "pinyin": "jiāmì", "italiano": "cifrare"},
@@ -44,7 +44,7 @@
     {"id": 34, "hanzi": "广告", "pinyin": "guǎnggào", "italiano": "pubblicità"},
     {"id": 35, "hanzi": "插件", "pinyin": "chājiàn", "italiano": "plugin"},
     {"id": 36, "hanzi": "扩展", "pinyin": "kuòzhǎn", "italiano": "estensione"},
-    {"id": 37, "hanzi": "字体", "pinyin": "zìtǐ", "italiano": "font (chicca: come il WenKai di questa pagina)"},
+    {"id": 37, "hanzi": "字体", "pinyin": "zìtǐ", "italiano": "font"},
     {"id": 38, "hanzi": "编码", "pinyin": "biānmǎ", "italiano": "codifica"},
     {"id": 39, "hanzi": "字符", "pinyin": "zìfú", "italiano": "carattere"},
     {"id": 40, "hanzi": "域名", "pinyin": "yùmíng", "italiano": "dominio"},
@@ -87,7 +87,6 @@
     {"id": 77, "hanzi": "分享", "pinyin": "fēnxiǎng", "italiano": "condividere"},
     {"id": 78, "hanzi": "网站", "pinyin": "wǎngzhàn", "italiano": "sito web"},
     {"id": 79, "hanzi": "网页", "pinyin": "wǎngyè", "italiano": "pagina web"},
-    {"id": 80, "hanzi": "浏览器", "pinyin": "liúlǎnqì", "italiano": "browser"},
-    {"id": 81, "hanzi": "Linux", "pinyin": "—", "italiano": "Linux (in cinese si scrive uguale: chicca suprema)"}
+    {"id": 80, "hanzi": "浏览器", "pinyin": "liúlǎnqì", "italiano": "browser"}
   ]
 }
