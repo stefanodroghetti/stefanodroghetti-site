@@ -58,7 +58,7 @@
     {"id": 48, "hanzi": "扫码", "pinyin": "sǎo mǎ", "italiano": "scansionare il QR"},
     {"id": 49, "hanzi": "二维码", "pinyin": "èrwéimǎ", "italiano": "codice QR"},
     {"id": 50, "hanzi": "付", "pinyin": "fù", "italiano": "pagare"},
-    {"id": 51, "hanzi": "发票", "pinyin": "fāpiào", "italiano": "ricevuta fiscale (fapiao)"},
+    {"id": 51, "hanzi": "发票", "pinyin": "fāpiào", "italiano": "ricevuta fiscale"},
     {"id": 52, "hanzi": "收据", "pinyin": "shōujù", "italiano": "ricevuta"},
     {"id": 53, "hanzi": "公交", "pinyin": "gōngjiāo", "italiano": "autobus"},
     {"id": 54, "hanzi": "高铁", "pinyin": "gāotiě", "italiano": "treno ad alta velocità"},
@@ -108,5 +108,6 @@
     {"id": 98, "hanzi": "坚持", "pinyin": "jiānchí", "italiano": "resistere, tenere duro"},
     {"id": 99, "hanzi": "别慌", "pinyin": "bié huāng", "italiano": "niente panico"},
     {"id": 100, "hanzi": "没事", "pinyin": "méi shì", "italiano": "tutto a posto"}
+}
   ]
 }
