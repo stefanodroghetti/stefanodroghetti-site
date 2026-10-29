@@ -23,6 +23,14 @@
     src: url('/fonts/Dosis-Bold.ttf') format('truetype');
   }
   @font-face {
+    font-family: 'Noto Sans SC';
+    src: url('/fonts/NotoSansSC-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
     font-family: 'Questrial';
     src: url('/fonts/Questrial-Regular.ttf') format('truetype');
   }
@@ -278,10 +286,14 @@
   .fc-card .hanzi, .fc-quizcard .hanzi {
     font-family: 'LXGW WenKai GB', serif;
   }
-  /* Roboto per pinyin e significato (pulito e leggibile) */
-  .fc-card .pinyin, .fc-card .ital,
-  .fc-quizcard .pinyin, .fc-quizcard .ital {
-    font-family: 'Roboto', sans-serif;
+  /* Noto Sans SC per il pinyin (copre Latin Extended + diacritici) */
+  .fc-card .pinyin, .fc-quizcard .pinyin {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 500;
+  }
+  /* Dosis per l'italiano (come nel resto del sito) */
+  .fc-card .ital, .fc-quizcard .ital {
+    font-family: 'Dosis', sans-serif;
   }
   .fc-card .hanzi { font-size: calc(var(--cardw) * 0.26); line-height: 1.15; font-weight: 500; }
   .fc-card .pinyin {
