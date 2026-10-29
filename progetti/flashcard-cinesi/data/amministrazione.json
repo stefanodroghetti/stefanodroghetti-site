@@ -85,7 +85,7 @@
     {"id": 75, "hanzi": "通知", "pinyin": "tōngzhī", "italiano": "avviso"},
     {"id": 76, "hanzi": "公告", "pinyin": "gōnggào", "italiano": "comunicato"},
     {"id": 77, "hanzi": "官方", "pinyin": "guānfāng", "italiano": "ufficiale"},
-    {"id": 78, "hanzi": "民间", "pinyin": "mínjiān", "italiano": "popolare, non governativo"}
+    {"id": 78, "hanzi": "民间", "pinyin": "mínjiān", "italiano": "popolare, non governativo"},
     {"id": 79, "hanzi": "居留许可", "pinyin": "jūliú xǔkě", "italiano": "permesso di soggiorno"},
     {"id": 80, "hanzi": "居住证", "pinyin": "jūzhùzhèng", "italiano": "certificato di residenza (per stranieri)"},
     {"id": 81, "hanzi": "机关", "pinyin": "jīguān", "italiano": "organo, ufficio governativo"},
