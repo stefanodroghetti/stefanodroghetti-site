@@ -1,0 +1,4 @@
+Subset generato il 2026-10-29
+Caratteri unici: 345
+Sorgente: LXGW WenKai GB v1.530 — SIL Open Font License 1.1
+JSON scansionati: cibo.json, hsk1.json, hsk2.json
