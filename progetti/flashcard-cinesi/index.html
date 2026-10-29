@@ -26,7 +26,8 @@
     font-family: 'Questrial';
     src: url('/fonts/Questrial-Regular.ttf') format('truetype');
   }
-  /* WenKai GB — SIL Open Font License 1.1 — SOLO per le flashcard */
+  /* WenKai GB — SIL OFL 1.1 — calligrafico per gli hanzi E completo di
+     diacritici pinyin (macron, circonflesso): risolve entrambi i vecchi TODO. */
   @font-face {
     font-family: 'LXGW WenKai GB';
     src: url('fonts/LXGWWenKaiGB-Regular.woff2') format('woff2');
@@ -251,17 +252,12 @@
     color: #d90429;
     font-size: 0.75rem;
   }
-  /* WENKAI SOLO QUI: hanzi, pinyin, significato dentro le card */
-  .fc-card .hanzi,
-  .fc-card .pinyin,
-  .fc-card .ital {
+  /* WenKai SOLO dentro le card: hanzi calligrafici, pinyin e significato coerenti */
+  .fc-card .hanzi, .fc-card .pinyin, .fc-card .ital,
+  .fc-quizcard .hanzi, .fc-quizcard .pinyin, .fc-quizcard .ital {
     font-family: 'LXGW WenKai GB', serif;
   }
-  .fc-card .hanzi {
-    font-size: calc(var(--cardw) * 0.26);
-    line-height: 1.15;
-    font-weight: 500;
-  }
+  .fc-card .hanzi { font-size: calc(var(--cardw) * 0.26); line-height: 1.15; font-weight: 500; }
   .fc-card .pinyin {
     font-weight: 500;
     color: #333;
@@ -294,12 +290,6 @@
     max-width: 560px;
     margin: 1rem auto;
   }
-  /* WENKAI SOLO QUI: contenuti delle quiz card */
-  .fc-quizcard .hanzi,
-  .fc-quizcard .pinyin,
-  .fc-quizcard .ital {
-    font-family: 'LXGW WenKai GB', serif;
-  }
   .fc-quizcard .hanzi { font-size: var(--qhanzi); line-height: 1.2; font-weight: 500; }
   .fc-quizcard .pinyin {
     font-weight: 500;
@@ -308,7 +298,6 @@
     margin-top: 6px;
   }
   .fc-quizcard .ital { color: #d90429; font-size: var(--qital); margin-top: 6px; }
-  /* Le etichette DOMANDA / RISPOSTA restano in Dosis, sono parte dell'interfaccia */
   .fc-quizcard .qlabel {
     font-family: 'Dosis', sans-serif;
     font-weight: 700;
@@ -418,16 +407,18 @@
   <!-- === Libreria === -->
   <div class="group nera">
     <h3>Libreria</h3>
-	<div class="fc-toolbar" id="libBar">
-	  <button class="fc-btn active" data-lib="hsk1">HSK 1</button>
-	  <button class="fc-btn" data-lib="hsk2">HSK 2</button>
-	  <button class="fc-btn" data-lib="hsk3">HSK 3</button>
-	  <button class="fc-btn" data-lib="cibo">Cibo</button>
-	  <button class="fc-btn" data-lib="sopravvivenza">Sopravvivenza</button>
-	  <button class="fc-btn" data-lib="parentela">Parentela</button>
-	  <button class="fc-btn" data-lib="amministrazione">Amministrazione</button>
-	  <button class="fc-btn" data-lib="tecnologia">Tecnologia</button>
-	</div>
+    <div class="fc-toolbar" id="libBar">
+      <button class="fc-btn active" data-lib="hsk1">HSK 1</button>
+      <button class="fc-btn" data-lib="hsk2">HSK 2</button>
+      <button class="fc-btn" data-lib="hsk3">HSK 3</button>
+      <button class="fc-btn" data-lib="cibo">Cibo</button>
+      <button class="fc-btn" data-lib="sopravvivenza">Sopravvivenza</button>
+      <button class="fc-btn" data-lib="parentela">Parentela</button>
+      <button class="fc-btn" data-lib="amministrazione">Amministrazione</button>
+      <button class="fc-btn" data-lib="tecnologia">Tecnologia</button>
+    </div>
+    <div class="fc-meta" id="libMeta"></div>
+  </div>
 
   <!-- === Modalità === -->
   <div class="fc-toolbar">
@@ -542,7 +533,11 @@
   </div>
 
   <footer class="page-footer">
-    Divagazione di Stefano Droghetti · Dati CC0 (<a href="data/hsk1.json">hsk1</a> · <a href="data/hsk2.json">hsk2</a> · <a href="data/cibo.json">cibo</a>) · Nessun tracking, nessun cookie
+    Divagazione di Stefano Droghetti · Dati CC0
+    (<a href="data/hsk1.json">hsk1</a> · <a href="data/hsk2.json">hsk2</a> · <a href="data/hsk3.json">hsk3</a> ·
+    <a href="data/cibo.json">cibo</a> · <a href="data/sopravvivenza.json">sopravvivenza</a> ·
+    <a href="data/parentela.json">parentela</a> · <a href="data/amministrazione.json">amministrazione</a> ·
+    <a href="data/tecnologia.json">tecnologia</a>) · Nessun tracking, nessun cookie
   </footer>
 </main>
 
@@ -557,7 +552,7 @@ const LIBS = {
   cibo: 'data/cibo.json',
   sopravvivenza: 'data/sopravvivenza.json',
   parentela: 'data/parentela.json',
-  politica: 'data/amministrazione.json',
+  amministrazione: 'data/amministrazione.json',
   tecnologia: 'data/tecnologia.json'
 };
 const state = {
@@ -573,21 +568,31 @@ const state = {
 const $ = id => document.getElementById(id);
 const FIELDS = ['hanzi', 'pinyin', 'italiano'];
 
-/* ================= Librerie ================= */
+/* ================= Librerie (con errore VISIBILE, mai più silenzioso) ================= */
 async function loadLib(name) {
   state.lib = name;
-  const res = await fetch(LIBS[name]);
-  const json = await res.json();
-  state.meta = json._metadata;
-  state.cards = json.carte;
-  state.sel = new Set();
-  state.anchor = null;
-  $('libMeta').innerHTML =
-    '<strong>' + state.meta.titolo + '</strong> · ' + state.meta.copertura +
-    ' · Licenza: ' + state.meta.licenza + ' · Autore: ' + state.meta.autore;
   document.querySelectorAll('#libBar .fc-btn').forEach(b =>
     b.classList.toggle('active', b.dataset.lib === name));
-  renderExp(); renderSel(); resetQuizSteps();
+  try {
+    const res = await fetch(LIBS[name]);
+    if (!res.ok) throw new Error('HTTP ' + res.status + ' su ' + LIBS[name]);
+    const json = await res.json();
+    state.meta = json._metadata;
+    state.cards = json.carte;
+    state.sel = new Set();
+    state.anchor = null;
+    $('libMeta').innerHTML =
+      '<strong>' + state.meta.titolo + '</strong> · ' + state.meta.copertura +
+      ' · Licenza: ' + state.meta.licenza + ' · Autore: ' + state.meta.autore;
+    renderExp(); renderSel(); resetQuizSteps();
+  } catch (err) {
+    state.cards = [];
+    state.sel = new Set();
+    renderExp(); renderSel();
+    $('libMeta').innerHTML =
+      '<span style="color:#d90429;">ERRORE caricando "' + name + '": ' + err.message +
+      ' — controlla che data/' + name + '.json esista e sia JSON valido.</span>';
+  }
 }
 
 /* ================= Rendering quadrati ================= */
