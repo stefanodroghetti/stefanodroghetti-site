@@ -28,6 +28,12 @@
       "folder": "auto-elettriche",
       "title": "Termica vs Elettrica",
       "visible": true
+    },
+    {
+      "title": "Flashcard per studiare il cinese",
+      "folder": "flashcard-cinesi",
+      "description": "Qui puoi studiare vari subset del cinese, compresi i primi tre HSK, e memorizzare con delle flashcard personalizzabili",
+      "visible": true
     }
   ],
   "events": [
