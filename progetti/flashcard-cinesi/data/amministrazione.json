@@ -36,7 +36,7 @@
     {"id": 26, "hanzi": "市", "pinyin": "shì", "italiano": "città"},
     {"id": 27, "hanzi": "县", "pinyin": "xiàn", "italiano": "contea"},
     {"id": 28, "hanzi": "区", "pinyin": "qū", "italiano": "distretto"},
-    {"id": 29, "hanzi": "乡", "pinyin": "xiāng", "italiano": "township"},
+    {"id": 29, "hanzi": "乡", "pinyin": "xiāng", "italiano": "villaggio rurale"},
     {"id": 30, "hanzi": "镇", "pinyin": "zhèn", "italiano": "cittadina"},
     {"id": 31, "hanzi": "村", "pinyin": "cūn", "italiano": "villaggio"},
     {"id": 32, "hanzi": "社区", "pinyin": "shèqū", "italiano": "comunità di quartiere"},
