@@ -107,6 +107,10 @@
     {"id": 97, "hanzi": "冷静", "pinyin": "lěngjìng", "italiano": "calmarsi"},
     {"id": 98, "hanzi": "坚持", "pinyin": "jiānchí", "italiano": "resistere, tenere duro"},
     {"id": 99, "hanzi": "别慌", "pinyin": "bié huāng", "italiano": "niente panico"},
-    {"id": 100, "hanzi": "没事", "pinyin": "méi shì", "italiano": "tutto a posto"}
+    {"id": 100, "hanzi": "没事", "pinyin": "méi shì", "italiano": "tutto a posto"},
+    {"id": 101, "hanzi": "糖尿病", "pinyin": "tángniàobìng", "italiano": "diabete"},
+    {"id": 102, "hanzi": "麸质过敏", "pinyin": "fūzhì guòmǐn", "italiano": "allergico al glutine / celiaco"},
+    {"id": 103, "hanzi": "乳糖不耐受", "pinyin": "rǔtáng bù nàishòu", "italiano": "intollerante al lattosio"},
+    {"id": 104, "hanzi": "食物过敏", "pinyin": "shíwù guòmìn", "italiano": "allergia alimentare"}
   ]
 }

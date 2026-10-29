@@ -167,6 +167,10 @@
     {"id": 157, "hanzi": "微辣", "pinyin": "wēilà", "italiano": "poco piccante"},
     {"id": 158, "hanzi": "不辣", "pinyin": "búlà", "italiano": "non piccante"},
     {"id": 159, "hanzi": "口味", "pinyin": "kǒuwèi", "italiano": "gusto, preferenza"},
-    {"id": 160, "hanzi": "特产", "pinyin": "tèchǎn", "italiano": "specialità locale"}
+    {"id": 160, "hanzi": "特产", "pinyin": "tèchǎn", "italiano": "specialità locale"},
+    {"id": 161, "hanzi": "无糖", "pinyin": "wú táng", "italiano": "senza zucchero"},
+    {"id": 162, "hanzi": "无乳糖", "pinyin": "wú rǔtáng", "italiano": "senza lattosio"},
+    {"id": 163, "hanzi": "无麸质", "pinyin": "wú fūzhì", "italiano": "senza glutine"},
+    {"id": 164, "hanzi": "纯素食", "pinyin": "chún sùshí", "italiano": "vegano"}
   ]
 }
