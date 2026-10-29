@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flashcard Cinesi — Divagazioni</title>
+<meta name="description" content="Flashcard per studiare il cinese: hanzi, pinyin e significato. Dati aperti, niente server, niente scuse.">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="canonical" href="https://stefanodroghetti.it/progetti/flashcard-cinesi/">
+
+<style>
+  /* === Font locali dal sito principale === */
+  @font-face {
+    font-family: 'Dosis';
+    font-style: normal;
+    font-weight: 600;
+    src: url('/fonts/Dosis-SemiBold.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Dosis';
+    font-style: normal;
+    font-weight: 700;
+    src: url('/fonts/Dosis-Bold.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Questrial';
+    src: url('/fonts/Questrial-Regular.ttf') format('truetype');
+  }
+  /* WenKai GB — SIL Open Font License 1.1 — SOLO per le flashcard */
+  @font-face {
+    font-family: 'LXGW WenKai GB';
+    src: url('fonts/LXGWWenKaiGB-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'LXGW WenKai GB';
+    src: url('fonts/LXGWWenKaiGB-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* === Base costruttivista === */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Questrial', sans-serif;
+    background: #e8e4dc;
+    color: #111;
+    line-height: 1.45;
+  }
+  main {
+    background: #f4f1ea;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    box-shadow: 0 0 40px rgba(0,0,0,0.08);
+  }
+
+  /* === Header costruttivista (banda nera + freccia rossa) === */
+  .page-header {
+    position: relative;
+    background: #111;
+    padding: 0.8em 1.2rem;
+    margin: -3rem -2rem 0;
+  }
+  .page-header h1 {
+    font-family: 'Dosis', sans-serif;
+    font-weight: 700;
+    color: #f4f1ea;
+    font-size: clamp(1.6rem, 5vw, 2.6rem);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    position: relative;
+    z-index: 2;
+  }
+  .page-header .arrow {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 160%;
+    width: clamp(100px, 22vw, 260px);
+    background: #d90429;
+    clip-path: polygon(0 50%, 25% 0, 25% 32%, 100% 32%, 100% 68%, 25% 68%, 25% 100%);
+    z-index: 1;
+  }
+  .header-rule {
+    height: 7px;
+    background: #111;
+    margin: 1rem 0 1.4rem;
+  }
+  .tagline {
+    font-size: 1.05rem;
+    color: #1a1a1a;
+    border-left: 7px solid #d90429;
+    padding-left: 1.1rem;
+    margin: 0 0 1.5rem;
+    max-width: 46em;
+  }
+  .back-link {
+    display: inline-block;
+    font-family: 'Dosis', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    color: #111;
+    text-decoration: none;
+    border-bottom: 2px solid #111;
+    margin-bottom: 2rem;
+    letter-spacing: 0.05em;
+  }
+  .back-link:hover {
+    background: #d90429;
+    color: #fff;
+    border-bottom-color: #d90429;
+  }
+
+  /* === Pannelli e campi === */
+  .group {
+    background: #fff;
+    border: 2px solid #111;
+    padding: 1.2rem;
+    margin-bottom: 20px;
+  }
+  .group.rossa { border-left: 6px solid #d90429; }
+  .group.nera { border-left: 6px solid #111; }
+  .group h3 {
+    font-family: 'Dosis', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 1rem;
+    color: #111;
+  }
+  .group.rossa h3::before { content: "▮ "; color: #d90429; }
+  .group.nera h3::before { content: "▮ "; color: #111; }
+
+  /* === Flashcard: pulsanti e toolbar === */
+  .fc-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin: 10px 0;
+  }
+  .fc-btn {
+    font-family: 'Dosis', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    background: #fff;
+    border: 2px solid #111;
+    padding: 8px 12px;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 #111;
+    color: #111;
+  }
+  .fc-btn:hover { background: #111; color: #f4f1ea; }
+  .fc-btn.red { border-color: #d90429; box-shadow: 3px 3px 0 #d90429; color: #d90429; }
+  .fc-btn.red:hover { background: #d90429; color: #fff; }
+  .fc-btn.active { background: #d90429; color: #fff; border-color: #111; box-shadow: 3px 3px 0 #111; }
+  .fc-btn:disabled { opacity: 0.35; cursor: not-allowed; box-shadow: none; }
+  .fc-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Dosis', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    user-select: none;
+  }
+  .fc-check input { width: 16px; height: 16px; accent-color: #d90429; cursor: pointer; }
+  .fc-input {
+    border: 2px solid #111;
+    padding: 8px 10px;
+    font-family: 'Questrial', sans-serif;
+    font-size: 0.9rem;
+    background: #fff;
+  }
+  .fc-input:focus { outline: 2px solid #d90429; outline-offset: 1px; }
+  .fc-msg {
+    font-family: 'Dosis', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #d90429;
+    min-height: 1.2em;
+  }
+  .fc-meta {
+    font-size: 0.78rem;
+    color: #666;
+    margin-top: 6px;
+  }
+  .fc-meta a { color: #d90429; }
+  .fc-hint {
+    font-family: 'Dosis', sans-serif;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #777;
+    margin: 2px 0 6px;
+  }
+  .fc-hint b { color: #d90429; }
+  .fc-sizegroup {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Dosis', sans-serif;
+    font-weight: 600;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #555;
+  }
+  .fc-sizegroup .fc-btn { padding: 3px 9px; }
+
+  /* === Griglia di quadrati === */
+  .fc-grid {
+    --cardw: 140px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--cardw), 1fr));
+    gap: 10px;
+    margin: 14px 0;
+  }
+  .fc-card {
+    border: 2px solid #111;
+    background: #fff;
+    min-height: calc(var(--cardw) * 0.85);
+    padding: 10px 6px 6px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .fc-card .num {
+    position: absolute;
+    top: 3px;
+    left: 6px;
+    font-family: 'Dosis', sans-serif;
+    font-weight: 700;
+    color: #d90429;
+    font-size: 0.75rem;
+  }
+  /* WENKAI SOLO QUI: hanzi, pinyin, significato dentro le card */
+  .fc-card .hanzi,
+  .fc-card .pinyin,
+  .fc-card .ital {
+    font-family: 'LXGW WenKai GB', serif;
+  }
+  .fc-card .hanzi {
+    font-size: calc(var(--cardw) * 0.26);
+    line-height: 1.15;
+    font-weight: 500;
+  }
+  .fc-card .pinyin {
+    font-weight: 500;
+    color: #333;
+    font-size: clamp(0.72rem, calc(var(--cardw) * 0.10), 1.6rem);
+  }
+  .fc-card .ital {
+    color: #d90429;
+    font-size: clamp(0.7rem, calc(var(--cardw) * 0.095), 1.5rem);
+  }
+  .fc-grid.selectable .fc-card { cursor: pointer; }
+  .fc-grid.selectable .fc-card:hover { box-shadow: 3px 3px 0 #111; }
+  .fc-card.sel {
+    background: #111;
+    border-color: #d90429;
+    box-shadow: 4px 4px 0 #d90429;
+  }
+  .fc-card.sel .hanzi { color: #f4f1ea; }
+  .fc-card.sel .pinyin { color: #ccc; }
+  .fc-card.sel .ital { color: #ff6b81; }
+
+  /* === Carte del quiz === */
+  #stepQuiz { --qhanzi: 48px; --qpinyin: 19px; --qital: 18px; }
+  .fc-preview { --qhanzi: 32px; --qpinyin: 16px; --qital: 15px; }
+  .fc-quizcard {
+    border: 3px solid #111;
+    background: #fff;
+    box-shadow: 6px 6px 0 #d90429;
+    padding: 1.6rem 1.2rem;
+    text-align: center;
+    max-width: 560px;
+    margin: 1rem auto;
+  }
+  /* WENKAI SOLO QUI: contenuti delle quiz card */
+  .fc-quizcard .hanzi,
+  .fc-quizcard .pinyin,
+  .fc-quizcard .ital {
+    font-family: 'LXGW WenKai GB', serif;
+  }
+  .fc-quizcard .hanzi { font-size: var(--qhanzi); line-height: 1.2; font-weight: 500; }
+  .fc-quizcard .pinyin {
+    font-weight: 500;
+    color: #333;
+    font-size: var(--qpinyin);
+    margin-top: 6px;
+  }
+  .fc-quizcard .ital { color: #d90429; font-size: var(--qital); margin-top: 6px; }
+  /* Le etichette DOMANDA / RISPOSTA restano in Dosis, sono parte dell'interfaccia */
+  .fc-quizcard .qlabel {
+    font-family: 'Dosis', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #d90429;
+    margin-bottom: 10px;
+  }
+  .fc-quizcard.answer {
+    background: #111;
+    border-color: #d90429;
+    box-shadow: 6px 6px 0 #111;
+  }
+  .fc-quizcard.answer .hanzi { color: #f4f1ea; }
+  .fc-quizcard.answer .pinyin { color: #ccc; }
+  .fc-quizcard.answer .ital { color: #ff6b81; }
+  .fc-quizcard.answer .qlabel { color: #d90429; }
+
+  /* Quiz: card e tasti fianco a fianco quando lo spazio c'è */
+  .fc-quizlayout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0;
+  }
+  .fc-quizmain {
+    flex: 1 1 340px;
+    max-width: 560px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .fc-quizmain .fc-quizcard { margin: 0; max-width: none; }
+  .fc-quizside {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 0 0 240px;
+  }
+  .fc-quizside .fc-btn { width: 100%; }
+
+  .fc-preview {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 12px 0;
+  }
+  .fc-preview .fc-quizcard { margin: 0; max-width: none; padding: 1rem; }
+  .fc-stats {
+    font-family: 'Dosis', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #555;
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .fc-stats b { color: #d90429; }
+  .fc-hidden { display: none; }
+
+  /* === Footer === */
+  .page-footer {
+    margin-top: 3rem;
+    padding-top: 1.2rem;
+    border-top: 2px solid #111;
+    font-size: 0.85rem;
+    color: #555;
+    font-family: 'Dosis', sans-serif;
+    letter-spacing: 0.05em;
+  }
+  .page-footer a { color: #d90429; }
+
+  /* === Responsive === */
+  @media (max-width: 800px) {
+    main { padding: 2rem 1rem; }
+    .page-header { margin: -2rem -1rem 0; }
+    .fc-preview { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 700px) {
+    .fc-quizside {
+      flex: 1 1 100%;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .fc-quizside .fc-btn { width: auto; }
+  }
+</style>
+</head>
+<body>
+
+<main>
+  <header class="page-header">
+    <h1>Flashcard Cinesi</h1>
+    <div class="arrow" aria-hidden="true"></div>
+  </header>
+  <div class="header-rule" aria-hidden="true"></div>
+  <p class="tagline">Guarda, scegli, interrogati. Hanzi, pinyin e significato: dati aperti, niente server, niente scuse.</p>
+
+  <a href="/" class="back-link">◀ Torna al manifesto</a>
+
+  <!-- === Libreria === -->
+  <div class="group nera">
+    <h3>Libreria</h3>
+    <div class="fc-toolbar" id="libBar">
+      <button class="fc-btn active" data-lib="hsk1">HSK 1</button>
+      <button class="fc-btn" data-lib="hsk2">HSK 2</button>
+      <button class="fc-btn" data-lib="cibo">Cibo</button>
+    </div>
+    <div class="fc-meta" id="libMeta"></div>
+  </div>
+
+  <!-- === Modalità === -->
+  <div class="fc-toolbar">
+    <button class="fc-btn red active" id="tabExp">Spiegazione</button>
+    <button class="fc-btn red" id="tabQuiz">Studio (quiz)</button>
+  </div>
+
+  <!-- === Pannello spiegazione === -->
+  <div class="group rossa" id="panelExp">
+    <h3>Spiegazione</h3>
+    <div class="fc-toolbar">
+      <label class="fc-check"><input type="checkbox" class="tgField" data-f="hanzi" checked> Hanzi</label>
+      <label class="fc-check"><input type="checkbox" class="tgField" data-f="pinyin" checked> Pinyin</label>
+      <label class="fc-check"><input type="checkbox" class="tgField" data-f="italiano" checked> Significato</label>
+      <button class="fc-btn" id="sizeMinus">− Quadrati</button>
+      <button class="fc-btn" id="sizePlus">+ Quadrati</button>
+    </div>
+    <div class="fc-grid" id="gridExp"></div>
+  </div>
+
+  <!-- === Pannello studio === -->
+  <div class="group rossa fc-hidden" id="panelQuiz">
+
+    <!-- Passo 1: scelta carte -->
+    <div id="stepSel">
+      <h3>1 · Scegli le carte</h3>
+      <p style="font-size:0.88rem; color:#555; margin-bottom:8px;">
+        Click per selezionare/deselezionare · Shift+click per selezionare un intervallo · oppure scrivi gli intervalli qui sotto.
+      </p>
+      <div class="fc-toolbar">
+        <button class="fc-btn" id="selAll">Seleziona tutto</button>
+        <button class="fc-btn" id="selNone">Deseleziona tutto</button>
+        <input class="fc-input" id="rangeInput" style="flex:1; min-width:200px;" placeholder="es. 2-20, 45, 31-37">
+        <button class="fc-btn" id="rangeApply">Applica intervalli</button>
+        <input class="fc-input" id="randN" type="number" min="1" style="width:80px;" placeholder="N">
+        <button class="fc-btn" id="randBtn">N a caso</button>
+      </div>
+      <div class="fc-msg" id="selMsg"></div>
+      <div class="fc-grid selectable" id="gridSel"></div>
+      <div class="fc-toolbar">
+        <span class="fc-stats">Selezionate: <b id="selCount">0</b></span>
+        <button class="fc-btn red" id="selDone">Fine scelta →</button>
+      </div>
+    </div>
+
+    <!-- Passo 2: tipo di quiz -->
+    <div id="stepType" class="fc-hidden">
+      <h3>2 · Che quiz vuoi?</h3>
+      <p style="font-size:0.88rem; color:#555; margin-bottom:8px;">
+        Spunta cosa mostra la <strong>domanda</strong>: la risposta mostrerà tutto il resto.
+      </p>
+      <div class="fc-toolbar">
+        <label class="fc-check"><input type="checkbox" class="qField" data-f="hanzi" checked> Hanzi</label>
+        <label class="fc-check"><input type="checkbox" class="qField" data-f="italiano"> Significato</label>
+        <label class="fc-check"><input type="checkbox" class="qField" data-f="pinyin"> Pinyin</label>
+      </div>
+      <div class="fc-preview">
+        <div class="fc-quizcard" id="prevQ"></div>
+        <div class="fc-quizcard answer" id="prevA"></div>
+      </div>
+      <div class="fc-msg" id="typeMsg"></div>
+      <div class="fc-toolbar">
+        <button class="fc-btn" id="backToSel">← Cambia selezione</button>
+        <button class="fc-btn red" id="startQuiz">Inizia quiz →</button>
+      </div>
+    </div>
+
+    <!-- Passo 3: quiz -->
+    <div id="stepQuiz" class="fc-hidden">
+      <h3>3 · Quiz</h3>
+      <div class="fc-stats" style="margin-bottom:8px;">
+        <span>Mazzo: <b id="stDeck">0</b></span>
+        <span>Imparate: <b id="stLearned">0</b></span>
+        <span>Giro: <b id="stRound">1</b></span>
+      </div>
+      <div class="fc-toolbar">
+        <span class="fc-sizegroup">Hanzi
+          <button class="fc-btn" id="qHanziMinus">−</button><button class="fc-btn" id="qHanziPlus">+</button>
+        </span>
+        <span class="fc-sizegroup">Pinyin
+          <button class="fc-btn" id="qPinyinMinus">−</button><button class="fc-btn" id="qPinyinPlus">+</button>
+        </span>
+        <span class="fc-sizegroup">Significato
+          <button class="fc-btn" id="qItalMinus">−</button><button class="fc-btn" id="qItalPlus">+</button>
+        </span>
+      </div>
+      <p class="fc-hint">Scorciatoie: <b>Spazio</b> = mostra risposta / imparata · <b>→ oppure X</b> = non la sapevo</p>
+      <div class="fc-quizlayout">
+        <div class="fc-quizmain">
+          <div class="fc-quizcard" id="quizQ"></div>
+          <div class="fc-quizcard answer fc-hidden" id="quizA"></div>
+        </div>
+        <div class="fc-quizside">
+          <button class="fc-btn red" id="btnReveal">Mostra risposta</button>
+          <button class="fc-btn fc-hidden" id="btnWrong">Non la sapevo → in fondo</button>
+          <button class="fc-btn fc-hidden" id="btnRight">La sapevo ✓ imparata</button>
+          <button class="fc-btn" id="btnQuit">Esci dal quiz</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Passo 4: finito -->
+    <div id="stepDone" class="fc-hidden">
+      <h3>Mazzo completato!</h3>
+      <p style="margin:10px 0;">Hai imparato <b id="doneCount" style="color:#d90429;">0</b> carte. Il manifesto approva.</p>
+      <div class="fc-toolbar">
+        <button class="fc-btn red" id="btnRestart">Ricomincia con la stessa selezione</button>
+        <button class="fc-btn" id="btnReselect">Scegli di nuovo le carte</button>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="page-footer">
+    Divagazione di Stefano Droghetti · Dati CC0 (<a href="data/hsk1.json">hsk1</a> · <a href="data/hsk2.json">hsk2</a> · <a href="data/cibo.json">cibo</a>) · Nessun tracking, nessun cookie
+  </footer>
+</main>
+
+<script>
+'use strict';
+
+/* ================= Stato ================= */
+const LIBS = { hsk1: 'data/hsk1.json', hsk2: 'data/hsk2.json', cibo: 'data/cibo.json' };
+const state = {
+  lib: 'hsk1',
+  meta: null,
+  cards: [],
+  sel: new Set(),
+  anchor: null,
+  cardw: 140,
+  show: { hanzi: true, pinyin: true, italiano: true },
+  deck: [], idx: 0, learned: 0, round: 1, lastId: null, revealed: false
+};
+const $ = id => document.getElementById(id);
+const FIELDS = ['hanzi', 'pinyin', 'italiano'];
+
+/* ================= Librerie ================= */
+async function loadLib(name) {
+  state.lib = name;
+  const res = await fetch(LIBS[name]);
+  const json = await res.json();
+  state.meta = json._metadata;
+  state.cards = json.carte;
+  state.sel = new Set();
+  state.anchor = null;
+  $('libMeta').innerHTML =
+    '<strong>' + state.meta.titolo + '</strong> · ' + state.meta.copertura +
+    ' · Licenza: ' + state.meta.licenza + ' · Autore: ' + state.meta.autore;
+  document.querySelectorAll('#libBar .fc-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.lib === name));
+  renderExp(); renderSel(); resetQuizSteps();
+}
+
+/* ================= Rendering quadrati ================= */
+function cardInner(card, withNum) {
+  let h = withNum ? '<span class="num">' + card.id + '</span>' : '';
+  if (state.show.hanzi)    h += '<div class="hanzi">' + card.hanzi + '</div>';
+  if (state.show.pinyin)   h += '<div class="pinyin">' + card.pinyin + '</div>';
+  if (state.show.italiano) h += '<div class="ital">' + card.italiano + '</div>';
+  return h;
+}
+function renderExp() {
+  $('gridExp').innerHTML = state.cards.map(c =>
+    '<div class="fc-card">' + cardInner(c, true) + '</div>').join('');
+}
+function renderSel() {
+  $('gridSel').innerHTML = state.cards.map((c, i) =>
+    '<div class="fc-card' + (state.sel.has(c.id) ? ' sel' : '') +
+    '" data-id="' + c.id + '" data-idx="' + i + '">' + cardInner(c, true) + '</div>').join('');
+  updateSelCount();
+}
+function updateSelCount() { $('selCount').textContent = state.sel.size; }
+function refreshSelClasses() {
+  document.querySelectorAll('#gridSel .fc-card').forEach(el =>
+    el.classList.toggle('sel', state.sel.has(+el.dataset.id)));
+  updateSelCount();
+}
+
+/* ================= Selezione interattiva ================= */
+$('gridSel').addEventListener('click', e => {
+  const el = e.target.closest('.fc-card');
+  if (!el) return;
+  const idx = +el.dataset.idx, id = +el.dataset.id;
+  if (e.shiftKey && state.anchor !== null) {
+    const a = Math.min(state.anchor, idx), b = Math.max(state.anchor, idx);
+    for (let i = a; i <= b; i++) state.sel.add(state.cards[i].id);
+  } else {
+    state.sel.has(id) ? state.sel.delete(id) : state.sel.add(id);
+    state.anchor = idx;
+  }
+  refreshSelClasses();
+});
+$('selAll').onclick  = () => { state.sel = new Set(state.cards.map(c => c.id)); refreshSelClasses(); };
+$('selNone').onclick = () => { state.sel.clear(); state.anchor = null; refreshSelClasses(); };
+
+$('rangeApply').onclick = () => {
+  const raw = $('rangeInput').value.trim();
+  if (!raw) { $('selMsg').textContent = 'Scrivi qualcosa, tipo: 2-20, 45, 31-37'; return; }
+  const max = state.cards.length;
+  const ids = new Set();
+  const bad = [];
+  raw.split(',').forEach(tok => {
+    tok = tok.trim();
+    if (!tok) return;
+    const m = tok.match(/^(\d+)\s*-\s*(\d+)$/) || tok.match(/^(\d+)$/);
+    if (!m) { bad.push(tok); return; }
+    const a = +m[1], b = m[2] ? +m[2] : a;
+    if (a < 1 || b > max || a > b) { bad.push(tok); return; }
+    for (let id = a; id <= b; id++) ids.add(id);
+  });
+  if (bad.length) { $('selMsg').textContent = 'Intervalli non validi: ' + bad.join(', '); return; }
+  $('selMsg').textContent = '';
+  state.sel = ids;
+  refreshSelClasses();
+};
+
+$('randBtn').onclick = () => {
+  const n = Math.min(+$('randN').value || 0, state.cards.length);
+  if (n < 1) { $('selMsg').textContent = 'Quante carte? Scrivi un numero.'; return; }
+  $('selMsg').textContent = '';
+  const pool = state.cards.map(c => c.id);
+  shuffle(pool);
+  state.sel = new Set(pool.slice(0, n));
+  refreshSelClasses();
+};
+
+/* ================= Quiz: tipo ================= */
+function questionFields() {
+  return FIELDS.filter(f => document.querySelector('.qField[data-f="' + f + '"]').checked);
+}
+function fieldsHTML(card, fields) {
+  let h = '';
+  if (fields.includes('hanzi'))    h += '<div class="hanzi">' + card.hanzi + '</div>';
+  if (fields.includes('pinyin'))   h += '<div class="pinyin">' + card.pinyin + '</div>';
+  if (fields.includes('italiano')) h += '<div class="ital">' + card.italiano + '</div>';
+  return h || '<div class="ital">—</div>';
+}
+function renderPreview() {
+  const q = questionFields();
+  const a = FIELDS.filter(f => !q.includes(f));
+  const ok = q.length >= 1 && q.length <= 2;
+  $('typeMsg').textContent = ok ? '' : 'La domanda deve mostrare 1 o 2 campi: deve restare qualcosa da indovinare!';
+  $('startQuiz').disabled = !ok;
+  const sample = state.cards[0] || { hanzi: '卡', pinyin: 'kǎ', italiano: 'carta' };
+  $('prevQ').innerHTML = '<div class="qlabel">Domanda</div>' + fieldsHTML(sample, q);
+  $('prevA').innerHTML = '<div class="qlabel">Risposta</div>' + fieldsHTML(sample, a);
+}
+document.querySelectorAll('.qField').forEach(cb => cb.addEventListener('change', renderPreview));
+
+/* ================= Ancoraggio visivo ================= */
+function portaAllaCard() {
+  const el = $('quizQ');
+  const y = window.scrollY + el.getBoundingClientRect().top - 90;
+  window.scrollTo({ top: Math.max(0, y), behavior: 'auto' });
+}
+function rispostaInVista() {
+  const el = $('quizA');
+  const r = el.getBoundingClientRect();
+  if (r.bottom > window.innerHeight - 10) {
+    el.scrollIntoView({ block: 'nearest', behavior: 'auto' });
+  }
+}
+
+/* ================= Quiz: motore ================= */
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+function startQuiz() {
+  state.deck = shuffle(state.cards.filter(c => state.sel.has(c.id)).map(c => c));
+  state.idx = 0; state.learned = 0; state.round = 1; state.lastId = null;
+  showStep('stepQuiz');
+  showCard();
+}
+function showCard() {
+  state.revealed = false;
+  const card = state.deck[state.idx];
+  $('quizQ').innerHTML = '<div class="qlabel">Domanda · giro ' + state.round + '</div>' +
+    fieldsHTML(card, questionFields());
+  $('quizA').classList.add('fc-hidden');
+  $('btnReveal').classList.remove('fc-hidden');
+  $('btnWrong').classList.add('fc-hidden');
+  $('btnRight').classList.add('fc-hidden');
+  updateStats();
+  portaAllaCard();
+}
+function reveal() {
+  state.revealed = true;
+  const card = state.deck[state.idx];
+  const a = FIELDS.filter(f => !questionFields().includes(f));
+  $('quizA').innerHTML = '<div class="qlabel">Risposta</div>' + fieldsHTML(card, a);
+  $('quizA').classList.remove('fc-hidden');
+  $('btnReveal').classList.add('fc-hidden');
+  $('btnWrong').classList.remove('fc-hidden');
+  $('btnRight').classList.remove('fc-hidden');
+  rispostaInVista();
+}
+function reshuffleDeck() {
+  shuffle(state.deck);
+  if (state.deck.length > 1 && state.deck[0].id === state.lastId) {
+    [state.deck[0], state.deck[1]] = [state.deck[1], state.deck[0]];
+  }
+  state.idx = 0;
+  state.round++;
+  showCard();
+}
+function answerWrong() {
+  state.lastId = state.deck[state.idx].id;
+  state.idx++;
+  if (state.idx >= state.deck.length) reshuffleDeck(); else showCard();
+}
+function answerRight() {
+  state.lastId = state.deck[state.idx].id;
+  state.deck.splice(state.idx, 1);
+  state.learned++;
+  if (state.deck.length === 0) { finishQuiz(); return; }
+  if (state.idx >= state.deck.length) reshuffleDeck(); else showCard();
+}
+function finishQuiz() {
+  $('doneCount').textContent = state.learned;
+  showStep('stepDone');
+}
+function updateStats() {
+  $('stDeck').textContent = state.deck.length;
+  $('stLearned').textContent = state.learned;
+  $('stRound').textContent = state.round;
+}
+
+/* ================= Navigazione passi ================= */
+function showStep(id) {
+  ['stepSel', 'stepType', 'stepQuiz', 'stepDone'].forEach(s =>
+    $(s).classList.toggle('fc-hidden', s !== id));
+}
+function resetQuizSteps() { showStep('stepSel'); $('selMsg').textContent = ''; }
+
+$('selDone').onclick = () => {
+  if (state.sel.size === 0) { $('selMsg').textContent = 'Seleziona almeno una carta prima di continuare.'; return; }
+  $('selMsg').textContent = '';
+  showStep('stepType');
+  renderPreview();
+};
+$('backToSel').onclick = () => showStep('stepSel');
+$('startQuiz').onclick = startQuiz;
+$('btnReveal').onclick = reveal;
+$('btnWrong').onclick = answerWrong;
+$('btnRight').onclick = answerRight;
+$('btnQuit').onclick = () => resetQuizSteps();
+$('btnRestart').onclick = startQuiz;
+$('btnReselect').onclick = () => resetQuizSteps();
+
+/* ================= Scorciatoie da tastiera ================= */
+document.addEventListener('keydown', e => {
+  if ($('stepQuiz').classList.contains('fc-hidden')) return;
+  const t = e.target;
+  if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+  if (t && t.tagName === 'BUTTON') t.blur();
+  if (e.code === 'Space') {
+    e.preventDefault();
+    if (!state.revealed) reveal(); else answerRight();
+  } else if (e.key === 'ArrowRight' || e.key === 'x' || e.key === 'X') {
+    if (!state.revealed) return;
+    e.preventDefault();
+    answerWrong();
+  }
+});
+
+/* ================= Toolbar generali ================= */
+document.querySelectorAll('.tgField').forEach(cb =>
+  cb.addEventListener('change', () => {
+    state.show[cb.dataset.f] = cb.checked;
+    renderExp(); renderSel();
+  }));
+function setSize(px) {
+  state.cardw = Math.max(100, Math.min(220, px));
+  document.querySelectorAll('.fc-grid').forEach(g =>
+    g.style.setProperty('--cardw', state.cardw + 'px'));
+}
+$('sizeMinus').onclick = () => setSize(state.cardw - 20);
+$('sizePlus').onclick  = () => setSize(state.cardw + 20);
+
+/* ================= Dimensioni caratteri del quiz ================= */
+const qsize = { hanzi: 48, pinyin: 19, ital: 18 };
+function applyQSize() {
+  const el = $('stepQuiz');
+  el.style.setProperty('--qhanzi', qsize.hanzi + 'px');
+  el.style.setProperty('--qpinyin', qsize.pinyin + 'px');
+  el.style.setProperty('--qital', qsize.ital + 'px');
+}
+function qbind(prefix, key, step, min, max) {
+  $(prefix + 'Minus').onclick = () => { qsize[key] = Math.max(min, qsize[key] - step); applyQSize(); };
+  $(prefix + 'Plus').onclick  = () => { qsize[key] = Math.min(max, qsize[key] + step); applyQSize(); };
+}
+qbind('qHanzi',  'hanzi',  6, 24, 120);
+qbind('qPinyin', 'pinyin', 2, 12, 48);
+qbind('qItal',   'ital',   2, 12, 48);
+applyQSize();
+
+/* ================= Tab e librerie ================= */
+$('tabExp').onclick = () => {
+  $('panelExp').classList.remove('fc-hidden');
+  $('panelQuiz').classList.add('fc-hidden');
+  $('tabExp').classList.add('active'); $('tabQuiz').classList.remove('active');
+};
+$('tabQuiz').onclick = () => {
+  $('panelQuiz').classList.remove('fc-hidden');
+  $('panelExp').classList.add('fc-hidden');
+  $('tabQuiz').classList.add('active'); $('tabExp').classList.remove('active');
+  renderSel();
+};
+document.querySelectorAll('#libBar .fc-btn').forEach(b =>
+  b.addEventListener('click', () => loadLib(b.dataset.lib)));
+
+/* ================= Avvio ================= */
+loadLib('hsk1');
+</script>
+
+</body>
+</html>
