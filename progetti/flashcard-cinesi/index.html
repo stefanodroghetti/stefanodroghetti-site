@@ -43,6 +43,28 @@
     font-display: swap;
   }
 
+  @font-face {
+    font-family: 'Roboto';
+    src: url('fonts/Roboto-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Roboto';
+    src: url('fonts/Roboto-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Roboto';
+    src: url('fonts/Roboto-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  
   /* === Base costruttivista === */
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -252,10 +274,14 @@
     color: #d90429;
     font-size: 0.75rem;
   }
-  /* WenKai SOLO dentro le card: hanzi calligrafici, pinyin e significato coerenti */
-  .fc-card .hanzi, .fc-card .pinyin, .fc-card .ital,
-  .fc-quizcard .hanzi, .fc-quizcard .pinyin, .fc-quizcard .ital {
+  /* WenKai SOLO per gli hanzi (calligrafico) */
+  .fc-card .hanzi, .fc-quizcard .hanzi {
     font-family: 'LXGW WenKai GB', serif;
+  }
+  /* Roboto per pinyin e significato (pulito e leggibile) */
+  .fc-card .pinyin, .fc-card .ital,
+  .fc-quizcard .pinyin, .fc-quizcard .ital {
+    font-family: 'Roboto', sans-serif;
   }
   .fc-card .hanzi { font-size: calc(var(--cardw) * 0.26); line-height: 1.15; font-weight: 500; }
   .fc-card .pinyin {
