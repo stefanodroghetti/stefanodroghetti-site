@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Flashcard Cinesi — Divagazioni</title>
-<meta name="description" content="Flashcard per studiare il cinese con metodo Leitner: hanzi, pinyin e significato. Dati aperti, niente server, niente tracking, niente scuse.">
+<meta name="description" content="Flashcard aperte e libere per studiare il cinese con il metodo Leitner: hanzi, pinyin e significato. Nessun server, nessun tracking, nessun account: i tuoi progressi vivono solo nella pagina aperta.">
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="canonical" href="https://stefanodroghetti.it/progetti/flashcard-cinesi/">
 
@@ -258,6 +258,15 @@
   .fc-quizmain .fc-quizcard { margin: 0; max-width: none; }
   .fc-quizside { display: flex; flex-direction: column; gap: 10px; flex: 0 0 240px; }
   .fc-quizside .fc-btn { width: 100%; }
+    .fc-quizside .fc-btn small {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: none;
+    opacity: 0.8;
+    margin-top: 3px;
+  }
 
   .fc-preview { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 12px 0; }
   .fc-preview .fc-quizcard { margin: 0; max-width: none; padding: 1rem; }
@@ -319,7 +328,7 @@
   </header>
   <div class="header-rule" aria-hidden="true"></div>
   <p class="tagline">
-    <strong>Flashcard Cinesi</strong> — Studia hanzi, pinyin e significato con il metodo Leitner: un tool aperto, senza server, senza tracking, senza scuse.
+    <strong>Flashcard Cinesi</strong> — Qui il cinese si studia come con un quaderno di carta: hanzi, pinyin e significato, una carta alla volta, con il metodo Leitner a fare da ritmo. È un tool aperto che non ti chiede niente e non ti segue: niente server, niente tracking, niente account. Solo il piacere di imparare, con calma.
   </p>
 
   <a href="/" class="back-link">◀ Torna al manifesto</a>
@@ -358,6 +367,12 @@
       Quando tutte le carte del mazzo sono state viste almeno una volta nel giro, il mazzo si rimescola.
       Il quiz finisce quando tutte le carte sono laureate, o quando premi <strong>Esci dal quiz</strong>.
     </p>
+    
+    <p>
+      I tre pulsanti rispondono alla domanda che conta: <strong>quando rivedrò questa carta?</strong>
+      Tra ~4 carte, più tardi, o non oggi.
+    </p>
+    
     <p>
       <strong>Le scatole vivono solo nella memoria della pagina:</strong> alla chiusura o al reload si azzerano, perché questo
       sito non scrive nulla sul tuo disco. Per portare il metodo tra una sessione e l'altra usa il
@@ -514,9 +529,9 @@
         </div>
         <div class="fc-quizside">
           <button class="fc-btn red" id="btnReveal">Mostra risposta</button>
-          <button class="fc-btn fc-hidden" id="btnWrong">Non la sapevo → in fondo</button>
-          <button class="fc-btn fc-hidden" id="btnRight">La sapevo ✓</button>
-          <button class="fc-btn" id="btnKnown">La so già ✓✓</button>
+          <button class="fc-btn fc-hidden" id="btnWrong" title="Riporta la carta alla Scatola 1: la rivedi tra circa 4 carte">Non la sapevo<small>la rivedi tra ~4 carte</small></button>
+          <button class="fc-btn fc-hidden" id="btnRight" title="Promuove la carta di una scatola: la rivedi più tardi in questo giro">La sapevo ✓<small>la rivedi più tardi</small></button>
+          <button class="fc-btn" id="btnKnown" title="Laurea subito la carta: per oggi non torna più">La so già ✓✓<small>oggi non la rivedi più</small></button>
           <button class="fc-btn" id="btnQuit">Esci dal quiz</button>
         </div>
       </div>
