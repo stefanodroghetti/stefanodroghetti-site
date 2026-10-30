@@ -53,6 +53,105 @@
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     </style>
 </head>
+<!-- ===== Kit dz: sezioni collassabili + indice sticky ===== -->
+<style>
+  #dz-index {
+    position: sticky; top: 0; z-index: 999;
+    background: #111; border-bottom: 3px solid #d90429;
+    padding: 8px 10px; display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  #dz-index button {
+    font: 600 .72rem/1 system-ui, sans-serif; text-transform: uppercase; letter-spacing: .04em;
+    background: #f4f1ea; color: #111; border: 1px solid #f4f1ea; padding: 6px 8px; cursor: pointer;
+  }
+  #dz-index button:hover { background: #d90429; color: #fff; }
+  #dz-index button.dz-tutto { background: #d90429; color: #fff; }
+  .dz-section { border: 2px solid #111; background: #fff; margin: 16px 0; box-shadow: 4px 4px 0 rgba(0,0,0,.15); }
+  .dz-title { cursor: pointer; user-select: none; padding: 10px 12px; background: #f4f1ea; border-bottom: 2px solid transparent; }
+  .dz-title::before { content: '▸ '; color: #d90429; font-weight: 700; }
+  .dz-section.dz-open > .dz-title { background: #fff; border-bottom-color: #111; }
+  .dz-section.dz-open > .dz-title::before { content: '▾ '; }
+  .dz-body { padding: 12px; }
+  .dz-body[hidden] { display: none; }
+</style>
+<script>
+(function () {
+  /* Se un titolo non viene riconosciuto, aggiungilo qui (testo esatto della sezione): */
+  const TITOLI = [
+    'Informazioni sito', 'Impostazioni Sezioni', 'Prompt AI', 'Produzioni',
+    'Divagazioni (progetti interattivi)', 'Social', 'Supporto', 'Eventi',
+    'Link consigliati', 'E I COOKIES? (Privacy)', '👁️ Anteprima sito'
+  ];
+  const norm = s => (s || '').toLowerCase().replace(/\s+/g, ' ').trim();
+  const profondita = el => { let d = 0, n = el; while (n.parentElement) { d++; n = n.parentElement; } return d; };
+
+  function titoloPiuProfondo(testo) {
+    const t = norm(testo); let best = null, bestD = -1;
+    document.querySelectorAll('body *').forEach(el => {
+      if (norm(el.textContent) === t) {
+        const d = profondita(el);
+        if (d > bestD) { bestD = d; best = el; }
+      }
+    });
+    return best;
+  }
+
+  /* Passo 1: trova tutti i titoli (noti + eventuali h2/h3 sfuggiti) */
+  const titoli = [];
+  TITOLI.forEach(t => { const el = titoloPiuProfondo(t); if (el && !titoli.includes(el)) titoli.push(el); });
+  document.querySelectorAll('h2, h3').forEach(h => {
+    if (!titoli.includes(h) && !h.closest('.dz-body')) titoli.push(h);
+  });
+  const setTitoli = new Set(titoli);
+  const contieneTitoli = n => n.querySelector && titoli.some(t => n.contains(t));
+
+  /* Passo 2: impacchetta ogni sezione (chiusa di default) */
+  const sezioni = [];
+  titoli.forEach(titolo => {
+    const container = titolo.parentElement;
+    if (!container) return;
+    titolo.classList.add('dz-title');
+    container.classList.add('dz-section');
+    const body = document.createElement('div');
+    body.className = 'dz-body';
+    body.hidden = true;
+    const nodi = [];
+    let n = titolo.nextSibling;
+    while (n && !setTitoli.has(n) && !contieneTitoli(n)) { nodi.push(n); n = n.nextSibling; }
+    nodi.forEach(x => body.appendChild(x));
+    container.insertBefore(body, titolo.nextSibling);
+    titolo.addEventListener('click', () => apri(body, container, body.hidden));
+    sezioni.push({ titolo, container, body });
+  });
+
+  function apri(body, container, forzaApri) {
+    body.hidden = !forzaApri;
+    container.classList.toggle('dz-open', forzaApri);
+  }
+
+  /* Passo 3: barra-indice sticky in cima */
+  const index = document.createElement('div');
+  index.id = 'dz-index';
+  sezioni.forEach(s => {
+    const b = document.createElement('button');
+    b.textContent = s.titolo.textContent.trim();
+    b.onclick = () => {
+      apri(s.body, s.container, true);
+      s.container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    index.appendChild(b);
+  });
+  const tutto = document.createElement('button');
+  tutto.className = 'dz-tutto';
+  tutto.textContent = 'Espandi/comprimi tutto';
+  tutto.onclick = () => {
+    const chiuse = sezioni.some(s => s.body.hidden);
+    sezioni.forEach(s => apri(s.body, s.container, chiuse));
+  };
+  index.appendChild(tutto);
+  document.body.insertBefore(index, document.body.firstChild);
+})();
+</script>
 <body>
     <div class="sticky-controls">
         <button onclick="saveData()" class="success">💾 Salva</button>
