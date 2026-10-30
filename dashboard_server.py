@@ -91,6 +91,12 @@ def serve_pdf(filename):
     """Serve i file PDF delle guide storiche"""
     pdf_dir = os.path.join(SITE_DIR, 'pdf')
     return send_from_directory(pdf_dir, filename)
+    
+@app.route('/caroselli')
+def caroselli():
+    """Serve il creatore di caroselli e og:image"""
+    with open(os.path.join(BASE_DIR, 'tools', 'caroselli', 'index.html'), 'r', encoding='utf-8') as f:
+        return f.read()
 
 @app.route('/favicon.png')
 def favicon():

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Caroselli & OG — fabbrica costruttivista</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Questrial', system-ui, sans-serif; background: #e8e4dc; color: #111; display: flex; height: 100vh; overflow: hidden; }
+  aside { width: 420px; background: #f4f1ea; border-right: 2px solid #111; display: flex; flex-direction: column; }
+  aside header { background: #111; color: #f4f1ea; padding: 10px 14px; font-family: 'Dosis', system-ui; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
+  .bar { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px; border-bottom: 2px solid #111; }
+  button { font-family: 'Dosis', system-ui; font-weight: 600; text-transform: uppercase; font-size: .75rem; letter-spacing: .04em; background: #fff; border: 2px solid #111; padding: 6px 9px; cursor: pointer; box-shadow: 2px 2px 0 #111; }
+  button:hover { background: #111; color: #f4f1ea; }
+  button.red { border-color: #d90429; color: #d90429; box-shadow: 2px 2px 0 #d90429; }
+  button.red:hover { background: #d90429; color: #fff; }
+  select { border: 2px solid #111; padding: 6px; font-family: 'Dosis', system-ui; font-weight: 600; background: #fff; }
+  #slideList { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px; border-bottom: 2px solid #111; }
+  #slideList button.on { background: #d90429; color: #fff; }
+  textarea { flex: 1; border: 0; border-top: 0; padding: 12px; font-family: monospace; font-size: .85rem; resize: none; background: #fff; color: #111; outline: none; }
+  main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; overflow: auto; }
+  #scaler { position: relative; box-shadow: 0 0 40px rgba(0,0,0,.25); }
+  #frame { position: absolute; top: 0; left: 0; transform-origin: 0 0; }
+  details { position: fixed; right: 12px; bottom: 12px; background: #fff; border: 2px solid #111; padding: 10px; max-width: 380px; font-size: .78rem; z-index: 9; }
+  details summary { font-family: 'Dosis', system-ui; font-weight: 700; cursor: pointer; text-transform: uppercase; }
+  details code { background: #e8e4dc; padding: 0 3px; }
+</style>
+<style id="slidecss"></style>
+</head>
+<body>
+
+<aside>
+  <header>🎠 Caroselli &amp; OG</header>
+  <div class="bar">
+    <select id="fmt">
+      <option value="carosello">Carosello IG/FB · 1080×1350</option>
+      <option value="quadrato">Post quadrato · 1080×1080</option>
+      <option value="og">Open Graph · 1200×630</option>
+    </select>
+  </div>
+  <div class="bar" id="slideList"></div>
+  <div class="bar">
+    <button id="addSlide">+ Slide</button>
+    <button id="dupSlide">Duplica</button>
+    <button id="delSlide">Elimina</button>
+    <button id="upSlide">↑</button>
+    <button id="downSlide">↓</button>
+  </div>
+  <textarea id="src" spellcheck="false"></textarea>
+  <div class="bar">
+    <button class="red" id="exportZip">⬇ ZIP con tutte le PNG</button>
+    <button id="exportOne">⬇ PNG singola</button>
+    <button id="saveProj">Salva progetto</button>
+    <button id="loadProj">Carica progetto</button>
+    <input type="file" id="loadFile" accept=".json" style="display:none">
+  </div>
+</aside>
+
+<main>
+  <div id="scaler"><div id="frame" class="slide"></div></div>
+</main>
+
+<details>
+  <summary>BBCode disponibile (v1)</summary>
+  <p style="margin:8px 0">
+    Blocchi (una riga ciascuno):<br>
+    <code>[titolo]…[/titolo]</code> banda nera + freccia rossa<br>
+    <code>[header]…[/header]</code> banda nera semplice<br>
+    <code>[footer]…[/footer]</code> striscia nera in fondo al flusso<br>
+    <code>[rossa]…[/rossa]</code> striscia rossa verticale + testo<br>
+    <code>[bianco]…[/bianco]</code> rettangolo bianco bordato<br>
+    <code>[nero]…[/nero]</code> rettangolo nero<br>
+    <code>[ombrarossa][bianco]…[/bianco][/ombrarossa]</code> e <code>[ombranera]</code>: ombra dura<br>
+    <code>[riga]</code> linea nera · <code>[spazio=40]</code> distanza · <code>[center]…[/center]</code><br><br>
+    Inline: <code>[b] [i] [rosso] [crema] [size=34]…[/size] [font=dosis|questrial|wenkai]…[/font]</code><br>
+    Il testo libero diventa paragrafo; le righe vuote separano i paragrafi.
+  </p>
+</details>
+
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+
+/* ================= CSS delle slide (condiviso anteprima/export) ================= */
+const CSS_SLIDE = `
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.slide { position: relative; overflow: hidden; background: #f4f1ea; display: flex; flex-direction: column; }
+.slide .band { background: #111; color: #f4f1ea; padding: .55em 1.2em; font-family: 'Dosis'; font-weight: 700; text-transform: uppercase; font-size: 64px; line-height: 1.15; letter-spacing: .02em; position: relative; }
+.slide .band.arrow { padding-right: 26%; }
+.slide .band.arrow::after { content: ""; position: absolute; right: 0; top: 50%; transform: translateY(-50%); height: 160%; width: 22%; background: #d90429; clip-path: polygon(0 50%, 25% 0, 25% 32%, 100% 32%, 100% 68%, 25% 68%, 25% 100%); }
+.slide .rule { height: 7px; background: #111; margin: 22px 40px; }
+.slide .tagline { margin: 0 40px 18px; border-left: 7px solid #d90429; padding-left: 22px; font-family: 'Questrial'; font-size: 32px; line-height: 1.4; color: #1a1a1a; }
+.slide .box-white { background: #fff; border: 2px solid #111; margin: 0 40px 18px; padding: 26px; font-family: 'Questrial'; font-size: 30px; line-height: 1.4; }
+.slide .box-black { background: #111; color: #f4f1ea; border: 2px solid #111; margin: 0 40px 18px; padding: 26px; font-family: 'Questrial'; font-size: 30px; line-height: 1.4; }
+.slide .in { margin: 0; }
+.slide .wrap { margin: 0 40px 18px; }
+.slide .wrap .box-white, .slide .wrap .box-black { margin: 0; }
+.slide .sh-black { box-shadow: 12px 12px 0 #111; }
+.slide .sh-red { box-shadow: 12px 12px 0 #d90429; }
+.slide .footerband { margin-top: auto; background: #111; color: #f4f1ea; font-family: 'Dosis'; font-weight: 600; letter-spacing: .06em; font-size: 24px; padding: 16px 40px; text-transform: uppercase; }
+.slide p { font-family: 'Questrial'; font-size: 30px; line-height: 1.4; color: #111; margin: 0 40px 18px; }
+.slide .center { text-align: center; }
+.slide b { font-family: 'Dosis'; font-weight: 700; }
+.slide .rosso { color: #d90429; }
+.slide .crema { color: #f4f1ea; }
+.slide .f-dosis { font-family: 'Dosis'; font-weight: 600; }
+.slide .f-questrial { font-family: 'Questrial'; }
+.slide .f-wenkai { font-family: 'LXGW WenKai GB', serif; }
+`;
+$('slidecss').textContent = CSS_SLIDE;
+
+/* ================= Formati ================= */
+const FORMATS = {
+  carosello: { w: 1080, h: 1350 },
+  quadrato:  { w: 1080, h: 1080 },
+  og:        { w: 1200, h: 630 }
+};
+
+/* ================= Stato ================= */
+let slides = [
+  '[titolo]Flashcard Cinesi[/titolo]\n[riga]\n[rossa]Un quaderno aperto per studiare hanzi, pinyin e significato con il metodo Leitner, una carta alla volta.[/rossa]\n[spazio=20]\n[ombrarossa][bianco]Niente server, niente tracking, niente account: i tuoi progressi vivono solo in questa pagina.[/bianco][/ombrarossa]\n[footer]www.stefanodroghetti.it[/footer]'
+];
+let cur = 0;
+let fmtKey = 'carosello';
+
+/* ================= Parser BBCode ================= */
+function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function inline(s) {
+  return s
+    .replace(/\[b\]/g, '<b>').replace(/\[\/b\]/g, '</b>')
+    .replace(/\[i\]/g, '<i>').replace(/\[\/i\]/g, '</i>')
+    .replace(/\[rosso\]/g, '<span class="rosso">').replace(/\[\/rosso\]/g, '</span>')
+    .replace(/\[crema\]/g, '<span class="crema">').replace(/\[\/crema\]/g, '</span>')
+    .replace(/\[size=(\d+)\]/g, '<span style="font-size:$1px">').replace(/\[\/size\]/g, '</span>')
+    .replace(/\[font=(dosis|questrial|wenkai)\]/g, (m, f) => '<span class="f-' + f + '">').replace(/\[\/font\]/g, '</span>');
+}
+function innerBlock(s) {
+  s = s.trim(); let m;
+  if ((m = s.match(/^\[bianco\](.*)\[\/bianco\]$/))) return '<div class="box-white in">' + inline(esc(m[1])) + '</div>';
+  if ((m = s.match(/^\[nero\](.*)\[\/nero\]$/)))     return '<div class="box-black in">' + inline(esc(m[1])) + '</div>';
+  return '<div class="box-white in">' + inline(esc(s)) + '</div>';
+}
+function parseSlide(src) {
+  const out = []; let para = []; let m;
+  const flush = () => { if (para.length) { out.push('<p>' + para.join('<br>') + '</p>'); para = []; } };
+  for (const raw of src.split('\n')) {
+    const line = raw.trim();
+    if (!line) { flush(); continue; }
+    if ((m = line.match(/^\[titolo\](.*)\[\/titolo\]$/)))  { flush(); out.push('<div class="band arrow">' + inline(esc(m[1])) + '</div>'); continue; }
+    if ((m = line.match(/^\[header\](.*)\[\/header\]$/)))  { flush(); out.push('<div class="band">' + inline(esc(m[1])) + '</div>'); continue; }
+    if ((m = line.match(/^\[footer\](.*)\[\/footer\]$/)))  { flush(); out.push('<div class="footerband">' + inline(esc(m[1])) + '</div>'); continue; }
+    if ((m = line.match(/^\[rossa\](.*)\[\/rossa\]$/)))    { flush(); out.push('<div class="tagline">' + inline(esc(m[1])) + '</div>'); continue; }
+    if ((m = line.match(/^\[bianco\](.*)\[\/bianco\]$/)))  { flush(); out.push('<div class="box-white">' + inline(esc(m[1])) + '</div>'); continue; }
+    if ((m = line.match(/^\[nero\](.*)\[\/nero\]$/)))      { flush(); out.push('<div class="box-black">' + inline(esc(m[1])) + '</div>'); continue; }
+    if ((m = line.match(/^\[ombrarossa\](.*)\[\/ombrarossa\]$/))) { flush(); out.push('<div class="wrap sh-red">' + innerBlock(m[1]) + '</div>'); continue; }
+    if ((m = line.match(/^\[ombranera\](.*)\[\/ombranera\]$/)))   { flush(); out.push('<div class="wrap sh-black">' + innerBlock(m[1]) + '</div>'); continue; }
+    if ((m = line.match(/^\[center\](.*)\[\/center\]$/)))  { flush(); out.push('<div class="center"><p>' + inline(esc(m[1])) + '</p></div>'); continue; }
+    if (line === '[riga]') { flush(); out.push('<div class="rule"></div>'); continue; }
+    if ((m = line.match(/^\[spazio=(\d+)\]$/))) { flush(); out.push('<div style="height:' + m[1] + 'px"></div>'); continue; }
+    para.push(inline(esc(line)));
+  }
+  flush();
+  return out.join('\n');
+}
+
+/* ================= Anteprima ================= */
+function renderPreview() {
+  const f = FORMATS[fmtKey];
+  const frame = $('frame');
+  frame.style.width = f.w + 'px';
+  frame.style.height = f.h + 'px';
+  frame.innerHTML = parseSlide(slides[cur]);
+  const availW = document.querySelector('main').clientWidth - 60;
+  const availH = window.innerHeight - 60;
+  const scale = Math.min(availW / f.w, availH / f.h, 1);
+  frame.style.transform = 'scale(' + scale + ')';
+  $('scaler').style.width = (f.w * scale) + 'px';
+  $('scaler').style.height = (f.h * scale) + 'px';
+}
+function renderList() {
+  const box = $('slideList'); box.innerHTML = '';
+  slides.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.textContent = (i + 1);
+    if (i === cur) b.classList.add('on');
+    b.onclick = () => { cur = i; $('src').value = slides[cur]; renderList(); renderPreview(); };
+    box.appendChild(b);
+  });
+}
+
+/* ================= Font incorporati per l'export ================= */
+const FONT_FILES = {
+  dosis600:  ['/fonts/Dosis-SemiBold.ttf', 600, 'Dosis', 'truetype'],
+  dosis700:  ['/fonts/Dosis-Bold.ttf', 700, 'Dosis', 'truetype'],
+  questrial: ['/fonts/Questrial-Regular.ttf', 400, 'Questrial', 'truetype'],
+  wenkai:    ['/progetti/flashcard-cinesi/fonts/LXGWWenKaiGB-Regular.woff2', 400, 'LXGW WenKai GB', 'woff2']
+};
+const fontCache = {};
+async function fontFaceCSS(keys) {
+  let css = '';
+  for (const k of keys) {
+    if (!fontCache[k]) {
+      const [url, w, fam, fmt] = FONT_FILES[k];
+      const buf = await (await fetch(url)).arrayBuffer();
+      const u = new Uint8Array(buf); let bin = '';
+      for (let i = 0; i < u.length; i += 8192) bin += String.fromCharCode.apply(null, u.subarray(i, i + 8192));
+      fontCache[k] = "@font-face{font-family:'" + fam + "';font-weight:" + w +
+        ";src:url(data:font/" + fmt + ";base64," + btoa(bin) + ") format('" + fmt + "');}";
+    }
+    css += fontCache[k];
+  }
+  return css;
+}
+
+/* ================= Render PNG (foreignObject, motore vero del browser) ================= */
+async function renderSlidePNG(src, f) {
+  const html = parseSlide(src);
+  const keys = ['dosis600', 'dosis700', 'questrial'];
+  if (html.includes('wenkai')) keys.push('wenkai');
+  const css = CSS_SLIDE + await fontFaceCSS(keys);
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + f.w + '" height="' + f.h + '">' +
+    '<foreignObject width="100%" height="100%"><div xmlns="http://www.w3.org/1999/xhtml"><style>' + css +
+    '</style><div class="slide" style="width:' + f.w + 'px;height:' + f.h + 'px">' + html + '</div></div></foreignObject></svg>';
+  const img = new Image();
+  await new Promise((res, rej) => { img.onload = res; img.onerror = rej;
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); });
+  const c = document.createElement('canvas'); c.width = f.w; c.height = f.h;
+  c.getContext('2d').drawImage(img, 0, 0);
+  return await new Promise(res => c.toBlob(res, 'image/png'));
+}
+
+/* ================= ZIP senza librerie (metodo stored) ================= */
+function crc32(u8) {
+  let crc = 0xFFFFFFFF;
+  for (let i = 0; i < u8.length; i++) {
+    let c = (crc ^ u8[i]) & 0xFF;
+    for (let k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+    crc = (crc >>> 8) ^ c;
+  }
+  return (crc ^ 0xFFFFFFFF) >>> 0;
+}
+function makeZip(entries) {
+  const enc = new TextEncoder(); const chunks = []; const central = []; let offset = 0;
+  for (const e of entries) {
+    const name = enc.encode(e.name); const data = e.uint8; const crc = crc32(data);
+    const loc = new DataView(new ArrayBuffer(30));
+    loc.setUint32(0, 0x04034b50, true); loc.setUint16(4, 20, true); loc.setUint32(14, crc, true);
+    loc.setUint32(18, data.length, true); loc.setUint32(22, data.length, true); loc.setUint16(26, name.length, true);
+    chunks.push(new Uint8Array(loc.buffer), name, data);
+    const cen = new DataView(new ArrayBuffer(46));
+    cen.setUint32(0, 0x02014b50, true); cen.setUint16(4, 20, true); cen.setUint16(6, 20, true);
+    cen.setUint32(16, crc, true); cen.setUint32(20, data.length, true); cen.setUint32(24, data.length, true);
+    cen.setUint16(28, name.length, true); cen.setUint32(42, offset, true);
+    central.push(new Uint8Array(cen.buffer), name);
+    offset += 30 + name.length + data.length;
+  }
+  let cdSize = 0; central.forEach(c => cdSize += c.length);
+  const end = new DataView(new ArrayBuffer(22));
+  end.setUint32(0, 0x06054b50, true); end.setUint16(8, entries.length, true);
+  end.setUint16(10, entries.length, true); end.setUint32(12, cdSize, true); end.setUint32(16, offset, true);
+  const all = chunks.concat(central, [new Uint8Array(end.buffer)]);
+  const total = all.reduce((s, a) => s + a.length, 0);
+  const out = new Uint8Array(total); let p = 0;
+  for (const a of all) { out.set(a, p); p += a.length; }
+  return new Blob([out], { type: 'application/zip' });
+}
+function download(blob, nome) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = nome; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+
+/* ================= Azioni ================= */
+$('fmt').onchange = e => { fmtKey = e.target.value; renderPreview(); };
+$('src').oninput = () => { slides[cur] = $('src').value; renderPreview(); };
+$('addSlide').onclick = () => { slides.splice(cur + 1, 0, '[titolo]Nuova slide[/titolo]\n[riga]\n'); cur++; $('src').value = slides[cur]; renderList(); renderPreview(); };
+$('dupSlide').onclick = () => { slides.splice(cur + 1, 0, slides[cur]); cur++; $('src').value = slides[cur]; renderList(); renderPreview(); };
+$('delSlide').onclick = () => { if (slides.length === 1) return; slides.splice(cur, 1); cur = Math.min(cur, slides.length - 1); $('src').value = slides[cur]; renderList(); renderPreview(); };
+$('upSlide').onclick = () => { if (cur === 0) return; [slides[cur - 1], slides[cur]] = [slides[cur], slides[cur - 1]]; cur--; $('src').value = slides[cur]; renderList(); renderPreview(); };
+$('downSlide').onclick = () => { if (cur === slides.length - 1) return; [slides[cur + 1], slides[cur]] = [slides[cur], slides[cur + 1]]; cur++; $('src').value = slides[cur]; renderList(); renderPreview(); };
+$('exportOne').onclick = async () => {
+  const blob = await renderSlidePNG(slides[cur], FORMATS[fmtKey]);
+  download(blob, 'slide-' + String(cur + 1).padStart(2, '0') + '.png');
+};
+$('exportZip').onclick = async () => {
+  const entries = [];
+  for (let i = 0; i < slides.length; i++) {
+    const blob = await renderSlidePNG(slides[i], FORMATS[fmtKey]);
+    entries.push({ name: 'slide-' + String(i + 1).padStart(2, '0') + '.png', uint8: new Uint8Array(await blob.arrayBuffer()) });
+  }
+  download(makeZip(entries), 'carosello-' + fmtKey + '.zip');
+};
+$('saveProj').onclick = () => download(new Blob([JSON.stringify({ format: fmtKey, slides }, null, 2)], { type: 'application/json' }), 'carosello-progetto.json');
+$('loadProj').onclick = () => $('loadFile').click();
+$('loadFile').onchange = async e => {
+  const f = e.target.files[0]; if (!f) return;
+  const data = JSON.parse(await f.text());
+  slides = data.slides && data.slides.length ? data.slides : slides;
+  fmtKey = data.format || fmtKey; $('fmt').value = fmtKey;
+  cur = 0; $('src').value = slides[cur]; renderList(); renderPreview();
+};
+window.addEventListener('resize', renderPreview);
+
+/* ================= Avvio ================= */
+$('src').value = slides[cur];
+renderList();
+renderPreview();
+</script>
+</body>
+</html>
