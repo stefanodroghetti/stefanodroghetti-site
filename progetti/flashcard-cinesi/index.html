@@ -384,7 +384,8 @@
     <h4>Scorciatoie da tastiera</h4>
     <p>
       <kbd>Spazio</kbd> = Mostra risposta / La sapevo &nbsp;&nbsp;
-      <kbd>→</kbd> o <kbd>X</kbd> = Non la sapevo
+      <kbd>→</kbd> o <kbd>X</kbd> = Non la sapevo &nbsp;&nbsp;
+      <kbd>L</kbd> = La so già (laurea subito)
     </p>
   </div>
 
@@ -517,7 +518,7 @@
           <button class="fc-btn" id="qItalMinus">−</button><button class="fc-btn" id="qItalPlus">+</button>
         </span>
       </div>
-      <p class="fc-hint">Scorciatoie: <b>Spazio</b> = mostra risposta / la sapevo · <b>→ oppure X</b> = non la sapevo</p>
+      <p class="fc-hint">Scorciatoie: <b>Spazio</b> = mostra risposta / la sapevo · <b>→ oppure X</b> = non la sapevo · <b>L</b> = la so già (laurea)</p>
       <div class="fc-toolbar">
         <button class="fc-btn" id="btnSummaryQuiz">Riepilogo scatole</button>
       </div>
@@ -977,6 +978,9 @@ document.addEventListener('keydown', e => {
     if (!state.revealed) return;
     e.preventDefault();
     answerWrong();
+  } else if (e.key === 'l' || e.key === 'L') {
+    e.preventDefault();
+    answerKnown();
   }
 });
 
