@@ -37,6 +37,28 @@
   textarea { flex: 1; border: 0; border-top: 0; padding: 12px; font-family: monospace; font-size: .85rem; resize: none; background: #fff; color: #111; outline: none; }
   main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; overflow: auto; }
   #scaler { position: relative; box-shadow: 0 0 40px rgba(0,0,0,.25); }
+  #guides {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+.guide-overlay {
+  position: absolute;
+  border: 2px dashed;
+  background: rgba(255, 255, 0, 0.15);
+}
+.guide-label {
+  position: absolute;
+  font: 700 11px/1 'Dosis', system-ui;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  padding: 2px 6px;
+  background: rgba(0,0,0,.7);
+  color: #fff;
+  white-space: nowrap;
+}
   #frame { position: absolute; top: 0; left: 0; transform-origin: 0 0; }
   details { position: fixed; right: 12px; bottom: 12px; background: #fff; border: 2px solid #111; padding: 10px; max-width: 380px; font-size: .78rem; z-index: 9; }
   details summary { font-family: 'Dosis', system-ui; font-weight: 700; cursor: pointer; text-transform: uppercase; }
@@ -53,6 +75,16 @@
       <option value="carosello">Carosello IG/FB · 1080×1350</option>
       <option value="quadrato">Post quadrato · 1080×1080</option>
       <option value="og">Open Graph · 1200×630</option>
+    </select>
+  </div>
+  <div class="bar">
+    <select id="guideMode">
+      <option value="none">Nessuna guida</option>
+      <option value="og">Safe zone OG universale</option>
+      <option value="whatsapp">Safe zone WhatsApp (quadrato)</option>
+      <option value="twitter">Safe zone Twitter/X (2:1)</option>
+      <option value="instagram">Safe zone Instagram (3% bordi)</option>
+      <option value="all">Tutte le guide</option>
     </select>
   </div>
   <div class="bar" id="slideList"></div>
@@ -75,6 +107,7 @@
 
 <main>
   <div id="scaler"><div id="frame" class="slide"></div></div>
+  <div id="guides"></div>
 </main>
 
 <details>
@@ -193,6 +226,7 @@ function renderPreview() {
   frame.style.transform = 'scale(' + scale + ')';
   $('scaler').style.width = (f.w * scale) + 'px';
   $('scaler').style.height = (f.h * scale) + 'px';
+  renderGuides();
 }
 function renderList() {
   const box = $('slideList'); box.innerHTML = '';
@@ -287,6 +321,70 @@ function download(blob, nome) {
   setTimeout(() => URL.revokeObjectURL(a.href), 4000);
 }
 
+/* ================= Guide safe zone ================= */
+const GUIDES = {
+  og: {
+    label: 'OG universale (90%)',
+    color: '#00ff00',
+    calc: (w, h) => ({ x: w * 0.05, y: h * 0.05, w: w * 0.9, h: h * 0.9 })
+  },
+  whatsapp: {
+    label: 'WhatsApp (quadrato centrale)',
+    color: '#25d366',
+    calc: (w, h) => {
+      const size = Math.min(w, h) * 0.95;
+      return { x: (w - size) / 2, y: (h - size) / 2, w: size, h: size };
+    }
+  },
+  twitter: {
+    label: 'Twitter/X (2:1)',
+    color: '#1da1f2',
+    calc: (w, h) => {
+      const tw = w * 0.95;
+      const th = tw / 2;
+      return { x: (w - tw) / 2, y: (h - th) / 2, w: tw, h: th };
+    }
+  },
+  instagram: {
+    label: 'Instagram (3% bordi)',
+    color: '#e1306c',
+    calc: (w, h) => ({ x: w * 0.03, y: h * 0.03, w: w * 0.94, h: h * 0.94 })
+  }
+};
+
+function renderGuides() {
+  const box = $('guides');
+  box.innerHTML = '';
+  const mode = $('guideMode').value;
+  if (mode === 'none') return;
+  
+  const f = FORMATS[fmtKey];
+  const keys = mode === 'all' ? Object.keys(GUIDES) : [mode];
+  
+  keys.forEach((key, i) => {
+    const g = GUIDES[key];
+    const rect = g.calc(f.w, f.h);
+    const overlay = document.createElement('div');
+    overlay.className = 'guide-overlay';
+    overlay.style.left = rect.x + 'px';
+    overlay.style.top = rect.y + 'px';
+    overlay.style.width = rect.w + 'px';
+    overlay.style.height = rect.h + 'px';
+    overlay.style.borderColor = g.color;
+    overlay.style.background = g.color + '15';
+    
+    const label = document.createElement('div');
+    label.className = 'guide-label';
+    label.textContent = g.label;
+    label.style.left = (rect.x + 4) + 'px';
+    label.style.top = (rect.y + 4 + i * 18) + 'px';
+    label.style.background = g.color;
+    
+    box.appendChild(overlay);
+    box.appendChild(label);
+  });
+}
+
 /* ================= Azioni ================= */
 $('fmt').onchange = e => { fmtKey = e.target.value; renderPreview(); };
 $('src').oninput = () => { slides[cur] = $('src').value; renderPreview(); };
@@ -309,6 +407,7 @@ $('exportZip').onclick = async () => {
 };
 $('saveProj').onclick = () => download(new Blob([JSON.stringify({ format: fmtKey, slides }, null, 2)], { type: 'application/json' }), 'carosello-progetto.json');
 $('loadProj').onclick = () => $('loadFile').click();
+$('guideMode').onchange = renderGuides;
 $('loadFile').onchange = async e => {
   const f = e.target.files[0]; if (!f) return;
   const data = JSON.parse(await f.text());
@@ -322,6 +421,7 @@ window.addEventListener('resize', renderPreview);
 $('src').value = slides[cur];
 renderList();
 renderPreview();
+renderGuides();
 </script>
 </body>
 </html>
