@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Flashcard Cinesi — Divagazioni</title>
-<meta name="description" content="Flashcard per studiare il cinese: hanzi, pinyin e significato. Dati aperti, niente server, niente scuse.">
+<meta name="description" content="Flashcard per studiare il cinese con metodo Leitner: hanzi, pinyin e significato. Dati aperti, niente server, niente tracking, niente scuse.">
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="canonical" href="https://stefanodroghetti.it/progetti/flashcard-cinesi/">
 
@@ -23,19 +23,10 @@
     src: url('/fonts/Dosis-Bold.ttf') format('truetype');
   }
   @font-face {
-    font-family: 'Noto Sans SC';
-    src: url('/fonts/NotoSansSC-VariableFont_wght.ttf') format('truetype');
-    font-weight: 100 900;
-    font-style: normal;
-    font-display: swap;
-  }
-  
-  @font-face {
     font-family: 'Questrial';
     src: url('/fonts/Questrial-Regular.ttf') format('truetype');
   }
-  /* WenKai GB — SIL OFL 1.1 — calligrafico per gli hanzi E completo di
-     diacritici pinyin (macron, circonflesso): risolve entrambi i vecchi TODO. */
+  /* WenKai GB — SIL OFL 1.1 — calligrafico SOLO per gli hanzi */
   @font-face {
     font-family: 'LXGW WenKai GB';
     src: url('fonts/LXGWWenKaiGB-Regular.woff2') format('woff2');
@@ -50,29 +41,15 @@
     font-style: normal;
     font-display: swap;
   }
+  /* Noto Sans SC — OFL — per il pinyin (copre tutti i diacritici) */
+  @font-face {
+    font-family: 'Noto Sans SC';
+    src: url('/fonts/NotoSansSC-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+  }
 
-  @font-face {
-    font-family: 'Roboto';
-    src: url('fonts/Roboto-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Roboto';
-    src: url('fonts/Roboto-Medium.ttf') format('truetype');
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Roboto';
-    src: url('fonts/Roboto-Bold.ttf') format('truetype');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-  }
-  
   /* === Base costruttivista === */
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -89,7 +66,7 @@
     box-shadow: 0 0 40px rgba(0,0,0,0.08);
   }
 
-  /* === Header costruttivista (banda nera + freccia rossa) === */
+  /* === Header costruttivista === */
   .page-header {
     position: relative;
     background: #111;
@@ -117,11 +94,7 @@
     clip-path: polygon(0 50%, 25% 0, 25% 32%, 100% 32%, 100% 68%, 25% 68%, 25% 100%);
     z-index: 1;
   }
-  .header-rule {
-    height: 7px;
-    background: #111;
-    margin: 1rem 0 1.4rem;
-  }
+  .header-rule { height: 7px; background: #111; margin: 1rem 0 1.4rem; }
   .tagline {
     font-size: 1.05rem;
     color: #1a1a1a;
@@ -142,19 +115,10 @@
     margin-bottom: 2rem;
     letter-spacing: 0.05em;
   }
-  .back-link:hover {
-    background: #d90429;
-    color: #fff;
-    border-bottom-color: #d90429;
-  }
+  .back-link:hover { background: #d90429; color: #fff; border-bottom-color: #d90429; }
 
-  /* === Pannelli e campi === */
-  .group {
-    background: #fff;
-    border: 2px solid #111;
-    padding: 1.2rem;
-    margin-bottom: 20px;
-  }
+  /* === Pannelli === */
+  .group { background: #fff; border: 2px solid #111; padding: 1.2rem; margin-bottom: 20px; }
   .group.rossa { border-left: 6px solid #d90429; }
   .group.nera { border-left: 6px solid #111; }
   .group h3 {
@@ -168,15 +132,18 @@
   }
   .group.rossa h3::before { content: "▮ "; color: #d90429; }
   .group.nera h3::before { content: "▮ "; color: #111; }
-
-  /* === Flashcard: pulsanti e toolbar === */
-  .fc-toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-    margin: 10px 0;
+  .group h4 {
+    font-family: 'Dosis', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin: 12px 0 6px;
+    color: #d90429;
   }
+  .group p { font-size: 0.92rem; margin-bottom: 10px; }
+  .group a { color: #d90429; }
+
+  /* === Pulsanti e toolbar === */
+  .fc-toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 10px 0; }
   .fc-btn {
     font-family: 'Dosis', sans-serif;
     font-weight: 600;
@@ -196,61 +163,41 @@
   .fc-btn.active { background: #d90429; color: #fff; border-color: #111; box-shadow: 3px 3px 0 #111; }
   .fc-btn:disabled { opacity: 0.35; cursor: not-allowed; box-shadow: none; }
   .fc-check {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: 'Dosis', sans-serif;
-    font-weight: 600;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    cursor: pointer;
-    user-select: none;
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'Dosis', sans-serif; font-weight: 600; font-size: 0.85rem;
+    text-transform: uppercase; letter-spacing: 0.04em; cursor: pointer; user-select: none;
   }
   .fc-check input { width: 16px; height: 16px; accent-color: #d90429; cursor: pointer; }
-  .fc-input {
-    border: 2px solid #111;
-    padding: 8px 10px;
-    font-family: 'Questrial', sans-serif;
-    font-size: 0.9rem;
-    background: #fff;
-  }
+  .fc-input { border: 2px solid #111; padding: 8px 10px; font-family: 'Questrial', sans-serif; font-size: 0.9rem; background: #fff; }
   .fc-input:focus { outline: 2px solid #d90429; outline-offset: 1px; }
-  .fc-msg {
-    font-family: 'Dosis', sans-serif;
-    font-weight: 600;
-    font-size: 0.85rem;
-    color: #d90429;
-    min-height: 1.2em;
-  }
-  .fc-meta {
-    font-size: 0.78rem;
-    color: #666;
-    margin-top: 6px;
-  }
+  .fc-msg { font-family: 'Dosis', sans-serif; font-weight: 600; font-size: 0.85rem; color: #d90429; min-height: 1.2em; }
+  .fc-meta { font-size: 0.78rem; color: #666; margin-top: 6px; }
   .fc-meta a { color: #d90429; }
   .fc-hint {
-    font-family: 'Dosis', sans-serif;
-    font-weight: 600;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #777;
-    margin: 2px 0 6px;
+    font-family: 'Dosis', sans-serif; font-weight: 600; font-size: 0.75rem;
+    text-transform: uppercase; letter-spacing: 0.05em; color: #777; margin: 2px 0 6px;
   }
   .fc-hint b { color: #d90429; }
   .fc-sizegroup {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: 'Dosis', sans-serif;
-    font-weight: 600;
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #555;
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'Dosis', sans-serif; font-weight: 600; font-size: 0.78rem;
+    text-transform: uppercase; letter-spacing: 0.05em; color: #555;
   }
   .fc-sizegroup .fc-btn { padding: 3px 9px; }
+  kbd {
+    background: #111; color: #f4f1ea; padding: 2px 6px; border-radius: 3px; font-family: monospace;
+  }
+
+  /* === Riepilogo scatole (ponte di carta) === */
+  .fc-summary {
+    background: #fff;
+    border: 2px dashed #d90429;
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    margin: 10px 0;
+    white-space: pre-wrap;
+    user-select: text;
+  }
 
   /* === Griglia di quadrati === */
   .fc-grid {
@@ -266,52 +213,22 @@
     min-height: calc(var(--cardw) * 0.85);
     padding: 10px 6px 6px;
     position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    display: flex; flex-direction: column; gap: 3px;
+    justify-content: center; align-items: center; text-align: center;
   }
   .fc-card .num {
-    position: absolute;
-    top: 3px;
-    left: 6px;
-    font-family: 'Dosis', sans-serif;
-    font-weight: 700;
-    color: #d90429;
-    font-size: 0.75rem;
+    position: absolute; top: 3px; left: 6px;
+    font-family: 'Dosis', sans-serif; font-weight: 700; color: #d90429; font-size: 0.75rem;
   }
-  /* WenKai SOLO per gli hanzi (calligrafico) */
-  .fc-card .hanzi, .fc-quizcard .hanzi {
-    font-family: 'LXGW WenKai GB', serif;
-  }
-  /* Noto Sans SC per il pinyin (copre Latin Extended + diacritici) */
-  .fc-card .pinyin, .fc-quizcard .pinyin {
-    font-family: 'Noto Sans SC', sans-serif;
-    font-weight: 500;
-  }
-  /* Dosis per l'italiano (come nel resto del sito) */
-  .fc-card .ital, .fc-quizcard .ital {
-    font-family: 'Dosis', sans-serif;
-  }
+  .fc-card .hanzi, .fc-quizcard .hanzi { font-family: 'LXGW WenKai GB', serif; }
+  .fc-card .pinyin, .fc-quizcard .pinyin { font-family: 'Noto Sans SC', sans-serif; font-weight: 500; }
+  .fc-card .ital, .fc-quizcard .ital { font-family: 'Dosis', sans-serif; }
   .fc-card .hanzi { font-size: calc(var(--cardw) * 0.26); line-height: 1.15; font-weight: 500; }
-  .fc-card .pinyin {
-    font-weight: 500;
-    color: #333;
-    font-size: clamp(0.72rem, calc(var(--cardw) * 0.10), 1.6rem);
-  }
-  .fc-card .ital {
-    color: #d90429;
-    font-size: clamp(0.7rem, calc(var(--cardw) * 0.095), 1.5rem);
-  }
+  .fc-card .pinyin { color: #333; font-size: clamp(0.72rem, calc(var(--cardw) * 0.10), 1.6rem); }
+  .fc-card .ital { color: #d90429; font-size: clamp(0.7rem, calc(var(--cardw) * 0.095), 1.5rem); }
   .fc-grid.selectable .fc-card { cursor: pointer; }
   .fc-grid.selectable .fc-card:hover { box-shadow: 3px 3px 0 #111; }
-  .fc-card.sel {
-    background: #111;
-    border-color: #d90429;
-    box-shadow: 4px 4px 0 #d90429;
-  }
+  .fc-card.sel { background: #111; border-color: #d90429; box-shadow: 4px 4px 0 #d90429; }
   .fc-card.sel .hanzi { color: #f4f1ea; }
   .fc-card.sel .pinyin { color: #ccc; }
   .fc-card.sel .ital { color: #ff6b81; }
@@ -320,96 +237,64 @@
   #stepQuiz { --qhanzi: 48px; --qpinyin: 19px; --qital: 18px; }
   .fc-preview { --qhanzi: 32px; --qpinyin: 16px; --qital: 15px; }
   .fc-quizcard {
-    border: 3px solid #111;
-    background: #fff;
-    box-shadow: 6px 6px 0 #d90429;
-    padding: 1.6rem 1.2rem;
-    text-align: center;
-    max-width: 560px;
-    margin: 1rem auto;
+    border: 3px solid #111; background: #fff; box-shadow: 6px 6px 0 #d90429;
+    padding: 1.6rem 1.2rem; text-align: center; max-width: 560px; margin: 1rem auto;
   }
   .fc-quizcard .hanzi { font-size: var(--qhanzi); line-height: 1.2; font-weight: 500; }
-  .fc-quizcard .pinyin {
-    font-weight: 500;
-    color: #333;
-    font-size: var(--qpinyin);
-    margin-top: 6px;
-  }
+  .fc-quizcard .pinyin { color: #333; font-size: var(--qpinyin); margin-top: 6px; }
   .fc-quizcard .ital { color: #d90429; font-size: var(--qital); margin-top: 6px; }
   .fc-quizcard .qlabel {
-    font-family: 'Dosis', sans-serif;
-    font-weight: 700;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: #d90429;
-    margin-bottom: 10px;
+    font-family: 'Dosis', sans-serif; font-weight: 700; font-size: 0.75rem;
+    text-transform: uppercase; letter-spacing: 0.12em; color: #d90429; margin-bottom: 10px;
   }
-  .fc-quizcard.answer {
-    background: #111;
-    border-color: #d90429;
-    box-shadow: 6px 6px 0 #111;
-  }
+  .fc-quizcard.answer { background: #111; border-color: #d90429; box-shadow: 6px 6px 0 #111; }
   .fc-quizcard.answer .hanzi { color: #f4f1ea; }
   .fc-quizcard.answer .pinyin { color: #ccc; }
   .fc-quizcard.answer .ital { color: #ff6b81; }
   .fc-quizcard.answer .qlabel { color: #d90429; }
 
-  /* Quiz: card e tasti fianco a fianco quando lo spazio c'è */
-  .fc-quizlayout {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    justify-content: center;
-    align-items: center;
-    margin: 1rem 0;
-  }
-  .fc-quizmain {
-    flex: 1 1 340px;
-    max-width: 560px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
+  .fc-quizlayout { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; align-items: center; margin: 1rem 0; }
+  .fc-quizmain { flex: 1 1 340px; max-width: 560px; display: flex; flex-direction: column; gap: 12px; }
   .fc-quizmain .fc-quizcard { margin: 0; max-width: none; }
-  .fc-quizside {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    flex: 0 0 240px;
-  }
+  .fc-quizside { display: flex; flex-direction: column; gap: 10px; flex: 0 0 240px; }
   .fc-quizside .fc-btn { width: 100%; }
 
-  .fc-preview {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin: 12px 0;
-  }
+  .fc-preview { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 12px 0; }
   .fc-preview .fc-quizcard { margin: 0; max-width: none; padding: 1rem; }
   .fc-stats {
-    font-family: 'Dosis', sans-serif;
-    font-weight: 600;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: #555;
-    display: flex;
-    gap: 18px;
-    flex-wrap: wrap;
+    font-family: 'Dosis', sans-serif; font-weight: 600; font-size: 0.85rem;
+    text-transform: uppercase; letter-spacing: 0.06em; color: #555;
+    display: flex; gap: 14px; flex-wrap: wrap;
   }
   .fc-stats b { color: #d90429; }
   .fc-hidden { display: none; }
 
+  /* === Sezione didattica collassabile === */
+  details.fc-details { background: #fff; border: 2px solid #111; padding: 1.2rem; margin-bottom: 20px; }
+  details.fc-details summary {
+    font-family: 'Dosis', sans-serif; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.03em; cursor: pointer; color: #111;
+  }
+  details.fc-details summary::before { content: "▮ "; color: #d90429; }
+  details.fc-details[open] summary { margin-bottom: 1rem; }
+  details.fc-details p { font-size: 0.92rem; margin-bottom: 10px; }
+  details.fc-details ul { margin: 0 0 10px 1.2rem; font-size: 0.88rem; }
+  details.fc-details a { color: #d90429; }
+  .leit-row { display: flex; gap: 8px; align-items: stretch; flex-wrap: wrap; margin: 14px 0 4px; }
+  .leit-box {
+    border: 2px solid #111; background: #fff; padding: 10px 14px; text-align: center;
+    font-family: 'Dosis', sans-serif; font-weight: 700; font-size: 0.85rem; text-transform: uppercase;
+  }
+  .leit-box small { display: block; font-weight: 600; font-size: 0.68rem; color: #666; text-transform: none; }
+  .leit-box.grad { background: #111; color: #f4f1ea; }
+  .leit-box.grad small { color: #bbb; }
+  .leit-arrow { color: #d90429; font-weight: 700; align-self: center; font-size: 1.3rem; }
+  .leit-back { color: #d90429; font-family: 'Dosis', sans-serif; font-weight: 600; font-size: 0.85rem; margin: 4px 0 12px; }
+
   /* === Footer === */
   .page-footer {
-    margin-top: 3rem;
-    padding-top: 1.2rem;
-    border-top: 2px solid #111;
-    font-size: 0.85rem;
-    color: #555;
-    font-family: 'Dosis', sans-serif;
-    letter-spacing: 0.05em;
+    margin-top: 3rem; padding-top: 1.2rem; border-top: 2px solid #111;
+    font-size: 0.85rem; color: #555; font-family: 'Dosis', sans-serif; letter-spacing: 0.05em;
   }
   .page-footer a { color: #d90429; }
 
@@ -420,12 +305,7 @@
     .fc-preview { grid-template-columns: 1fr; }
   }
   @media (max-width: 700px) {
-    .fc-quizside {
-      flex: 1 1 100%;
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+    .fc-quizside { flex: 1 1 100%; flex-direction: row; flex-wrap: wrap; justify-content: center; }
     .fc-quizside .fc-btn { width: auto; }
   }
 </style>
@@ -438,50 +318,80 @@
     <div class="arrow" aria-hidden="true"></div>
   </header>
   <div class="header-rule" aria-hidden="true"></div>
-<p class="tagline">
-  <strong>Flashcard Cinesi</strong> — Studia hanzi, pinyin e significato con un tool aperto, senza server, senza tracking, senza scuse.
-</p>
-
-<div class="group nera" style="margin-bottom: 20px;">
-  <h3>Come si usa</h3>
-  
-  <h4 style="font-family: 'Dosis', sans-serif; font-weight: 700; font-size: 1rem; margin: 12px 0 6px; color: #d90429;">1 · Sezione SPIEGAZIONE</h4>
-  <p style="font-size: 0.92rem; margin-bottom: 10px;">
-    Qui vedi tutti i caratteri del set selezionato in una griglia di quadrati. Usa i checkbox per mostrare/nascondere <strong>Hanzi</strong>, <strong>Pinyin</strong> o <strong>Significato</strong>. I pulsanti <strong>− Quadrati</strong> e <strong>+ Quadrati</strong> ridimensionano la griglia per adattarla allo schermo.
+  <p class="tagline">
+    <strong>Flashcard Cinesi</strong> — Studia hanzi, pinyin e significato con il metodo Leitner: un tool aperto, senza server, senza tracking, senza scuse.
   </p>
-  
-  <h4 style="font-family: 'Dosis', sans-serif; font-weight: 700; font-size: 1rem; margin: 12px 0 6px; color: #d90429;">2 · Sezione STUDIO (QUIZ)</h4>
-  <p style="font-size: 0.92rem; margin-bottom: 10px;">
-    <strong>Passo 1 — Scegli le carte:</strong> clicca sui quadrati per selezionarli (tieni premuto <strong>Shift</strong> per selezionare un intervallo). Oppure scrivi intervalli nel campo testuale (es. <code>2-20, 45, 31-37</code>) e premi <strong>Applica intervalli</strong>. Puoi anche scegliere <strong>N a caso</strong> per un numero casuale di carte.
-  </p>
-  <p style="font-size: 0.92rem; margin-bottom: 10px;">
-    <strong>Passo 2 — Scegli il tipo di quiz:</strong> spunta cosa mostrare nella <strong>domanda</strong> (Hanzi, Pinyin, Significato). La risposta mostrerà tutto il resto. L'anteprima ti fa vedere subito come sarà.
-  </p>
-  <p style="font-size: 0.92rem; margin-bottom: 10px;">
-    <strong>Passo 3 — Studia:</strong> premi <strong>Mostra risposta</strong> per rivelare la carta. Se l'hai indovinata, clicca <strong>La sapevo ✓ imparata</strong> (la carta esce dal mazzo). Altrimenti, <strong>Non la sapevo → in fondo</strong> (la carta torna in fondo al mazzo). Quando il mazzo finisce, si rimescola automaticamente. Il quiz termina quando tutte le carte sono state marcate come imparate, o quando premi <strong>Esci dal quiz</strong>.
-  </p>
-  
-  <h4 style="font-family: 'Dosis', sans-serif; font-weight: 700; font-size: 1rem; margin: 12px 0 6px; color: #d90429;">Scorciatoie da tastiera</h4>
-  <p style="font-size: 0.92rem; margin-bottom: 10px;">
-    <kbd style="background: #111; color: #f4f1ea; padding: 2px 6px; border-radius: 3px; font-family: monospace;">Spazio</kbd> = Mostra risposta / La sapevo (imparata) &nbsp;&nbsp;
-    <kbd style="background: #111; color: #f4f1ea; padding: 2px 6px; border-radius: 3px; font-family: monospace;">→</kbd> o <kbd style="background: #111; color: #f4f1ea; padding: 2px 6px; border-radius: 3px; font-family: monospace;">X</kbd> = Non la sapevo (in fondo al mazzo)
-  </p>
-</div>
-
-<div class="group nera" style="margin-bottom: 20px;">
-  <h3>Filosofia</h3>
-  <p style="font-size: 0.92rem; margin-bottom: 10px;">
-    Questo progetto è <strong>aperto, trasparente e non commerciale</strong>. Nessun server, nessun database, nessun tracking, nessuna pubblicità, nessun cookie. I dati sono file JSON pubblici che puoi scaricare, modificare e redistribuire. Il codice è visibile nel browser, i font sono subsettati localmente e le licenze sono dichiarate.
-  </p>
-  <p style="font-size: 0.92rem; margin-bottom: 10px;">
-    È nato per studiare il cinese in modo libero, senza abbonamenti, senza gamification forzata, senza algoritmi che decidono per te. Se vuoi contribuire con nuovi set (parolacce, politica, dialetti, quello che vuoi), i JSON sono fatti apposta: aggiungili e rigenera il subset con lo script incluso.
-  </p>
-  <p style="font-size: 0.92rem;">
-    Se pensi di voler ringraziare l'autore supportando questo progetto, puoi farlo con una piccola cifra simbolica nella <a href="/#support" style="color: #d90429; text-decoration: underline;">pagina delle donazioni</a>. Ma non è obbligatorio: il sito resterà sempre libero e accessibile, con o senza donazioni.
-  </p>
-</div>
 
   <a href="/" class="back-link">◀ Torna al manifesto</a>
+
+  <!-- === Istruzioni === -->
+  <div class="group nera">
+    <h3>Come si usa</h3>
+
+    <h4>1 · Sezione SPIEGAZIONE</h4>
+    <p>
+      Qui vedi tutti i caratteri del set selezionato in una griglia di quadrati. Usa i checkbox per mostrare o nascondere
+      <strong>Hanzi</strong>, <strong>Pinyin</strong> o <strong>Significato</strong>. I pulsanti <strong>− Quadrati</strong> e
+      <strong>+ Quadrati</strong> ridimensionano la griglia.
+    </p>
+
+    <h4>2 · Sezione STUDIO (QUIZ) — Passo 1: scegli le carte</h4>
+    <p>
+      Clicca sui quadrati per selezionarli (tieni premuto <strong>Shift</strong> per selezionare un intervallo), oppure scrivi
+      gli intervalli nel campo testuale (es. <code>2-20, 45, 31-37</code>) e premi <strong>Applica intervalli</strong>.
+      Con <strong>Selezione N a caso</strong> scegli N carte a caso (10 se lasci il campo vuoto).
+      Consiglio: studia a blocchi di <strong>20-30 carte</strong>, non cento alla volta.
+    </p>
+
+    <h4>Passo 2: scegli il tipo di quiz</h4>
+    <p>
+      Spunta cosa mostrare nella <strong>domanda</strong> (Hanzi, Pinyin, Significato): la risposta mostrerà tutto il resto.
+      L'anteprima ti fa vedere subito come sarà.
+    </p>
+
+    <h4>Passo 3: studia con il metodo Leitner</h4>
+    <p>
+      Premi <strong>Mostra risposta</strong> per rivelare la carta, poi scegli uno dei tre esiti:
+      <strong>Non la sapevo → in fondo</strong> la riporta alla Scatola 1 e la fa tornare tra circa 4 carte;
+      <strong>La sapevo ✓</strong> la promuove di una scatola (la Scatola 2 torna tra circa 12 carte, la Scatola 3 a fine giro,
+      e dalla Scatola 3 si laurea); <strong>La so già ✓✓</strong> la laurea subito, senza appello.
+      Quando tutte le carte del mazzo sono state viste almeno una volta nel giro, il mazzo si rimescola.
+      Il quiz finisce quando tutte le carte sono laureate, o quando premi <strong>Esci dal quiz</strong>.
+    </p>
+    <p>
+      <strong>Le scatole vivono solo nella memoria della pagina:</strong> alla chiusura o al reload si azzerano, perché questo
+      sito non scrive nulla sul tuo disco. Per portare il metodo tra una sessione e l'altra usa il
+      <strong>Riepilogo scatole</strong>: copia gli ID nel campo intervalli alla prossima visita, oppure scrivili su un quaderno.
+      È il ponte di carta. Per capire perché tutto questo funziona, leggi
+      <a href="#metodo">Perché funziona — il metodo Leitner</a> in fondo alla pagina.
+    </p>
+
+    <h4>Scorciatoie da tastiera</h4>
+    <p>
+      <kbd>Spazio</kbd> = Mostra risposta / La sapevo &nbsp;&nbsp;
+      <kbd>→</kbd> o <kbd>X</kbd> = Non la sapevo
+    </p>
+  </div>
+
+  <!-- === Filosofia === -->
+  <div class="group nera">
+    <h3>Filosofia</h3>
+    <p>
+      Questo progetto è <strong>aperto, trasparente e non commerciale</strong>. Nessun server, nessun database, nessun tracking,
+      nessuna pubblicità, nessun cookie, nessun localStorage: i tuoi progressi vivono solo nella memoria della pagina aperta
+      e muoiono con essa. I dati sono file JSON pubblici che puoi scaricare, modificare e redistribuire. Il codice è visibile
+      nel browser, i font sono subsettati localmente e le licenze sono dichiarate.
+    </p>
+    <p>
+      È nato per studiare il cinese in modo libero, senza abbonamenti, senza gamification forzata, senza algoritmi che decidono
+      per te. Se vuoi contribuire con nuovi set, i JSON sono fatti apposta: aggiungili e rigenera il subset con lo script incluso.
+    </p>
+    <p>
+      Se pensi di voler ringraziare l'autore supportando questo progetto, puoi farlo con una piccola cifra simbolica nella
+      <a href="/#support">pagina delle donazioni</a>. Ma non è obbligatorio: il sito resterà sempre libero e accessibile,
+      con o senza donazioni.
+    </p>
+  </div>
 
   <!-- === Libreria === -->
   <div class="group nera">
@@ -521,7 +431,7 @@
   <!-- === Pannello studio === -->
   <div class="group rossa fc-hidden" id="panelQuiz">
 
-    <!-- Passo 1: scelta carte -->
+    <!-- Passo 1 -->
     <div id="stepSel">
       <h3>1 · Scegli le carte</h3>
       <p style="font-size:0.88rem; color:#555; margin-bottom:8px;">
@@ -532,9 +442,14 @@
         <button class="fc-btn" id="selNone">Deseleziona tutto</button>
         <input class="fc-input" id="rangeInput" style="flex:1; min-width:200px;" placeholder="es. 2-20, 45, 31-37">
         <button class="fc-btn" id="rangeApply">Applica intervalli</button>
-        <input class="fc-input" id="randN" type="number" min="1" style="width:80px;" placeholder="N">
-        <button class="fc-btn" id="randBtn">N a caso</button>
+        <input class="fc-input" id="randN" type="number" min="1" style="width:80px;" placeholder="N (default 10)">
+        <button class="fc-btn" id="randBtn">Selezione N a caso</button>
       </div>
+      <div class="fc-toolbar">
+        <button class="fc-btn" id="btnSummarySel">Riepilogo scatole</button>
+        <button class="fc-btn" id="btnResetBoxes">Azzera scatole</button>
+      </div>
+      <div class="fc-summary fc-hidden" id="boxSummarySel"></div>
       <div class="fc-msg" id="selMsg"></div>
       <div class="fc-grid selectable" id="gridSel"></div>
       <div class="fc-toolbar">
@@ -543,7 +458,7 @@
       </div>
     </div>
 
-    <!-- Passo 2: tipo di quiz -->
+    <!-- Passo 2 -->
     <div id="stepType" class="fc-hidden">
       <h3>2 · Che quiz vuoi?</h3>
       <p style="font-size:0.88rem; color:#555; margin-bottom:8px;">
@@ -565,13 +480,16 @@
       </div>
     </div>
 
-    <!-- Passo 3: quiz -->
+    <!-- Passo 3 -->
     <div id="stepQuiz" class="fc-hidden">
       <h3>3 · Quiz</h3>
       <div class="fc-stats" style="margin-bottom:8px;">
         <span>Mazzo: <b id="stDeck">0</b></span>
-        <span>Imparate: <b id="stLearned">0</b></span>
         <span>Giro: <b id="stRound">1</b></span>
+        <span>S1: <b id="stS1">0</b></span>
+        <span>S2: <b id="stS2">0</b></span>
+        <span>S3: <b id="stS3">0</b></span>
+        <span>Laureate: <b id="stLearned">0</b></span>
       </div>
       <div class="fc-toolbar">
         <span class="fc-sizegroup">Hanzi
@@ -584,7 +502,11 @@
           <button class="fc-btn" id="qItalMinus">−</button><button class="fc-btn" id="qItalPlus">+</button>
         </span>
       </div>
-      <p class="fc-hint">Scorciatoie: <b>Spazio</b> = mostra risposta / imparata · <b>→ oppure X</b> = non la sapevo</p>
+      <p class="fc-hint">Scorciatoie: <b>Spazio</b> = mostra risposta / la sapevo · <b>→ oppure X</b> = non la sapevo</p>
+      <div class="fc-toolbar">
+        <button class="fc-btn" id="btnSummaryQuiz">Riepilogo scatole</button>
+      </div>
+      <div class="fc-summary fc-hidden" id="boxSummaryQuiz"></div>
       <div class="fc-quizlayout">
         <div class="fc-quizmain">
           <div class="fc-quizcard" id="quizQ"></div>
@@ -593,16 +515,18 @@
         <div class="fc-quizside">
           <button class="fc-btn red" id="btnReveal">Mostra risposta</button>
           <button class="fc-btn fc-hidden" id="btnWrong">Non la sapevo → in fondo</button>
-          <button class="fc-btn fc-hidden" id="btnRight">La sapevo ✓ imparata</button>
+          <button class="fc-btn fc-hidden" id="btnRight">La sapevo ✓</button>
+          <button class="fc-btn" id="btnKnown">La so già ✓✓</button>
           <button class="fc-btn" id="btnQuit">Esci dal quiz</button>
         </div>
       </div>
     </div>
 
-    <!-- Passo 4: finito -->
+    <!-- Passo 4 -->
     <div id="stepDone" class="fc-hidden">
       <h3>Mazzo completato!</h3>
-      <p style="margin:10px 0;">Hai imparato <b id="doneCount" style="color:#d90429;">0</b> carte. Il manifesto approva.</p>
+      <p style="margin:10px 0;">Hai laureato <b id="doneCount" style="color:#d90429;">0</b> carte in questa sessione. Il manifesto approva.</p>
+      <div class="fc-summary" id="boxSummaryDone"></div>
       <div class="fc-toolbar">
         <button class="fc-btn red" id="btnRestart">Ricomincia con la stessa selezione</button>
         <button class="fc-btn" id="btnReselect">Scegli di nuovo le carte</button>
@@ -611,12 +535,64 @@
 
   </div>
 
+  <!-- === Sezione didattica === -->
+  <details class="fc-details" id="metodo">
+    <summary>Perché funziona — il metodo Leitner e la scienza della memoria</summary>
+
+    <div class="leit-row" aria-hidden="true">
+      <div class="leit-box">Scatola 1<small>ritorna tra ~4 carte</small></div>
+      <div class="leit-arrow">→</div>
+      <div class="leit-box">Scatola 2<small>ritorna tra ~12 carte</small></div>
+      <div class="leit-arrow">→</div>
+      <div class="leit-box">Scatola 3<small>ritorna a fine giro</small></div>
+      <div class="leit-arrow">→</div>
+      <div class="leit-box grad">Laureata<small>fuori dal mazzo</small></div>
+    </div>
+    <p class="leit-back">↩ Ogni risposta sbagliata riporta la carta alla Scatola 1, qualunque fosse la sua scatola.</p>
+
+    <p>
+      Nel 1885 Hermann Ebbinghaus misurò per primo la <strong>curva dell'oblio</strong>: ciò che impari decade in modo
+      rapido e prevedibile, a meno che tu non lo recuperi al momento giusto. Ogni recupero riuscito non riporta solo
+      la memoria al livello di prima: rende la curva successiva più piatta, cioè ti fa dimenticare più lentamente.
+    </p>
+    <p>
+      Su questa intuizione poggiano due degli effetti più robusti di tutta la psicologia cognitiva. Il
+      <strong>testing effect</strong>: recuperare attivamente un'informazione rafforza la memoria molto più che
+      rileggerla passivamente. Lo <strong>spacing effect</strong>: distribuire i ripassi nel tempo batte, a parità di
+      tempo totale, concentrarli in una sola seduta. Una rassegna del 2013 li classifica entrambi tra le poche tecniche
+      di studio ad <em>alta utilità</em> comprovata.
+    </p>
+    <p>
+      Il sistema a scatole è l'implementazione artigianale di questi due effetti: la inventò nel 1972 Sebastian Leitner,
+      giornalista scientifico tedesco, con una scatola di cartone e delle schedine. Onestà scientifica vuole che sia detto
+      chiaro: ciò che è solido in letteratura sono i due effetti qui sopra; il sistema a scatole è un modo elegante ed
+      efficace di applicarli, non un protocollo clinico validato da decine di trial randomizzati. Funziona perché fa fare
+      alla tua memoria le due cose che le servono: recuperare, e recuperare al momento giusto.
+    </p>
+    <p>
+      <strong>Il compromesso trasparente.</strong> Questa pagina non scrive nulla sul tuo disco: niente localStorage,
+      niente cookie, niente account, niente server. Le scatole vivono quindi solo nella memoria della pagina aperta, e si
+      azzerano quando la chiudi. È una limitazione scelta, coerente con il manifesto di questo sito: nessun ricordino
+      lasciato sul tuo dispositivo, mai. Si compensa con il <strong>ponte di carta</strong>: il Riepilogo scatole ti dà gli
+      ID delle carte ancora in Scatola 1 e 2, perché tu li incolli nel campo intervalli alla prossima visita o, meglio
+      ancora, li scriva su un quaderno vero. Blocchi da 20-30 carte e sessioni brevi e frequenti fanno il resto: è proprio
+      così che lo spacing effect chiede di essere usato.
+    </p>
+    <ul>
+      <li>Leitner, S. (1972), <em>So lernt man lernen</em> — l'origine del sistema a scatole: <a href="https://en.wikipedia.org/wiki/Leitner_system">en.wikipedia.org/wiki/Leitner_system</a></li>
+      <li>Ebbinghaus, H. (1885) — la curva dell'oblio: <a href="https://en.wikipedia.org/wiki/Forgetting_curve">en.wikipedia.org/wiki/Forgetting_curve</a></li>
+      <li>Cepeda, N. J. et al. (2006), <em>Psychological Bulletin</em> — sintesi quantitativa dello spacing effect: <a href="https://doi.org/10.1037/0033-2909.132.3.354">DOI 10.1037/0033-2909.132.3.354</a></li>
+      <li>Karpicke, J. D. &amp; Roediger, H. L. (2008), <em>Science</em> — il testing effect: <a href="https://doi.org/10.1126/science.1152408">DOI 10.1126/science.1152408</a></li>
+      <li>Dunlosky, J. et al. (2013), <em>Psychological Science in the Public Interest</em> — tecniche di studio ad alta utilità: <a href="https://doi.org/10.1177/1529100612453266">DOI 10.1177/1529100612453266</a></li>
+    </ul>
+  </details>
+
   <footer class="page-footer">
     Divagazione di Stefano Droghetti · Dati CC0
     (<a href="data/hsk1.json">hsk1</a> · <a href="data/hsk2.json">hsk2</a> · <a href="data/hsk3.json">hsk3</a> ·
     <a href="data/cibo.json">cibo</a> · <a href="data/sopravvivenza.json">sopravvivenza</a> ·
     <a href="data/parentela.json">parentela</a> · <a href="data/amministrazione.json">amministrazione</a> ·
-    <a href="data/tecnologia.json">tecnologia</a>) · Nessun tracking, nessun cookie
+    <a href="data/tecnologia.json">tecnologia</a>) · Nessun tracking, nessun cookie, nessun localStorage
   </footer>
 </main>
 
@@ -634,20 +610,30 @@ const LIBS = {
   amministrazione: 'data/amministrazione.json',
   tecnologia: 'data/tecnologia.json'
 };
+/* Memoria Leitner: vive SOLO nella pagina aperta. Niente disco, niente server. */
+const boxMemory = {};   // libreria -> { idCarta: numeroScatola }
 const state = {
   lib: 'hsk1',
   meta: null,
   cards: [],
+  boxes: {},
   sel: new Set(),
   anchor: null,
   cardw: 140,
   show: { hanzi: true, pinyin: true, italiano: true },
-  deck: [], idx: 0, learned: 0, round: 1, lastId: null, revealed: false
+  deck: [], idx: 0, round: 1, lastId: null, revealed: false,
+  gradThisRun: 0,
+  seenThisPass: new Set()
 };
 const $ = id => document.getElementById(id);
 const FIELDS = ['hanzi', 'pinyin', 'italiano'];
 
-/* ================= Librerie (con errore VISIBILE, mai più silenzioso) ================= */
+/* ================= Leitner ================= */
+function boxOf(id) { return state.boxes[id] || 1; }
+function setBox(id, b) { state.boxes[id] = b; }
+function allSeen() { return state.deck.every(c => state.seenThisPass.has(c.id)); }
+
+/* ================= Librerie ================= */
 async function loadLib(name) {
   state.lib = name;
   document.querySelectorAll('#libBar .fc-btn').forEach(b =>
@@ -658,6 +644,7 @@ async function loadLib(name) {
     const json = await res.json();
     state.meta = json._metadata;
     state.cards = json.carte;
+    state.boxes = boxMemory[name] || (boxMemory[name] = {});
     state.sel = new Set();
     state.anchor = null;
     $('libMeta').innerHTML =
@@ -738,8 +725,7 @@ $('rangeApply').onclick = () => {
 };
 
 $('randBtn').onclick = () => {
-  const n = Math.min(+$('randN').value || 0, state.cards.length);
-  if (n < 1) { $('selMsg').textContent = 'Quante carte? Scrivi un numero.'; return; }
+  const n = Math.min(+$('randN').value || 10, state.cards.length);
   $('selMsg').textContent = '';
   const pool = state.cards.map(c => c.id);
   shuffle(pool);
@@ -775,24 +761,22 @@ function portaAllaCard() {
   const layout = document.querySelector('.fc-quizlayout');
   if (!layout) return;
   const r = layout.getBoundingClientRect();
-  const margine = 90;
-  const y = window.scrollY + r.top - margine;
+  const y = window.scrollY + r.top - 90;
   window.scrollTo({ top: Math.max(0, y), behavior: 'auto' });
 }
 function rispostaInVista() {
   if (!state.revealed) return;
-  // Scrolla fino a mostrare il blocco card+pulsanti (non solo la card)
   const layout = document.querySelector('.fc-quizlayout');
   if (!layout) return;
   const r = layout.getBoundingClientRect();
-  const margine = 20; // pixel di respiro dal fondo della finestra
+  const margine = 20;
   if (r.bottom > window.innerHeight - margine) {
     const y = window.scrollY + r.bottom - window.innerHeight + margine;
     window.scrollTo({ top: Math.max(0, y), behavior: 'auto' });
   }
 }
 
-/* ================= Quiz: motore ================= */
+/* ================= Quiz: motore Leitner ================= */
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -800,16 +784,34 @@ function shuffle(arr) {
   }
   return arr;
 }
+function currentCard() { return state.deck[state.idx]; }
+function removeCurrent() { state.deck.splice(state.idx, 1); }
+function reinsertAhead(card, gap) {
+  const pos = (gap === 'end') ? state.deck.length
+                              : Math.min(state.idx + gap, state.deck.length);
+  state.deck.splice(pos, 0, card);
+}
 function startQuiz() {
-  state.deck = shuffle(state.cards.filter(c => state.sel.has(c.id)).map(c => c));
-  state.idx = 0; state.learned = 0; state.round = 1; state.lastId = null;
+  const pool = state.cards.filter(c => state.sel.has(c.id) && boxOf(c.id) < 4);
+  if (pool.length === 0) {
+    showStep('stepSel');
+    $('selMsg').textContent = 'Tutte le carte selezionate sono già laureate in questa sessione: usa "Azzera scatole" o scegline altre.';
+    return;
+  }
+  state.deck = shuffle(pool.map(c => c));
+  state.idx = 0;
+  state.round = 1;
+  state.lastId = null;
+  state.gradThisRun = 0;
+  state.seenThisPass = new Set();
   showStep('stepQuiz');
   showCard();
 }
 function showCard() {
   state.revealed = false;
-  const card = state.deck[state.idx];
-  $('quizQ').innerHTML = '<div class="qlabel">Domanda · giro ' + state.round + '</div>' +
+  const card = currentCard();
+  state.seenThisPass.add(card.id);
+  $('quizQ').innerHTML = '<div class="qlabel">Domanda · giro ' + state.round + ' · scatola ' + boxOf(card.id) + '</div>' +
     fieldsHTML(card, questionFields());
   $('quizA').classList.add('fc-hidden');
   $('btnReveal').classList.remove('fc-hidden');
@@ -820,7 +822,7 @@ function showCard() {
 }
 function reveal() {
   state.revealed = true;
-  const card = state.deck[state.idx];
+  const card = currentCard();
   const a = FIELDS.filter(f => !questionFields().includes(f));
   $('quizA').innerHTML = '<div class="qlabel">Risposta</div>' + fieldsHTML(card, a);
   $('quizA').classList.remove('fc-hidden');
@@ -829,6 +831,12 @@ function reveal() {
   $('btnRight').classList.remove('fc-hidden');
   rispostaInVista();
 }
+function advanceAfterChange() {
+  if (state.deck.length === 0) { finishQuiz(); return; }
+  if (allSeen()) { reshuffleDeck(); return; }
+  if (state.idx >= state.deck.length) state.idx = 0;
+  showCard();
+}
 function reshuffleDeck() {
   shuffle(state.deck);
   if (state.deck.length > 1 && state.deck[0].id === state.lastId) {
@@ -836,29 +844,87 @@ function reshuffleDeck() {
   }
   state.idx = 0;
   state.round++;
+  state.seenThisPass = new Set();
   showCard();
 }
 function answerWrong() {
-  state.lastId = state.deck[state.idx].id;
-  state.idx++;
-  if (state.idx >= state.deck.length) reshuffleDeck(); else showCard();
+  const c = currentCard();
+  state.lastId = c.id;
+  setBox(c.id, 1);
+  removeCurrent();
+  reinsertAhead(c, 4);
+  advanceAfterChange();
 }
 function answerRight() {
-  state.lastId = state.deck[state.idx].id;
-  state.deck.splice(state.idx, 1);
-  state.learned++;
-  if (state.deck.length === 0) { finishQuiz(); return; }
-  if (state.idx >= state.deck.length) reshuffleDeck(); else showCard();
+  const c = currentCard();
+  state.lastId = c.id;
+  const nb = boxOf(c.id) + 1;
+  removeCurrent();
+  if (nb > 3) {
+    setBox(c.id, 4);
+    state.gradThisRun++;
+  } else {
+    setBox(c.id, nb);
+    reinsertAhead(c, nb === 2 ? 12 : 'end');
+  }
+  advanceAfterChange();
+}
+function answerKnown() {
+  const c = currentCard();
+  state.lastId = c.id;
+  setBox(c.id, 4);
+  state.gradThisRun++;
+  removeCurrent();
+  advanceAfterChange();
 }
 function finishQuiz() {
-  $('doneCount').textContent = state.learned;
+  $('doneCount').textContent = state.gradThisRun;
+  renderSummary($('boxSummaryDone'));
   showStep('stepDone');
 }
 function updateStats() {
   $('stDeck').textContent = state.deck.length;
-  $('stLearned').textContent = state.learned;
+  $('stLearned').textContent = state.gradThisRun;
   $('stRound').textContent = state.round;
+  let s1 = 0, s2 = 0, s3 = 0;
+  state.deck.forEach(c => {
+    const b = boxOf(c.id);
+    if (b === 1) s1++; else if (b === 2) s2++; else if (b === 3) s3++;
+  });
+  $('stS1').textContent = s1;
+  $('stS2').textContent = s2;
+  $('stS3').textContent = s3;
 }
+
+/* ================= Riepilogo scatole (ponte di carta) ================= */
+function renderSummary(el) {
+  const lines = [];
+  for (let b = 1; b <= 3; b++) {
+    const ids = state.cards.filter(c => boxOf(c.id) === b).map(c => c.id);
+    lines.push('Scatola ' + b + ': ' + (ids.length ? ids.join(', ') : '—'));
+  }
+  const g = state.cards.filter(c => boxOf(c.id) === 4).map(c => c.id);
+  lines.push('Laureate: ' + (g.length ? g.join(', ') : '—'));
+  lines.push('');
+  lines.push('Ponte di carta: copia questi ID nel campo intervalli alla prossima visita, oppure scrivili su un quaderno. Nessun dato lascia questa pagina.');
+  el.textContent = lines.join('\n');
+}
+function toggleSummary(divId) {
+  const d = $(divId);
+  if (d.classList.contains('fc-hidden')) {
+    renderSummary(d);
+    d.classList.remove('fc-hidden');
+  } else {
+    d.classList.add('fc-hidden');
+  }
+}
+$('btnSummarySel').onclick  = () => toggleSummary('boxSummarySel');
+$('btnSummaryQuiz').onclick = () => toggleSummary('boxSummaryQuiz');
+$('btnResetBoxes').onclick  = () => {
+  boxMemory[state.lib] = {};
+  state.boxes = boxMemory[state.lib];
+  $('selMsg').textContent = 'Scatole azzerate per questa libreria (solo memoria della pagina).';
+};
 
 /* ================= Navigazione passi ================= */
 function showStep(id) {
@@ -878,6 +944,7 @@ $('startQuiz').onclick = startQuiz;
 $('btnReveal').onclick = reveal;
 $('btnWrong').onclick = answerWrong;
 $('btnRight').onclick = answerRight;
+$('btnKnown').onclick = answerKnown;
 $('btnQuit').onclick = () => resetQuizSteps();
 $('btnRestart').onclick = startQuiz;
 $('btnReselect').onclick = () => resetQuizSteps();
