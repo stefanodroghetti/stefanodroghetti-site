@@ -5,24 +5,6 @@
 <title>Caroselli & OG — fabbrica costruttivista</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  @font-face {
-  font-family: 'Dosis';
-  font-weight: 600;
-  src: url('/fonts/Dosis-SemiBold.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'Dosis';
-  font-weight: 700;
-  src: url('/fonts/Dosis-Bold.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'Questrial';
-  src: url('/fonts/Questrial-Regular.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'LXGW WenKai GB';
-  src: url('/progetti/flashcard-cinesi/fonts/LXGWWenKaiGB-Regular.woff2') format('woff2');
-}
   body { font-family: 'Questrial', system-ui, sans-serif; background: #e8e4dc; color: #111; display: flex; height: 100vh; overflow: hidden; }
   aside { width: 420px; background: #f4f1ea; border-right: 2px solid #111; display: flex; flex-direction: column; }
   aside header { background: #111; color: #f4f1ea; padding: 10px 14px; font-family: 'Dosis', system-ui; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
@@ -34,32 +16,15 @@
   select { border: 2px solid #111; padding: 6px; font-family: 'Dosis', system-ui; font-weight: 600; background: #fff; }
   #slideList { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px; border-bottom: 2px solid #111; }
   #slideList button.on { background: #d90429; color: #fff; }
-  textarea { flex: 1; border: 0; border-top: 0; padding: 12px; font-family: monospace; font-size: .85rem; resize: none; background: #fff; color: #111; outline: none; }
-  main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; overflow: auto; }
-  #scaler { position: relative; box-shadow: 0 0 40px rgba(0,0,0,.25); }
-  #guides {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none;
-  z-index: 10;
-}
-.guide-overlay {
-  position: absolute;
-  border: 2px dashed;
-  background: rgba(255, 255, 0, 0.15);
-}
-.guide-label {
-  position: absolute;
-  font: 700 11px/1 'Dosis', system-ui;
-  text-transform: uppercase;
-  letter-spacing: .04em;
-  padding: 2px 6px;
-  background: rgba(0,0,0,.7);
-  color: #fff;
-  white-space: nowrap;
-}
-  #frame { position: absolute; top: 0; left: 0; transform-origin: 0 0; }
+  textarea { flex: 1; border: 0; padding: 12px; font-family: monospace; font-size: .85rem; resize: none; background: #fff; color: #111; outline: none; }
+  main { flex: 1; display: block; overflow: auto; padding: 24px; }
+  #scaler { position: relative; margin: 0 auto; box-shadow: 0 0 40px rgba(0,0,0,.25); overflow: hidden; }
+  #frame { transform-origin: 0 0; }
+  /* Guide: vivono dentro la slide, si scalano con lei, non si esportano mai */
+  #guides { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
+  .guide-overlay { position: absolute; border: 2px dashed; }
+    .guide-overlay.main { border-width: 4px; }
+  .guide-label { position: absolute; font: 700 13px/1 'Dosis', system-ui; text-transform: uppercase; letter-spacing: .04em; padding: 3px 7px; color: #fff; white-space: nowrap; }
   details { position: fixed; right: 12px; bottom: 12px; background: #fff; border: 2px solid #111; padding: 10px; max-width: 380px; font-size: .78rem; z-index: 9; }
   details summary { font-family: 'Dosis', system-ui; font-weight: 700; cursor: pointer; text-transform: uppercase; }
   details code { background: #e8e4dc; padding: 0 3px; }
@@ -80,11 +45,8 @@
   <div class="bar">
     <select id="guideMode">
       <option value="none">Nessuna guida</option>
-      <option value="og">Safe zone OG universale</option>
-      <option value="whatsapp">Safe zone WhatsApp (quadrato)</option>
-      <option value="twitter">Safe zone Twitter/X (2:1)</option>
-      <option value="instagram">Safe zone Instagram (3% bordi)</option>
-      <option value="all">Tutte le guide</option>
+      <option value="main">Vista da tutti (intersezione)</option>
+      <option value="all">Tutte le guide del formato</option>
     </select>
   </div>
   <div class="bar" id="slideList"></div>
@@ -106,8 +68,9 @@
 </aside>
 
 <main>
-  <div id="scaler"><div id="frame" class="slide"></div></div>
-  <div id="guides"></div>
+  <div id="scaler">
+    <div id="frame" class="slide"></div>
+  </div>
 </main>
 
 <details>
@@ -133,6 +96,10 @@ const $ = id => document.getElementById(id);
 
 /* ================= CSS delle slide (condiviso anteprima/export) ================= */
 const CSS_SLIDE = `
+@font-face { font-family: 'Dosis'; font-weight: 600; src: url('/fonts/Dosis-SemiBold.ttf') format('truetype'); }
+@font-face { font-family: 'Dosis'; font-weight: 700; src: url('/fonts/Dosis-Bold.ttf') format('truetype'); }
+@font-face { font-family: 'Questrial'; src: url('/fonts/Questrial-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'LXGW WenKai GB'; src: url('/progetti/flashcard-cinesi/fonts/LXGWWenKaiGB-Regular.woff2') format('woff2'); }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 .slide { position: relative; overflow: hidden; background: #f4f1ea; display: flex; flex-direction: column; }
 .slide .band { background: #111; color: #f4f1ea; padding: .55em 1.2em; font-family: 'Dosis'; font-weight: 700; text-transform: uppercase; font-size: 64px; line-height: 1.15; letter-spacing: .02em; position: relative; }
@@ -159,14 +126,12 @@ const CSS_SLIDE = `
 `;
 $('slidecss').textContent = CSS_SLIDE;
 
-/* ================= Formati ================= */
+/* ================= Formati e stato ================= */
 const FORMATS = {
   carosello: { w: 1080, h: 1350 },
   quadrato:  { w: 1080, h: 1080 },
   og:        { w: 1200, h: 630 }
 };
-
-/* ================= Stato ================= */
 let slides = [
   '[titolo]Flashcard Cinesi[/titolo]\n[riga]\n[rossa]Un quaderno aperto per studiare hanzi, pinyin e significato con il metodo Leitner, una carta alla volta.[/rossa]\n[spazio=20]\n[ombrarossa][bianco]Niente server, niente tracking, niente account: i tuoi progressi vivono solo in questa pagina.[/bianco][/ombrarossa]\n[footer]www.stefanodroghetti.it[/footer]'
 ];
@@ -213,19 +178,23 @@ function parseSlide(src) {
   return out.join('\n');
 }
 
-/* ================= Anteprima ================= */
+/* ================= Anteprima (le guide vivono DENTRO la slide) ================= */
+let guidesEl = null;
 function renderPreview() {
   const f = FORMATS[fmtKey];
   const frame = $('frame');
+  const mainEl = document.querySelector('main');
+  const availW = mainEl.clientWidth - 48;
+  const availH = mainEl.clientHeight - 48;
+  const scale = Math.min(availW / f.w, availH / f.h, 1);
   frame.style.width = f.w + 'px';
   frame.style.height = f.h + 'px';
-  frame.innerHTML = parseSlide(slides[cur]);
-  const availW = document.querySelector('main').clientWidth - 60;
-  const availH = window.innerHeight - 60;
-  const scale = Math.min(availW / f.w, availH / f.h, 1);
   frame.style.transform = 'scale(' + scale + ')';
-  $('scaler').style.width = (f.w * scale) + 'px';
-  $('scaler').style.height = (f.h * scale) + 'px';
+  frame.innerHTML = parseSlide(slides[cur]);
+  if (!guidesEl) { guidesEl = document.createElement('div'); guidesEl.id = 'guides'; }
+  frame.appendChild(guidesEl);
+  $('scaler').style.width = Math.round(f.w * scale) + 'px';
+  $('scaler').style.height = Math.round(f.h * scale) + 'px';
   renderGuides();
 }
 function renderList() {
@@ -236,6 +205,53 @@ function renderList() {
     if (i === cur) b.classList.add('on');
     b.onclick = () => { cur = i; $('src').value = slides[cur]; renderList(); renderPreview(); };
     box.appendChild(b);
+  });
+}
+
+/* ================= Guide v2: formato-consapevoli ================= */
+const full = (w, h) => ({ x: 0, y: 0, w, h });
+const squareCenter = (w, h) => { const s = Math.min(w, h); return { x: (w - s) / 2, y: (h - s) / 2, w: s, h: s }; };
+const band = (w, h, ratio) => { const bw = Math.min(w, h * ratio); const bh = bw / ratio; return { x: (w - bw) / 2, y: (h - bh) / 2, w: bw, h: bh }; };
+
+function guidesForFormat() {
+  if (fmtKey === 'carosello') return [
+    { main: true,  label: 'VISTA DA TUTTI (intersezione)', color: '#d90429', calc: squareCenter },
+    { main: false, label: 'Instagram feed e carosello: tutto', color: '#00c853', calc: full },
+    { main: false, label: 'FB/WhatsApp come link: banda 1.91:1', color: '#1da1f2', calc: (w, h) => band(w, h, 1.91) }
+  ];
+  if (fmtKey === 'og') return [
+    { main: true,  label: 'VISTA DA TUTTI (intersezione)', color: '#d90429', calc: squareCenter },
+    { main: false, label: 'Facebook e Mastodon: tutto', color: '#00c853', calc: full },
+    { main: false, label: 'Mastodon card: banda 16:9', color: '#1da1f2', calc: (w, h) => band(w, h, 16 / 9) }
+  ];
+  return [
+    { main: true,  label: 'VISTA DA TUTTI come media', color: '#d90429', calc: full },
+    { main: false, label: 'Se riusata come og/link: banda 1.91:1', color: '#1da1f2', calc: (w, h) => band(w, h, 1.91) }
+  ];
+}
+function renderGuides() {
+  const box = guidesEl;
+  if (!box) return;
+  box.innerHTML = '';
+  const mode = $('guideMode').value;
+  if (mode === 'none') return;
+  const f = FORMATS[fmtKey];
+  const list = guidesForFormat().filter(g => mode === 'all' || g.main);
+  list.forEach((g, i) => {
+    const r = g.calc(f.w, f.h);
+    const o = document.createElement('div');
+    o.className = 'guide-overlay' + (g.main ? ' main' : '');
+    o.style.left = r.x + 'px'; o.style.top = r.y + 'px';
+    o.style.width = r.w + 'px'; o.style.height = r.h + 'px';
+    o.style.borderColor = g.color;
+    o.style.background = g.main ? g.color + '14' : 'transparent';
+    const l = document.createElement('div');
+    l.className = 'guide-label';
+    l.textContent = g.label;
+    l.style.left = (r.x + 6) + 'px';
+    l.style.top = (r.y + 6 + i * 26) + 'px';
+    l.style.background = g.color;
+    box.appendChild(o); box.appendChild(l);
   });
 }
 
@@ -263,7 +279,7 @@ async function fontFaceCSS(keys) {
   return css;
 }
 
-/* ================= Render PNG (foreignObject, motore vero del browser) ================= */
+/* ================= Render PNG (foreignObject) ================= */
 async function renderSlidePNG(src, f) {
   const html = parseSlide(src);
   const keys = ['dosis600', 'dosis700', 'questrial'];
@@ -280,7 +296,7 @@ async function renderSlidePNG(src, f) {
   return await new Promise(res => c.toBlob(res, 'image/png'));
 }
 
-/* ================= ZIP senza librerie (metodo stored) ================= */
+/* ================= ZIP senza librerie ================= */
 function crc32(u8) {
   let crc = 0xFFFFFFFF;
   for (let i = 0; i < u8.length; i++) {
@@ -321,72 +337,9 @@ function download(blob, nome) {
   setTimeout(() => URL.revokeObjectURL(a.href), 4000);
 }
 
-/* ================= Guide safe zone ================= */
-const GUIDES = {
-  og: {
-    label: 'OG universale (90%)',
-    color: '#00ff00',
-    calc: (w, h) => ({ x: w * 0.05, y: h * 0.05, w: w * 0.9, h: h * 0.9 })
-  },
-  whatsapp: {
-    label: 'WhatsApp (quadrato centrale)',
-    color: '#25d366',
-    calc: (w, h) => {
-      const size = Math.min(w, h) * 0.95;
-      return { x: (w - size) / 2, y: (h - size) / 2, w: size, h: size };
-    }
-  },
-  twitter: {
-    label: 'Twitter/X (2:1)',
-    color: '#1da1f2',
-    calc: (w, h) => {
-      const tw = w * 0.95;
-      const th = tw / 2;
-      return { x: (w - tw) / 2, y: (h - th) / 2, w: tw, h: th };
-    }
-  },
-  instagram: {
-    label: 'Instagram (3% bordi)',
-    color: '#e1306c',
-    calc: (w, h) => ({ x: w * 0.03, y: h * 0.03, w: w * 0.94, h: h * 0.94 })
-  }
-};
-
-function renderGuides() {
-  const box = $('guides');
-  box.innerHTML = '';
-  const mode = $('guideMode').value;
-  if (mode === 'none') return;
-  
-  const f = FORMATS[fmtKey];
-  const keys = mode === 'all' ? Object.keys(GUIDES) : [mode];
-  
-  keys.forEach((key, i) => {
-    const g = GUIDES[key];
-    const rect = g.calc(f.w, f.h);
-    const overlay = document.createElement('div');
-    overlay.className = 'guide-overlay';
-    overlay.style.left = rect.x + 'px';
-    overlay.style.top = rect.y + 'px';
-    overlay.style.width = rect.w + 'px';
-    overlay.style.height = rect.h + 'px';
-    overlay.style.borderColor = g.color;
-    overlay.style.background = g.color + '15';
-    
-    const label = document.createElement('div');
-    label.className = 'guide-label';
-    label.textContent = g.label;
-    label.style.left = (rect.x + 4) + 'px';
-    label.style.top = (rect.y + 4 + i * 18) + 'px';
-    label.style.background = g.color;
-    
-    box.appendChild(overlay);
-    box.appendChild(label);
-  });
-}
-
 /* ================= Azioni ================= */
 $('fmt').onchange = e => { fmtKey = e.target.value; renderPreview(); };
+$('guideMode').onchange = () => renderGuides();
 $('src').oninput = () => { slides[cur] = $('src').value; renderPreview(); };
 $('addSlide').onclick = () => { slides.splice(cur + 1, 0, '[titolo]Nuova slide[/titolo]\n[riga]\n'); cur++; $('src').value = slides[cur]; renderList(); renderPreview(); };
 $('dupSlide').onclick = () => { slides.splice(cur + 1, 0, slides[cur]); cur++; $('src').value = slides[cur]; renderList(); renderPreview(); };
@@ -407,7 +360,6 @@ $('exportZip').onclick = async () => {
 };
 $('saveProj').onclick = () => download(new Blob([JSON.stringify({ format: fmtKey, slides }, null, 2)], { type: 'application/json' }), 'carosello-progetto.json');
 $('loadProj').onclick = () => $('loadFile').click();
-$('guideMode').onchange = renderGuides;
 $('loadFile').onchange = async e => {
   const f = e.target.files[0]; if (!f) return;
   const data = JSON.parse(await f.text());
@@ -421,7 +373,6 @@ window.addEventListener('resize', renderPreview);
 $('src').value = slides[cur];
 renderList();
 renderPreview();
-renderGuides();
 </script>
 </body>
 </html>
