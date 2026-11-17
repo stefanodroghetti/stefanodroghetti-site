@@ -50,6 +50,17 @@
     font-display: swap;
   }
 
+  /* === Token === */
+  :root {
+    --ink: #111;
+    --red: #d90429;
+    --paper: #f4f1ea;
+    --desk: #e8e4dc;
+    /* Grana della carta: SVG inline, nessun asset esterno, nessun filter (non appiattisce il 3D) */
+    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    --flip-ms: 560ms; /* allineato a FLIP_MS nel JS */
+  }
+
   /* === Base costruttivista === */
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -57,7 +68,15 @@
     background: #e8e4dc;
     color: #111;
     line-height: 1.45;
+    scrollbar-color: #111 #ddd8ce;
+    scrollbar-width: thin;
   }
+  ::-webkit-scrollbar { width: 12px; height: 12px; }
+  ::-webkit-scrollbar-track { background: #ddd8ce; border-left: 2px solid #111; }
+  ::-webkit-scrollbar-thumb { background: #111; border: 2px solid #ddd8ce; }
+  ::-webkit-scrollbar-thumb:hover { background: #d90429; }
+  ::selection { background: #d90429; color: #fff; }
+
   main {
     background: #f4f1ea;
     max-width: 1200px;
@@ -156,12 +175,19 @@
     cursor: pointer;
     box-shadow: 3px 3px 0 #111;
     color: #111;
+    transition: background 0.14s, color 0.14s, box-shadow 0.14s, transform 0.14s;
   }
-  .fc-btn:hover { background: #111; color: #f4f1ea; }
+  .fc-btn:hover:not(:disabled) { background: #111; color: #f4f1ea; }
+  .fc-btn:active:not(:disabled) { transform: translate(2px, 2px); box-shadow: 1px 1px 0 #111; }
+  .fc-btn:focus-visible { outline: 3px solid #d90429; outline-offset: 2px; }
   .fc-btn.red { border-color: #d90429; box-shadow: 3px 3px 0 #d90429; color: #d90429; }
-  .fc-btn.red:hover { background: #d90429; color: #fff; }
+  .fc-btn.red:hover:not(:disabled) { background: #d90429; color: #fff; }
+  .fc-btn.red:active:not(:disabled) { box-shadow: 1px 1px 0 #d90429; }
   .fc-btn.active { background: #d90429; color: #fff; border-color: #111; box-shadow: 3px 3px 0 #111; }
   .fc-btn:disabled { opacity: 0.35; cursor: not-allowed; box-shadow: none; }
+  .fc-btn .ico { width: 13px; height: 13px; vertical-align: -2px; margin-right: 6px; transition: transform 0.3s; }
+  .fc-btn.turnback .ico { transform: scaleX(-1); }
+  .fc-btn.small { font-size: 0.72rem; padding: 6px 10px; }
   .fc-check {
     display: inline-flex; align-items: center; gap: 6px;
     font-family: 'Dosis', sans-serif; font-weight: 600; font-size: 0.85rem;
@@ -197,6 +223,8 @@
     margin: 10px 0;
     white-space: pre-wrap;
     user-select: text;
+    max-height: 260px;
+    overflow: auto;
   }
 
   /* === Griglia di quadrati === */
@@ -233,32 +261,191 @@
   .fc-card.sel .pinyin { color: #ccc; }
   .fc-card.sel .ital { color: #ff6b81; }
 
-  /* === Carte del quiz === */
+  /* === Carta da studio ===
+     Deroga dichiarata al design system, limitata alla sola carta:
+     bianco reale con micro-gradiente e grana, spigoli 7px, ombra morbida a terra.
+     Pannelli, pulsanti, griglia e piano restano a bordi 2px e ombre dure. */
   #stepQuiz { --qhanzi: 48px; --qpinyin: 19px; --qital: 18px; }
   .fc-preview { --qhanzi: 32px; --qpinyin: 16px; --qital: 15px; }
   .fc-quizcard {
-    border: 3px solid #111; background: #fff; box-shadow: 6px 6px 0 #d90429;
-    padding: 1.6rem 1.2rem; text-align: center; max-width: 560px; margin: 1rem auto;
+    border: 2px solid #111;
+    border-radius: 7px;
+    background-image: var(--grain), linear-gradient(152deg, #ffffff 0%, #fdfbf7 52%, #f2efe7 100%);
+    background-size: 140px 140px, 100% 100%;
+    box-shadow: 0 1px 1px rgba(17,17,17,0.10), 0 2px 5px rgba(17,17,17,0.06);
+    padding: 15px 18px 12px;
+    text-align: center;
+    display: flex; flex-direction: column;
+    position: relative;
   }
-  .fc-quizcard .hanzi { font-size: var(--qhanzi); line-height: 1.2; font-weight: 500; }
-  .fc-quizcard .pinyin { color: #333; font-size: var(--qpinyin); margin-top: 6px; }
-  .fc-quizcard .ital { color: #d90429; font-size: var(--qital); margin-top: 6px; }
-  .fc-quizcard .qlabel {
-    font-family: 'Dosis', sans-serif; font-weight: 700; font-size: 0.75rem;
-    text-transform: uppercase; letter-spacing: 0.12em; color: #d90429; margin-bottom: 10px;
+  .fc-face-head {
+    flex: 0 0 auto;
+    display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
+    font-family: 'Dosis', sans-serif; font-weight: 700; font-size: 0.66rem;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    padding-bottom: 7px; border-bottom: 1px solid rgba(17,17,17,0.16);
   }
-  .fc-quizcard.answer { background: #111; border-color: #d90429; box-shadow: 6px 6px 0 #111; }
-  .fc-quizcard.answer .hanzi { color: #f4f1ea; }
-  .fc-quizcard.answer .pinyin { color: #ccc; }
-  .fc-quizcard.answer .ital { color: #ff6b81; }
-  .fc-quizcard.answer .qlabel { color: #d90429; }
+  .fc-face-head .fid { color: #d90429; white-space: nowrap; }
+  .fc-face-head .fbox { color: #8a8580; white-space: nowrap; }
+  .fc-face-body {
+    flex: 1 1 auto; min-height: 0;
+    display: grid; place-items: center;
+    padding: 8px 0;
+  }
+  .fc-fields {
+    display: flex; flex-direction: column; align-items: center; gap: 5px;
+    width: 100%;
+    transform-origin: center center;
+  }
+  .fc-fields > div { max-width: 100%; overflow-wrap: anywhere; }
+  .fc-fields .hanzi { font-size: var(--qhanzi); line-height: 1.18; font-weight: 500; color: #111; }
+  .fc-fields .pinyin { color: #333; font-size: var(--qpinyin); line-height: 1.35; }
+  .fc-fields .ital { color: #d90429; font-size: var(--qital); line-height: 1.3; font-weight: 600; }
+  .fc-face-foot {
+    flex: 0 0 auto;
+    display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
+    padding-top: 7px; border-top: 1px solid rgba(17,17,17,0.12);
+    font-family: 'Dosis', sans-serif; font-weight: 700; font-size: 0.64rem;
+    text-transform: uppercase; letter-spacing: 0.12em;
+  }
+  .fc-face-foot .qlabel { color: #d90429; }
+  .fc-face-foot .fside { color: #9a948d; }
 
+  /* === Piano di lavoro === */
+  .fc-desk {
+    position: relative;
+    border: 2px solid #111;
+    padding: 34px 24px 40px;
+    display: flex; flex-direction: column; align-items: center;
+    background-color: #e8e4dc;
+    background-image:
+      radial-gradient(130% 80% at 50% -10%, rgba(255,255,255,0.6), rgba(255,255,255,0) 62%),
+      repeating-linear-gradient(0deg, rgba(17,17,17,0.042) 0 1px, transparent 1px 26px),
+      repeating-linear-gradient(90deg, rgba(17,17,17,0.042) 0 1px, transparent 1px 26px),
+      radial-gradient(120% 110% at 50% 45%, #eeeae2 0%, #dcd7cd 100%);
+  }
+  .fc-desk::before, .fc-desk::after {
+    content: ''; position: absolute; width: 15px; height: 15px; pointer-events: none;
+  }
+  .fc-desk::before { top: 7px; right: 7px; border-top: 2px solid #d90429; border-right: 2px solid #d90429; }
+  .fc-desk::after { bottom: 7px; left: 7px; border-bottom: 2px solid #111; border-left: 2px solid #111; }
+  .fc-desk-tag {
+    position: absolute; top: 7px; left: 10px;
+    font-family: 'Dosis', sans-serif; font-weight: 700; font-size: 0.6rem;
+    text-transform: uppercase; letter-spacing: 0.16em; color: rgba(17,17,17,0.34);
+    pointer-events: none;
+  }
+  .fc-desk-tag::before { content: "▮ "; color: rgba(217,4,41,0.55); }
+  .fc-desk-hint {
+    margin-top: 28px;
+    font-family: 'Dosis', sans-serif; font-weight: 600; font-size: 0.72rem;
+    text-transform: uppercase; letter-spacing: 0.07em; color: rgba(17,17,17,0.52);
+    text-align: center; min-height: 2.2em; max-width: 30em;
+  }
+  .fc-desk-hint b { color: #d90429; }
+
+  /* === Mazzo + flip 3D === */
+  .fc-card-slot {
+    position: relative;
+    width: min(100%, 430px);
+    height: 300px;
+  }
+  /* Ombra a terra: sta fuori dal contesto 3D, così non ruota con la carta */
+  .fc-card-slot::before {
+    content: '';
+    position: absolute; left: 50%; bottom: -15px;
+    width: 88%; height: 30px;
+    transform: translateX(-50%);
+    background: radial-gradient(50% 50% at 50% 50%, rgba(17,17,17,0.36) 0%, rgba(17,17,17,0.15) 52%, rgba(17,17,17,0) 78%);
+    z-index: 0; pointer-events: none;
+  }
+  .fc-card-slot.is-turning::before { animation: fcShadowTurn var(--flip-ms) cubic-bezier(0.4,0.05,0.2,1); }
+  .fc-stack-l {
+    position: absolute; inset: 0; z-index: 1;
+    border: 2px solid rgba(17,17,17,0.45);
+    border-radius: 7px;
+    background-image: var(--grain), linear-gradient(152deg, #fdfbf7, #eeeae1);
+    background-size: 140px 140px, 100% 100%;
+    box-shadow: 0 1px 2px rgba(17,17,17,0.10);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    pointer-events: none;
+  }
+  .fc-stack-l.l1 { transform: rotate(1.5deg) translate(4px, 4px); }
+  .fc-stack-l.l2 { transform: rotate(-2.1deg) translate(-5px, 7px); }
+  .fc-stack-l.l3 { transform: rotate(3deg) translate(8px, 10px); }
+  .fc-card-slot[data-layers="0"] .fc-stack-l { opacity: 0; }
+  .fc-card-slot[data-layers="1"] .l2, .fc-card-slot[data-layers="1"] .l3 { opacity: 0; }
+  .fc-card-slot[data-layers="2"] .l3 { opacity: 0; }
+
+  .fc-flip-scene {
+    position: absolute; inset: 0; z-index: 2;
+    perspective: 1300px;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    transform: rotate(-0.6deg);
+    transition: transform 0.25s ease;
+  }
+  .fc-flip-scene:focus-visible { outline: 3px solid #d90429; outline-offset: 6px; border-radius: 10px; }
+  .fc-flip-scene:active { transform: rotate(-0.2deg) translateY(1px) scale(0.994); }
+  @media (hover: hover) {
+    .fc-flip-scene:hover { transform: rotate(-0.2deg) translateY(-3px); }
+  }
+  .fc-flip-lift {
+    width: 100%; height: 100%;
+    transform-style: preserve-3d;
+  }
+  .fc-card-slot.is-turning .fc-flip-lift { animation: fcLift var(--flip-ms) cubic-bezier(0.4,0.05,0.2,1); }
+  .fc-card-slot.is-dealing .fc-flip-lift { animation: fcDeal 340ms cubic-bezier(0.2,0.8,0.3,1); }
+  .fc-flip-inner {
+    display: grid;
+    width: 100%; height: 100%;
+    transform-style: preserve-3d;
+    transition: transform var(--flip-ms) cubic-bezier(0.4, 0.05, 0.2, 1);
+  }
+  .fc-flip-inner.is-flipped { transform: rotateY(180deg); }
+  .fc-flip-inner.no-anim { transition: none; }
+  /* Facce sovrapposte nella stessa cella griglia: altezza certa, nessun collasso.
+     translateZ di 1px = spessore fisico, evita il lampo a 90°. */
+  .fc-flip-face {
+    grid-area: 1 / 1;
+    width: 100%; height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  .fc-flip-front { transform: translateZ(1px); }
+  .fc-flip-back { transform: rotateY(180deg) translateZ(1px); }
+  .fc-flip-back .fc-fields .ctx { color: #6d6862; }
+  .fc-flip-back .fc-fields .new {
+    color: #d90429;
+    border-bottom: 2px solid rgba(217,4,41,0.5);
+    padding-bottom: 2px;
+  }
+  @keyframes fcLift {
+    0%, 100% { transform: translateY(0); }
+    45% { transform: translateY(-14px); }
+  }
+  @keyframes fcShadowTurn {
+    0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
+    45% { transform: translateX(-50%) scale(0.64, 0.7); opacity: 0.5; }
+  }
+  @keyframes fcDeal {
+    0% { transform: translateY(15px) scale(0.965); }
+    100% { transform: translateY(0) scale(1); }
+  }
+  @keyframes fcPop {
+    0% { transform: scale(0.94); }
+    60% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+  }
+
+  /* === Layout quiz === */
   .fc-quizlayout { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; align-items: center; margin: 1rem 0; }
-  .fc-quizmain { flex: 1 1 340px; max-width: 560px; display: flex; flex-direction: column; gap: 12px; }
-  .fc-quizmain .fc-quizcard { margin: 0; max-width: none; }
+  .fc-quizmain { flex: 1 1 340px; max-width: 560px; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
   .fc-quizside { display: flex; flex-direction: column; gap: 10px; flex: 0 0 240px; }
   .fc-quizside .fc-btn { width: 100%; }
-    .fc-quizside .fc-btn small {
+  .fc-quizside .fc-btn small {
     display: block;
     font-size: 0.68rem;
     font-weight: 600;
@@ -267,9 +454,13 @@
     opacity: 0.8;
     margin-top: 3px;
   }
+  .fc-esiti { display: flex; flex-direction: column; gap: 10px; }
+  .fc-btn.esito:disabled { border-style: dashed; }
+  .fc-btn.esito:not(:disabled) { animation: fcPop 0.28s ease-out; }
+  #btnReveal { font-size: 0.9rem; padding: 11px 12px; }
 
   .fc-preview { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 12px 0; }
-  .fc-preview .fc-quizcard { margin: 0; max-width: none; padding: 1rem; }
+  .fc-preview .fc-quizcard { height: 240px; }
   .fc-stats {
     font-family: 'Dosis', sans-serif; font-weight: 600; font-size: 0.85rem;
     text-transform: uppercase; letter-spacing: 0.06em; color: #555;
@@ -281,7 +472,8 @@
   /* === Sezione didattica collassabile === */
   details.fc-details { background: #fff; border: 2px solid #111; padding: 1.2rem; margin-bottom: 20px; }
   details.fc-details summary {
-    font-family: 'Dosis', sans-serif; font-weight: 700; text-transform: uppercase;
+    font-family: 'Dosis', sans-serif;
+    font-weight: 700; text-transform: uppercase;
     letter-spacing: 0.03em; cursor: pointer; color: #111;
   }
   details.fc-details summary::before { content: "▮ "; color: #d90429; }
@@ -314,8 +506,26 @@
     .fc-preview { grid-template-columns: 1fr; }
   }
   @media (max-width: 700px) {
-    .fc-quizside { flex: 1 1 100%; flex-direction: row; flex-wrap: wrap; justify-content: center; }
-    .fc-quizside .fc-btn { width: auto; }
+    .fc-quizside { flex: 1 1 100%; }
+    .fc-esiti { display: grid; grid-template-columns: 1fr 1fr; }
+    .fc-desk { padding: 30px 16px 34px; }
+    .fc-card-slot { height: 272px; }
+    .fc-quizcard { padding: 13px 14px 10px; }
+    .fc-desk-hint { margin-top: 24px; font-size: 0.68rem; }
+  }
+  @media (max-width: 380px) {
+    .fc-esiti { grid-template-columns: 1fr; }
+    .fc-card-slot { height: 252px; }
+  }
+
+  /* === Rispetto per chi non vuole movimento === */
+  @media (prefers-reduced-motion: reduce) {
+    .fc-flip-inner, .fc-flip-scene, .fc-stack-l, .fc-btn { transition: none; }
+    .fc-card-slot.is-turning .fc-flip-lift,
+    .fc-card-slot.is-dealing .fc-flip-lift,
+    .fc-card-slot.is-turning::before,
+    .fc-btn.esito:not(:disabled) { animation: none; }
+    .fc-flip-scene:active, .fc-flip-scene:hover { transform: rotate(-0.6deg); }
   }
 </style>
 </head>
@@ -328,7 +538,10 @@
   </header>
   <div class="header-rule" aria-hidden="true"></div>
   <p class="tagline">
-    <strong>Flashcard Cinesi</strong> — Qui il cinese si studia come con un quaderno di carta: hanzi, pinyin e significato, una carta alla volta, con il metodo Leitner a fare da ritmo. È un tool aperto che non ti chiede niente e non ti segue: niente server, niente tracking, niente account. Solo il piacere di imparare, con calma.
+    <strong>Flashcard Cinesi</strong> — Qui il cinese si studia come con un quaderno di carta: hanzi, pinyin e significato,
+    una carta alla volta, con il metodo Leitner a fare da ritmo. Le carte si girano con un tocco, come schedine vere
+    appoggiate sul piano. È un tool aperto che non ti chiede niente e non ti segue: niente server, niente tracking,
+    niente account. Solo il piacere di imparare, con calma.
   </p>
 
   <a href="/" class="back-link">◀ Torna al manifesto</a>
@@ -354,25 +567,32 @@
 
     <h4>Passo 2: scegli il tipo di quiz</h4>
     <p>
-      Spunta cosa mostrare nella <strong>domanda</strong> (Hanzi, Pinyin, Significato): la risposta mostrerà tutto il resto.
-      L'anteprima ti fa vedere subito come sarà.
+      Spunta cosa mostrare sul <strong>fronte</strong> della carta (Hanzi, Pinyin, Significato): il retro mostra sempre
+      tutti e tre i campi, con la <strong>risposta evidenziata in rosso</strong> e il resto in grigio a fare da contesto.
+      L'anteprima ti fa vedere subito come saranno le due facce.
     </p>
 
     <h4>Passo 3: studia con il metodo Leitner</h4>
     <p>
-      Premi <strong>Mostra risposta</strong> per rivelare la carta, poi scegli uno dei tre esiti:
+      Prova a rispondere a mente, poi gira la carta: con il pulsante <strong>Gira la carta</strong>, con un
+      <strong>click o tap sulla carta stessa</strong>, oppure con <kbd>Spazio</kbd> / <kbd>Invio</kbd>.
+      Il retro mostra hanzi, pinyin e significato completi. Un altro tocco la riporta al fronte, come una schedina vera:
+      puoi rigirarla quante volte vuoi, il metodo non se ne accorge.
+    </p>
+    <p>
+      Dopo aver girato scegli uno dei tre esiti:
       <strong>Non la sapevo → in fondo</strong> la riporta alla Scatola 1 e la fa tornare tra circa 4 carte;
       <strong>La sapevo ✓</strong> la promuove di una scatola (la Scatola 2 torna tra circa 12 carte, la Scatola 3 a fine giro,
       e dalla Scatola 3 si laurea); <strong>La so già ✓✓</strong> la laurea subito, senza appello.
       Quando tutte le carte del mazzo sono state viste almeno una volta nel giro, il mazzo si rimescola.
       Il quiz finisce quando tutte le carte sono laureate, o quando premi <strong>Esci dal quiz</strong>.
     </p>
-    
+
     <p>
       I tre pulsanti rispondono alla domanda che conta: <strong>quando rivedrò questa carta?</strong>
-      Tra ~4 carte, più tardi, o non oggi.
+      Tra ~4 carte, più tardi, o non oggi. Le carte che vedi impilate sotto quella corrente sono quelle che restano nel mazzo.
     </p>
-    
+
     <p>
       <strong>Le scatole vivono solo nella memoria della pagina:</strong> alla chiusura o al reload si azzerano, perché questo
       sito non scrive nulla sul tuo disco. Per portare il metodo tra una sessione e l'altra usa il
@@ -383,7 +603,8 @@
 
     <h4>Scorciatoie da tastiera</h4>
     <p>
-      <kbd>Spazio</kbd> = Mostra risposta / La sapevo &nbsp;&nbsp;
+      <kbd>Spazio</kbd> o <kbd>Invio</kbd> = gira la carta &nbsp;&nbsp;
+      <kbd>Spazio</kbd> a carta girata = La sapevo &nbsp;&nbsp;
       <kbd>→</kbd> o <kbd>X</kbd> = Non la sapevo &nbsp;&nbsp;
       <kbd>L</kbd> = La so già (laurea subito)
     </p>
@@ -478,7 +699,7 @@
     <div id="stepType" class="fc-hidden">
       <h3>2 · Che quiz vuoi?</h3>
       <p style="font-size:0.88rem; color:#555; margin-bottom:8px;">
-        Spunta cosa mostra la <strong>domanda</strong>: la risposta mostrerà tutto il resto.
+        Spunta cosa mostra il <strong>fronte</strong>: il retro avrà tutto, con la risposta evidenziata in rosso.
       </p>
       <div class="fc-toolbar">
         <label class="fc-check"><input type="checkbox" class="qField" data-f="hanzi" checked> Hanzi</label>
@@ -487,7 +708,7 @@
       </div>
       <div class="fc-preview">
         <div class="fc-quizcard" id="prevQ"></div>
-        <div class="fc-quizcard answer" id="prevA"></div>
+        <div class="fc-quizcard" id="prevA"></div>
       </div>
       <div class="fc-msg" id="typeMsg"></div>
       <div class="fc-toolbar">
@@ -517,23 +738,46 @@
         <span class="fc-sizegroup">Significato
           <button class="fc-btn" id="qItalMinus">−</button><button class="fc-btn" id="qItalPlus">+</button>
         </span>
+        <button class="fc-btn small" id="qSizeReset" title="Torna alle dimensioni iniziali">Reset dimensioni</button>
       </div>
-      <p class="fc-hint">Scorciatoie: <b>Spazio</b> = mostra risposta / la sapevo · <b>→ oppure X</b> = non la sapevo · <b>L</b> = la so già (laurea)</p>
+      <p class="fc-hint">Scorciatoie: <b>Spazio / Invio</b> = gira la carta · <b>Spazio</b> a carta girata = la sapevo · <b>→ oppure X</b> = non la sapevo · <b>L</b> = la so già (laurea)</p>
       <div class="fc-toolbar">
         <button class="fc-btn" id="btnSummaryQuiz">Riepilogo scatole</button>
       </div>
       <div class="fc-summary fc-hidden" id="boxSummaryQuiz"></div>
       <div class="fc-quizlayout">
         <div class="fc-quizmain">
-          <div class="fc-quizcard" id="quizQ"></div>
-          <div class="fc-quizcard answer fc-hidden" id="quizA"></div>
+          <div class="fc-desk">
+            <span class="fc-desk-tag" aria-hidden="true">Piano di studio</span>
+            <div class="fc-card-slot" id="cardSlot" data-layers="0">
+              <div class="fc-stack-l l3" aria-hidden="true"></div>
+              <div class="fc-stack-l l2" aria-hidden="true"></div>
+              <div class="fc-stack-l l1" aria-hidden="true"></div>
+              <!-- La carta è un bottone vero: focusabile, con nome accessibile che legge il contenuto.
+                   Il pulsante "Gira la carta" a lato è il controllo ridondante. -->
+              <div class="fc-flip-scene" id="flipScene" role="button" tabindex="0" aria-pressed="false"
+                   aria-label="Carta da studio. Attiva per girarla.">
+                <div class="fc-flip-lift" id="flipLift">
+                  <div class="fc-flip-inner" id="flipInner">
+                    <div class="fc-quizcard fc-flip-face fc-flip-front" id="quizQ"></div>
+                    <div class="fc-quizcard fc-flip-face fc-flip-back" id="quizA" aria-hidden="true" inert></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="fc-desk-hint" id="deskHint">Tocca la carta o premi <b>Spazio</b> per girarla</p>
+          </div>
         </div>
         <div class="fc-quizside">
-          <button class="fc-btn red" id="btnReveal">Mostra risposta</button>
-          <button class="fc-btn fc-hidden" id="btnWrong" title="Riporta la carta alla Scatola 1: la rivedi tra circa 4 carte">Non la sapevo<small>la rivedi tra ~4 carte</small></button>
-          <button class="fc-btn fc-hidden" id="btnRight" title="Promuove la carta di una scatola: la rivedi più tardi in questo giro">La sapevo ✓<small>la rivedi più tardi</small></button>
+          <button class="fc-btn red" id="btnReveal" title="Gira la carta (Spazio o Invio)">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="21 4 21 9 16 9"></polyline><path d="M18.4 14.5A7.5 7.5 0 1 1 16.8 6.4L21 9"></path></svg><span class="lbl">Gira la carta</span><small>spazio · invio · tap sulla carta</small>
+          </button>
+          <div class="fc-esiti">
+            <button class="fc-btn esito" id="btnWrong" disabled title="Riporta la carta alla Scatola 1: la rivedi tra circa 4 carte">Non la sapevo<small>la rivedi tra ~4 carte</small></button>
+            <button class="fc-btn esito" id="btnRight" disabled title="Promuove la carta di una scatola: la rivedi più tardi in questo giro">La sapevo ✓<small>la rivedi più tardi</small></button>
+          </div>
           <button class="fc-btn" id="btnKnown" title="Laurea subito la carta: per oggi non torna più">La so già ✓✓<small>oggi non la rivedi più</small></button>
-          <button class="fc-btn" id="btnQuit">Esci dal quiz</button>
+          <button class="fc-btn small" id="btnQuit">Esci dal quiz</button>
         </div>
       </div>
     </div>
@@ -643,6 +887,9 @@ const state = {
 };
 const $ = id => document.getElementById(id);
 const FIELDS = ['hanzi', 'pinyin', 'italiano'];
+const FLIP_MS = 560;          /* allineato a --flip-ms nel CSS */
+const DEAL_MS = 340;
+let turnTimer = null, dealTimer = null, resizeRaf = null;
 
 /* ================= Leitner ================= */
 function boxOf(id) { return state.boxes[id] || 1; }
@@ -680,7 +927,7 @@ async function loadLib(name) {
 /* ================= Rendering quadrati ================= */
 function cardInner(card, withNum) {
   let h = withNum ? '<span class="num">' + card.id + '</span>' : '';
-  if (state.show.hanzi)    h += '<div class="hanzi">' + card.hanzi + '</div>';
+  if (state.show.hanzi)    h += '<div class="hanzi" lang="zh-Hans">' + card.hanzi + '</div>';
   if (state.show.pinyin)   h += '<div class="pinyin">' + card.pinyin + '</div>';
   if (state.show.italiano) h += '<div class="ital">' + card.italiano + '</div>';
   return h;
@@ -749,26 +996,55 @@ $('randBtn').onclick = () => {
   refreshSelClasses();
 };
 
-/* ================= Quiz: tipo ================= */
+/* ================= Facce della carta ================= */
 function questionFields() {
   return FIELDS.filter(f => document.querySelector('.qField[data-f="' + f + '"]').checked);
 }
-function fieldsHTML(card, fields) {
+/* newFields: campi che erano nascosti sul fronte → evidenziati in rosso sul retro.
+   Gli altri restano in grigio come contesto: la domanda si rilegge insieme alla risposta. */
+function fieldsHTML(card, fields, newFields) {
+  const cls = f => newFields ? (newFields.includes(f) ? ' new' : ' ctx') : '';
   let h = '';
-  if (fields.includes('hanzi'))    h += '<div class="hanzi">' + card.hanzi + '</div>';
-  if (fields.includes('pinyin'))   h += '<div class="pinyin">' + card.pinyin + '</div>';
-  if (fields.includes('italiano')) h += '<div class="ital">' + card.italiano + '</div>';
+  if (fields.includes('hanzi'))    h += '<div class="hanzi' + cls('hanzi') + '" lang="zh-Hans">' + card.hanzi + '</div>';
+  if (fields.includes('pinyin'))   h += '<div class="pinyin' + cls('pinyin') + '">' + card.pinyin + '</div>';
+  if (fields.includes('italiano')) h += '<div class="ital' + cls('italiano') + '">' + card.italiano + '</div>';
   return h || '<div class="ital">—</div>';
 }
+function faceHTML(card, isBack, q, metaRight) {
+  const shown = isBack ? FIELDS : q;
+  const news = isBack ? FIELDS.filter(f => !q.includes(f)) : null;
+  return '<div class="fc-face-head"><span class="fid">▮ ' + card.id + '</span>' +
+           '<span class="fbox">' + metaRight + '</span></div>' +
+         '<div class="fc-face-body"><div class="fc-fields">' + fieldsHTML(card, shown, news) + '</div></div>' +
+         '<div class="fc-face-foot"><span class="qlabel">' + (isBack ? 'Risposta' : 'Domanda') + '</span>' +
+           '<span class="fside">' + (isBack ? 'retro' : 'fronte') + '</span></div>';
+}
+
+/* Auto-fit: la carta ha dimensione fissa, il testo si scala se non entra.
+   offsetHeight/clientHeight sono valori di layout: immuni al rotateY del flip. */
+function fitFace(face) {
+  const body = face.querySelector('.fc-face-body');
+  const fields = face.querySelector('.fc-fields');
+  if (!body || !fields) return;
+  const avail = body.clientHeight;
+  const h = fields.offsetHeight;
+  if (avail <= 0 || h <= 0) return;           /* pannello nascosto: non toccare */
+  const k = h > avail ? Math.max(0.35, avail / h) : 1;
+  fields.style.transform = k < 1 ? 'scale(' + k.toFixed(4) + ')' : '';
+}
+function fitAll() {
+  document.querySelectorAll('.fc-flip-face, .fc-preview .fc-quizcard').forEach(fitFace);
+}
+
 function renderPreview() {
   const q = questionFields();
-  const a = FIELDS.filter(f => !q.includes(f));
   const ok = q.length >= 1 && q.length <= 2;
   $('typeMsg').textContent = ok ? '' : 'La domanda deve mostrare 1 o 2 campi: deve restare qualcosa da indovinare!';
   $('startQuiz').disabled = !ok;
-  const sample = state.cards[0] || { hanzi: '卡', pinyin: 'kǎ', italiano: 'carta' };
-  $('prevQ').innerHTML = '<div class="qlabel">Domanda</div>' + fieldsHTML(sample, q);
-  $('prevA').innerHTML = '<div class="qlabel">Risposta</div>' + fieldsHTML(sample, a);
+  const sample = state.cards[0] || { id: 1, hanzi: '卡', pinyin: 'kǎ', italiano: 'carta' };
+  $('prevQ').innerHTML = faceHTML(sample, false, q, 'anteprima');
+  $('prevA').innerHTML = faceHTML(sample, true, q, 'anteprima');
+  requestAnimationFrame(fitAll);
 }
 document.querySelectorAll('.qField').forEach(cb => cb.addEventListener('change', renderPreview));
 
@@ -790,6 +1066,64 @@ function rispostaInVista() {
     const y = window.scrollY + r.bottom - window.innerHeight + margine;
     window.scrollTo({ top: Math.max(0, y), behavior: 'auto' });
   }
+}
+
+/* ================= Effetti della carta ================= */
+function fxTurn() {
+  const slot = $('cardSlot');
+  clearTimeout(dealTimer); slot.classList.remove('is-dealing');
+  clearTimeout(turnTimer); slot.classList.remove('is-turning');
+  void slot.offsetWidth;                       /* reflow: l'animazione riparte da zero */
+  slot.classList.add('is-turning');
+  turnTimer = setTimeout(() => slot.classList.remove('is-turning'), FLIP_MS + 60);
+}
+function fxDeal() {
+  const slot = $('cardSlot');
+  clearTimeout(turnTimer); slot.classList.remove('is-turning');
+  clearTimeout(dealTimer); slot.classList.remove('is-dealing');
+  void slot.offsetWidth;
+  slot.classList.add('is-dealing');
+  dealTimer = setTimeout(() => slot.classList.remove('is-dealing'), DEAL_MS + 60);
+}
+function updateStack() {
+  const n = Math.max(0, Math.min(3, state.deck.length - 1));
+  $('cardSlot').dataset.layers = String(n);
+}
+function setEsiti(attivi) {
+  $('btnWrong').disabled = !attivi;
+  $('btnRight').disabled = !attivi;
+}
+function sceneLabel(card, flipped) {
+  const txt = f => f === 'hanzi' ? card.hanzi : f === 'pinyin' ? card.pinyin : card.italiano;
+  if (flipped) {
+    return 'Carta ' + card.id + ', retro. Risposta completa: ' + FIELDS.map(txt).join(', ') +
+           '. Attiva per tornare al fronte.';
+  }
+  const q = questionFields();
+  return 'Carta ' + card.id + ', scatola ' + boxOf(card.id) + '. Domanda: ' +
+         (q.length ? q.map(txt).join(', ') : 'nessun campo') +
+         '. Attiva per girare la carta e vedere la risposta.';
+}
+function syncFlipUI() {
+  const flipped = $('flipInner').classList.contains('is-flipped');
+  const front = $('quizQ'), back = $('quizA'), scene = $('flipScene');
+  front.toggleAttribute('inert', flipped);
+  back.toggleAttribute('inert', !flipped);
+  front.setAttribute('aria-hidden', String(flipped));
+  back.setAttribute('aria-hidden', String(!flipped));
+  scene.setAttribute('aria-pressed', String(flipped));
+  const card = currentCard();
+  if (card) scene.setAttribute('aria-label', sceneLabel(card, flipped));
+  const btn = $('btnReveal');
+  btn.classList.toggle('turnback', flipped);
+  btn.querySelector('.lbl').textContent = flipped ? 'Torna al fronte' : 'Gira la carta';
+  btn.querySelector('small').textContent = flipped
+    ? 'oppure tocca la carta · spazio = la sapevo'
+    : 'spazio · invio · tap sulla carta';
+  $('deskHint').innerHTML = !state.revealed
+    ? 'Tocca la carta o premi <b>Spazio</b> per girarla'
+    : (flipped ? 'Tocca per tornare al fronte · <b>Spazio</b> = la sapevo'
+               : 'Tocca la carta per rigirarla e rivedere la risposta');
 }
 
 /* ================= Quiz: motore Leitner ================= */
@@ -827,25 +1161,45 @@ function showCard() {
   state.revealed = false;
   const card = currentCard();
   state.seenThisPass.add(card.id);
-  $('quizQ').innerHTML = '<div class="qlabel">Domanda · giro ' + state.round + ' · scatola ' + boxOf(card.id) + '</div>' +
-    fieldsHTML(card, questionFields());
-  $('quizA').classList.add('fc-hidden');
-  $('btnReveal').classList.remove('fc-hidden');
-  $('btnWrong').classList.add('fc-hidden');
-  $('btnRight').classList.add('fc-hidden');
+
+  /* Reset istantaneo del flip: con la transizione attiva si vedrebbe il retro
+     della carta nuova (spoiler) o il mirrored della vecchia. */
+  const inner = $('flipInner');
+  inner.classList.add('no-anim');
+  inner.classList.remove('is-flipped');
+  void inner.offsetWidth;
+  inner.classList.remove('no-anim');
+
+  const q = questionFields();
+  const meta = 'S' + boxOf(card.id) + ' · giro ' + state.round;
+  $('quizQ').innerHTML = faceHTML(card, false, q, meta);
+  $('quizA').innerHTML = faceHTML(card, true, q, meta);
+
+  setEsiti(false);
+  syncFlipUI();
+  updateStack();
   updateStats();
+  fitAll();
+  fxDeal();
   portaAllaCard();
 }
 function reveal() {
+  if (state.revealed) return;
   state.revealed = true;
-  const card = currentCard();
-  const a = FIELDS.filter(f => !questionFields().includes(f));
-  $('quizA').innerHTML = '<div class="qlabel">Risposta</div>' + fieldsHTML(card, a);
-  $('quizA').classList.remove('fc-hidden');
-  $('btnReveal').classList.add('fc-hidden');
-  $('btnWrong').classList.remove('fc-hidden');
-  $('btnRight').classList.remove('fc-hidden');
+  $('flipInner').classList.add('is-flipped');
+  fxTurn();
+  setEsiti(true);
+  syncFlipUI();
   rispostaInVista();
+}
+function toggleFlip() {
+  if (!currentCard()) return;
+  if (!state.revealed) { reveal(); return; }
+  /* A risposta già vista si rigira liberamente, come una carta vera:
+     lo stato Leitner non cambia. */
+  $('flipInner').classList.toggle('is-flipped');
+  fxTurn();
+  syncFlipUI();
 }
 function advanceAfterChange() {
   if (state.deck.length === 0) { finishQuiz(); return; }
@@ -865,6 +1219,7 @@ function reshuffleDeck() {
 }
 function answerWrong() {
   const c = currentCard();
+  if (!c || !state.revealed) return;
   state.lastId = c.id;
   setBox(c.id, 1);
   removeCurrent();
@@ -873,6 +1228,7 @@ function answerWrong() {
 }
 function answerRight() {
   const c = currentCard();
+  if (!c || !state.revealed) return;
   state.lastId = c.id;
   const nb = boxOf(c.id) + 1;
   removeCurrent();
@@ -887,6 +1243,7 @@ function answerRight() {
 }
 function answerKnown() {
   const c = currentCard();
+  if (!c) return;
   state.lastId = c.id;
   setBox(c.id, 4);
   state.gradThisRun++;
@@ -894,6 +1251,8 @@ function answerKnown() {
   advanceAfterChange();
 }
 function finishQuiz() {
+  clearTimeout(turnTimer); clearTimeout(dealTimer);
+  $('cardSlot').classList.remove('is-turning', 'is-dealing');
   $('doneCount').textContent = state.gradThisRun;
   renderSummary($('boxSummaryDone'));
   showStep('stepDone');
@@ -946,6 +1305,7 @@ $('btnResetBoxes').onclick  = () => {
 function showStep(id) {
   ['stepSel', 'stepType', 'stepQuiz', 'stepDone'].forEach(s =>
     $(s).classList.toggle('fc-hidden', s !== id));
+  requestAnimationFrame(fitAll);
 }
 function resetQuizSteps() { showStep('stepSel'); $('selMsg').textContent = ''; }
 
@@ -957,7 +1317,8 @@ $('selDone').onclick = () => {
 };
 $('backToSel').onclick = () => showStep('stepSel');
 $('startQuiz').onclick = startQuiz;
-$('btnReveal').onclick = reveal;
+$('btnReveal').onclick = toggleFlip;
+$('flipScene').addEventListener('click', toggleFlip);
 $('btnWrong').onclick = answerWrong;
 $('btnRight').onclick = answerRight;
 $('btnKnown').onclick = answerKnown;
@@ -970,6 +1331,13 @@ document.addEventListener('keydown', e => {
   if ($('stepQuiz').classList.contains('fc-hidden')) return;
   const t = e.target;
   if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+  if (e.repeat) return;                      /* niente raffiche tenendo premuto */
+  if (e.key === 'Enter') {
+    if (t && t.tagName === 'BUTTON') return; /* il pulsante col focus si attiva da solo */
+    e.preventDefault();
+    toggleFlip();
+    return;
+  }
   if (t && t.tagName === 'BUTTON') t.blur();
   if (e.code === 'Space') {
     e.preventDefault();
@@ -999,12 +1367,14 @@ $('sizeMinus').onclick = () => setSize(state.cardw - 20);
 $('sizePlus').onclick  = () => setSize(state.cardw + 20);
 
 /* ================= Dimensioni caratteri del quiz ================= */
+const QSIZE_DEFAULT = { hanzi: 48, pinyin: 19, ital: 18 };
 const qsize = { hanzi: 48, pinyin: 19, ital: 18 };
 function applyQSize() {
   const el = $('stepQuiz');
   el.style.setProperty('--qhanzi', qsize.hanzi + 'px');
   el.style.setProperty('--qpinyin', qsize.pinyin + 'px');
   el.style.setProperty('--qital', qsize.ital + 'px');
+  fitAll();
 }
 function qbind(prefix, key, step, min, max) {
   $(prefix + 'Minus').onclick = () => { qsize[key] = Math.max(min, qsize[key] - step); applyQSize(); };
@@ -1013,6 +1383,12 @@ function qbind(prefix, key, step, min, max) {
 qbind('qHanzi',  'hanzi',  6, 24, 120);
 qbind('qPinyin', 'pinyin', 2, 12, 48);
 qbind('qItal',   'ital',   2, 12, 48);
+$('qSizeReset').onclick = () => {
+  qsize.hanzi = QSIZE_DEFAULT.hanzi;
+  qsize.pinyin = QSIZE_DEFAULT.pinyin;
+  qsize.ital = QSIZE_DEFAULT.ital;
+  applyQSize();
+};
 applyQSize();
 
 /* ================= Tab e librerie ================= */
@@ -1026,9 +1402,17 @@ $('tabQuiz').onclick = () => {
   $('panelExp').classList.add('fc-hidden');
   $('tabQuiz').classList.add('active'); $('tabExp').classList.remove('active');
   renderSel();
+  requestAnimationFrame(fitAll);
 };
 document.querySelectorAll('#libBar .fc-btn').forEach(b =>
   b.addEventListener('click', () => loadLib(b.dataset.lib)));
+
+/* ================= Ricalcolo su resize e a font caricati ================= */
+window.addEventListener('resize', () => {
+  if (resizeRaf) cancelAnimationFrame(resizeRaf);
+  resizeRaf = requestAnimationFrame(fitAll);
+});
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
 
 /* ================= Avvio ================= */
 loadLib('hsk1');
